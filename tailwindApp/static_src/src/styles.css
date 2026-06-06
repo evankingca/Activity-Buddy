@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/**
+  * A catch-all path to Django template files, JavaScript, and Python files
+  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
+  *
+  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
+  * the scope of this path.
+  */
+@source "../../../**/*.{html,py,js}";
+
+@theme {
+  --color-primary-100: #A9D6E5;
+  --color-primary-200: #89C2D9;
+  --color-primary-300: #468FAF;
+  --color-primary-400: #2A6F97;
+  --color-primary-500: #01497C;
+  --color-primary-600: #012A4A;
+
+  --color-secondary-100: #FFBD68;
+  --color-secondary-200: #FDA33C;
+  --color-secondary-300: #E26805;
+  --color-secondary-400: #AC4209;
+  --color-secondary-500: #73270D;
+  --color-secondary-600: #5C210D;
+
+  --font-sans: "Istok Web", sans-serif;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--color-primary-100);
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: solid 2px var(--color-slate-950);
+  transition: 0.06s ease,
+    text-decoration-thickness 0.10s cubic-bezier(0.2, 1.8, 0.4, 1.8);
+  text-decoration-thickness: 0px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: var(--color-primary-200);
+  color: white;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.btn:active {
+  background-color: var(--color-primary-300);
+}
