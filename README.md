@@ -47,9 +47,27 @@ And then install tailwind and it's deps:
 python manage.py tailwind install
 ```
 
-Once you've done that you'll need to create a `.env` file, which is where we'll store all the credentials for connecting to the database. I've create a file called `.env.template` which you can copy and then rename to `.env`. If you've set up Postgres using all the defaults, you shouldn't have to edit anything in here. But if your accessing it with a custom user or you're hosting on a separate machine, you'll need to change some values in the file.
+Once you've done that you'll need to create a `.env` file, which is where we'll store all the credentials for connecting to the database. I've create a file called `.env.template` which you can copy and then rename to `.env`. If you've on Windows and set up Postgres using all the defaults, you shouldn't have to edit anything in here. If you're on Mac though and installed through brew, your default postgres username will be to set to your Mac's user account name, so you'll need to update the file with that.
 
-Once that's set up, you should run this to test the connection and set up the required tables:
+To run the migration, you'll first need to create a table called `gymgolf`. To do that, you'll need to log into Postgres via the command line using `psql`. If you're on windows, it should be something like:
+
+```
+psql -U postgres -d postgres
+```
+
+On Mac, it'll be:
+
+```
+psql -U yourMacUsername -d postgres
+```
+
+Once you have a postgres prompt, you can run:
+
+```
+create database gymgolf;
+```
+
+Once that's set up, you should `exit` out of the postgres prompt and run this to test the connection and set up the required tables:
 
 ```
 python manage.py migrate
