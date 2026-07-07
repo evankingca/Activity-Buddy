@@ -46,7 +46,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'users',
+    'activities',
+    'messaging',
 ]
+
 
 if DEBUG:
     # Add django_browser_reload only in DEBUG mode
@@ -139,4 +143,5 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+AUTH_USER_MODEL = "users.User"
 
