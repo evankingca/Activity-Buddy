@@ -1,6 +1,6 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
@@ -10,6 +10,7 @@
     {% block extra_head %}{% endblock %}
     {% load static %}
     <script defer src="{% static 'browsing/javascript/navbar.js' %}"></script>
+    <script defer src="{% static 'browsing/javascript/themeSwitcher.js' %}"></script>
 </head>
 
 <body class="text-text bg-bg py-4 px-10">
@@ -34,8 +35,12 @@
         {% endblock %}
     </main>
 
-    <footer class="card">
+    <footer class="card flex justify-between">
         <p>&copy; 2026 MORP Machine</p>
+        <div>
+            <label for="darkMode">Dark Mode</label>
+            <input type="checkbox" id="darkMode" name="darkMode" value="Bike">
+        </div>
     </footer>
 </body>
 
