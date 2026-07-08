@@ -3,25 +3,47 @@
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: "Istok Web", sans-serif;
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-slate-950: oklch(12.9% 0.042 264.695);
+    --color-green-50: oklch(98.2% 0.018 155.826);
+    --color-green-100: oklch(96.2% 0.044 156.743);
+    --color-green-200: oklch(92.5% 0.084 155.995);
+    --color-green-800: oklch(44.8% 0.119 151.328);
+    --color-green-900: oklch(39.3% 0.095 152.535);
+    --color-green-950: oklch(26.6% 0.065 152.934);
+    --color-slate-50: oklch(98.4% 0.003 247.858);
+    --color-slate-100: oklch(96.8% 0.007 247.896);
+    --color-slate-200: oklch(92.9% 0.013 255.508);
+    --color-slate-800: oklch(27.9% 0.041 260.031);
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-black: #000;
     --spacing: 0.25rem;
     --text-xl: 1.25rem;
     --text-xl--line-height: calc(1.75 / 1.25);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
+    --font-weight-bold: 700;
     --tracking-normal: 0em;
     --leading-normal: 1.5;
+    --radius-3xl: 1.5rem;
+    --radius-4xl: 2rem;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --color-primary-100: #A9D6E5;
-    --color-primary-200: #89C2D9;
-    --color-primary-300: #468FAF;
+    --color-bg: var(--bg);
+    --color-card-bg: var(--card-bg);
+    --color-border: var(--border);
+    --color-border-light: var(--color-slate-800);
+    --color-border-dark: var(--color-slate-100);
+    --color-text: var(--text);
+    --color-text-light: var(--color-slate-800);
+    --color-text-dark: var(--color-slate-100);
   }
 }
 @layer base {
@@ -175,8 +197,20 @@
   }
 }
 @layer utilities {
+  .fixed {
+    position: fixed;
+  }
   .static {
     position: static;
+  }
+  .-top-24 {
+    top: calc(var(--spacing) * -24);
+  }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
+  .left-0 {
+    left: calc(var(--spacing) * 0);
   }
   .container {
     width: 100%;
@@ -218,8 +252,17 @@
   .flex {
     display: flex;
   }
+  .h-20 {
+    height: calc(var(--spacing) * 20);
+  }
+  .h-full {
+    height: 100%;
+  }
   .h-screen {
     height: 100vh;
+  }
+  .w-full {
+    width: 100%;
   }
   .flex-col {
     flex-direction: column;
@@ -242,17 +285,43 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .rounded-4xl {
+    border-radius: var(--radius-4xl);
+  }
+  .border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
+  .border-slate-800 {
+    border-color: var(--color-slate-800);
+  }
+  .bg-bg {
+    background-color: var(--color-bg);
+  }
   .bg-gray-50 {
     background-color: var(--color-gray-50);
   }
-  .px-4 {
-    padding-inline: calc(var(--spacing) * 4);
+  .bg-slate-100 {
+    background-color: var(--color-slate-100);
   }
-  .py-2 {
-    padding-block: calc(var(--spacing) * 2);
+  .px-7 {
+    padding-inline: calc(var(--spacing) * 7);
+  }
+  .px-10 {
+    padding-inline: calc(var(--spacing) * 10);
+  }
+  .py-4 {
+    padding-block: calc(var(--spacing) * 4);
+  }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
   }
   .font-serif {
     font-family: var(--font-serif);
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
   .text-5xl {
     font-size: var(--text-5xl);
@@ -266,6 +335,10 @@
     --tw-leading: var(--leading-normal);
     line-height: var(--leading-normal);
   }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
   .tracking-normal {
     --tw-tracking: var(--tracking-normal);
     letter-spacing: var(--tracking-normal);
@@ -273,29 +346,109 @@
   .text-black {
     color: var(--color-black);
   }
+  .text-text {
+    color: var(--color-text);
+  }
+  .text-text-light {
+    color: var(--color-text-light);
+  }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-150 {
+    --tw-duration: 150ms;
+    transition-duration: 150ms;
+  }
+  .ease-\[cubic-bezier\(0\.2\,1\.15\,0\.4\,1\.15\)\] {
+    --tw-ease: cubic-bezier(0.2,1.15,0.4,1.15);
+    transition-timing-function: cubic-bezier(0.2,1.15,0.4,1.15);
+  }
 }
 @import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+:root {
+  --bg: var(--color-green-50);
+  --card-bg: var(--color-slate-100);
+  --border: var(--color-border-light);
+  --text: var(--color-text-light);
+}
+.dark {
+  --bg: var(--color-green-950);
+  --card-bg: #20252A;
+  --border: var(--color-border-dark);
+  --text: var(--color-text-dark);
+}
 .btn {
+  cursor: pointer;
   display: inline-block;
-  background-color: var(--color-primary-100);
-  padding: 8px 16px;
+  font-size: var(--text-md);
+  padding: 12px 24px;
   border-radius: 12px;
-  border: solid 2px var(--color-slate-950);
-  transition: 0.06s ease,
-    text-decoration-thickness 0.10s cubic-bezier(0.2, 1.8, 0.4, 1.8);
+  border-style: solid;
+  border-width: 2px;
+  transition: 0.06s ease;
   text-decoration-thickness: 0px;
 }
 .btn:hover {
-  cursor: pointer;
-  background-color: var(--color-primary-200);
-  color: white;
   text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1px;
 }
-.btn:active {
-  background-color: var(--color-primary-300);
+.btn-primary {
+  color: var(--color-text-dark);
+  background-color: var(--color-green-950);
+  border-color: var(--color-text-light);
+}
+.dark .btn-primary {
+  background-color: var(--color-green-950);
+  border-color: var(--color-text-dark);
+}
+.btn-primary:hover {
+  background-color: var(--color-green-900);
+}
+.btn-primary:active {
+  background-color: var(--color-green-800);
+}
+.btn-secondary {
+  color: var(--color-text-light);
+  background-color: var(--color-green-200);
+  border-color: var(--color-border-light);
+}
+.btn-secondary:hover {
+  background-color: var(--color-green-100);
+}
+.btn-secondary:active {
+  background-color: var(--color-green-50);
+}
+.btn-tertiary {
+  color: var(--color-text-light);
+  background-color: var(--color-slate-100);
+  border-color: var(--color-border-light);
+}
+.btn-tertiary:hover {
+  background-color: var(--color-slate-50);
+}
+.btn-tertiary:active {
+  background-color: var(--color-slate-200);
+}
+.card {
+  background-color: var(--color-card-bg);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-3xl);
+  padding: calc(var(--spacing) * 10);
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
 }
 @property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
   syntax: "*";
   inherits: false;
 }
@@ -303,11 +456,23 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-border-style: solid;
       --tw-leading: initial;
+      --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-duration: initial;
+      --tw-ease: initial;
     }
   }
 }

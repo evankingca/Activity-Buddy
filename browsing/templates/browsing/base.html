@@ -1,21 +1,30 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Site title goes here{% endblock %}</title>
+    <title>{% block title %}Activity Buddy{% endblock %}</title>
     {% tailwind_css %}
     {% block extra_head %}{% endblock %}
+    {% load static %}
+    <script defer src="{% static 'browsing/javascript/navbar.js' %}"></script>
 </head>
 
-<body>
-    <header>
-        <nav class="flex flex-row justify-between gap-2 py-2 px-4">
-            <span>GymGolf</span>
+<body class="text-text bg-bg py-4 px-10">
+    <header
+        class="py-4 px-10 fixed w-full top-0 left-0 transition-all duration-150 ease-[cubic-bezier(0.2,1.15,0.4,1.15)]"
+        id="header">
+        <nav
+            class="flex flex-row items-center justify-between gap-2 bg-slate-100 text-text-light py-5 px-7 rounded-4xl h-20 border-2 border-slate-800">
+            <a class="flex flex-row gap-4 items-center h-full" href="/">
+                <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="h-full" alt="">
+                <span class="font-bold text-2xl">Activity Buddy</span>
+            </a>
             <div>
-                <a href="/">Home</a>
+                <a href="" class="btn btn-primary">Sign Up</a>
+                <a href="" class="btn btn-secondary">Login</a>
             </div>
         </nav>
     </header>
@@ -25,8 +34,8 @@
         {% endblock %}
     </main>
 
-    <footer class="py-2 px-4">
-        <p>&copy; 2026 Shoppature</p>
+    <footer class="card">
+        <p>&copy; 2026 MORP Machine</p>
     </footer>
 </body>
 
