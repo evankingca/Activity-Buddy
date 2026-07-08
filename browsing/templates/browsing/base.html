@@ -23,7 +23,7 @@
                 <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="h-full" alt="">
                 <span class="font-bold text-2xl">Activity Buddy</span>
             </a>
-            <div>
+            <div class="flex gap-2">
                 <a href="" class="btn btn-primary">Sign Up</a>
                 <a href="" class="btn btn-secondary">Login</a>
             </div>
@@ -39,7 +39,12 @@
         <p>&copy; 2026 MORP Machine</p>
         <div>
             <label for="darkMode">Dark Mode</label>
-            <input type="checkbox" id="darkMode" name="darkMode" value="Bike">
+            <button class="btn btn-sm btn-primary flex flex-row">
+                <img src="{% static 'browsing/svg/icons/dark_mode_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg' %}"
+                    alt="">
+                Switch Theme
+            </button>
+            <input type="checkbox" id="darkMode" name="darkMode" class="toggle">
         </div>
     </footer>
 </body>
