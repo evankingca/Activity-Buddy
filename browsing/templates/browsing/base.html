@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Activity Buddy{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dark_mode,light_mode" />
     {% tailwind_css %}
     {% block extra_head %}{% endblock %}
     {% load static %}
@@ -15,10 +16,10 @@
 
 <body class="text-text bg-bg py-4 px-10">
     <header
-        class="py-4 px-10 fixed w-full top-0 left-0 transition-all duration-150 ease-[cubic-bezier(0.2,1.15,0.4,1.15)]"
+        class="py-4 px-10 fixed w-full top-0 left-0 transition-all duration-120 ease-[cubic-bezier(0.2,1.15,0.4,1.15)]"
         id="header">
         <nav
-            class="flex flex-row items-center justify-between gap-2 bg-slate-100 text-text-light py-5 px-7 rounded-4xl h-20 border-2 border-slate-800">
+            class="flex flex-row items-center justify-between gap-2 bg-slate-100 text-text-light py-5 px-7 rounded-3xl h-20 border-2 border-slate-800">
             <a class="flex flex-row gap-4 items-center h-full" href="/">
                 <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="h-full" alt="">
                 <span class="font-bold text-2xl">Activity Buddy</span>
@@ -34,18 +35,25 @@
         {% block content %}
         {% endblock %}
     </main>
-
+    
     <footer class="card flex justify-between">
-        <p>&copy; 2026 MORP Machine</p>
         <div>
-            <label for="darkMode">Dark Mode</label>
-            <button class="btn btn-sm btn-primary flex flex-row">
-                <img src="{% static 'browsing/svg/icons/dark_mode_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg' %}"
-                    alt="">
-                Switch Theme
-            </button>
-            <input type="checkbox" id="darkMode" name="darkMode" class="toggle">
+            <p>&copy; 2026 Activity Buddy</p>
+            <p class="text-xs text-text/40 dark:text-text/15">Designed by MORP Machine</p>
         </div>
+        <ul>
+            <li><a class="link" href="">Sign Up</a></li>
+            <li><a class="link" href="">Login</a></li>
+            <li><a class="link" href="">Buddy Search</a></li>
+        </ul>
+        <ul>
+            <li><a class="link" href="">About Us</a></li>
+        </ul>
+        <button class="btn btn-sm btn-secondary flex flex-row" id="switchThemeButton">
+            <span class="material-symbols-outlined text-base!" id="switchThemeButtonIcon">
+                light_mode
+            </span>Switch Theme
+        </button>
     </footer>
 </body>
 

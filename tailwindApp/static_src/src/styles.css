@@ -35,32 +35,65 @@
 
 /* FOR DARK MODE */
 .dark {
-  --bg: var(--color-green-950);
+  /* This is just Tailwind's green-950, but darker */
+  --bg: oklch(20.0% 0.065 152.934);
   --card-bg: #20252A;
   --border: var(--color-border-dark);
   --text: var(--color-text-dark);
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 /* ELEMENT CLASSES */
 
+.link {
+  color: var(--color-cyan-800);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  transition: 0.02s ease-in-out;
+}
+
+.dark .link {
+  color: var(--color-cyan-200);
+}
+
+.link:hover {
+  color: var(--color-cyan-600);
+  text-decoration-thickness: 2px;
+}
+
+.dark .link:hover {
+  color: var(--color-cyan-400);
+}
+
+.link:active {
+  color: var(--color-cyan-500);
+  text-decoration-thickness: 3px;
+}
+
+.dark .link:active {
+  color: var(--color-cyan-600);
+}
+
 .btn {
-  cursor: pointer;
-  display: flex;
-  gap: 4px;
   align-items: center;
-  justify-content: center;
-  font-size: var(--text-md);
-  padding: 12px 24px;
   border-radius: 12px;
   border-style: solid;
   border-width: 2px;
-  transition: 0.06s ease-in-out;
-  text-decoration-thickness: 0px;
-}
-
-.btn:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
+  cursor: pointer;
+  display: flex;
+  font-size: var(--text-md);
+  gap: 6px;
+  height: fit-content;
+  justify-content: center;
+  padding: 12px 24px;
+  transition: 0.02s ease-in-out;
 }
 
 .btn:active {
@@ -68,6 +101,7 @@
 }
 
 .btn-sm {
+  gap: 4px;
   padding: 6px 12px;
 }
 
