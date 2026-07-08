@@ -46,9 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'users',
-    'activities',
-    'messaging',
 ]
 
 
@@ -143,5 +140,5 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "browsing.User"
 

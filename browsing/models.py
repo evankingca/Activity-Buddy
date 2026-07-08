@@ -1,3 +1,64 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+# -------------------------
+# User Models
+# -------------------------
+class User(AbstractUser):
+    display_name = models.CharField(max_length=100)
+    bio_text = models.TextField(blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
-# Create your models here.
+    def __str__(self):
+        return self.display_name
+
+# -------------------------
+# Activity Models
+# -------------------------
+class Activity(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    status = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class UserActivity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50)
+    postal_codes = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.user} - {self.activity}"
+
+class Preference(models.Model):
+    user_activity = models.ForeignKey(UserActivity, on_delete=models.CASCADE)
+    skills = models.CharField(max_length=200)
+    memberships = models.CharField(max_length=200)
+    goals = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"Preferences for {self.user_activity}"
+
+# -------------------------
+# Messaging Models
+# -------------------------
+class Connection(models.Model):
+    user_a = models.ForeignKey(User, related_name="connections_a", on_delete=models.CASCADE)
+    user_b = models.ForeignKey(User, related_name="connections_b", on_delete=models.CASCADE)
+    status = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.user_a} ↔ {self.user_b}"
+
+class DirectMessage(models.Model):
+    sender = models.ForeignKey(User, related_name="sent_messages", on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, related_name="received_messages", on_delete=models.CASCADE)
+    connection = models.ForeignKey(Connection, on_delete=models.CASCADE)
+    text = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"From {self.sender} to {self.receiver}"
