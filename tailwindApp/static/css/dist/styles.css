@@ -26,6 +26,7 @@
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-black: #000;
     --spacing: 0.25rem;
+    --container-3xl: 48rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
     --text-base: 1rem;
@@ -40,8 +41,6 @@
     --tracking-normal: 0em;
     --leading-normal: 1.5;
     --radius-3xl: 1.5rem;
-    --default-transition-duration: 150ms;
-    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
     --color-bg: var(--bg);
@@ -211,14 +210,26 @@
   .static {
     position: static;
   }
-  .-top-24 {
-    top: calc(var(--spacing) * -24);
+  .-top-28 {
+    top: calc(var(--spacing) * -28);
   }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
+  }
+  .order-0 {
+    order: 0;
+  }
+  .order-1 {
+    order: 1;
+  }
+  .order-2 {
+    order: 2;
+  }
+  .order-3 {
+    order: 3;
   }
   .container {
     width: 100%;
@@ -260,8 +271,11 @@
   .flex {
     display: flex;
   }
-  .h-20 {
-    height: calc(var(--spacing) * 20);
+  .grid {
+    display: grid;
+  }
+  .h-8 {
+    height: calc(var(--spacing) * 8);
   }
   .h-full {
     height: 100%;
@@ -271,6 +285,12 @@
   }
   .w-full {
     width: 100%;
+  }
+  .max-w-3xl {
+    max-width: var(--container-3xl);
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .flex-col {
     flex-direction: column;
@@ -293,6 +313,15 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
+  .gap-x-4 {
+    column-gap: calc(var(--spacing) * 4);
+  }
+  .gap-y-8 {
+    row-gap: calc(var(--spacing) * 8);
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
   .rounded-3xl {
     border-radius: var(--radius-3xl);
   }
@@ -312,11 +341,14 @@
   .bg-slate-100 {
     background-color: var(--color-slate-100);
   }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
   .px-7 {
     padding-inline: calc(var(--spacing) * 7);
   }
-  .px-10 {
-    padding-inline: calc(var(--spacing) * 10);
+  .py-2 {
+    padding-block: calc(var(--spacing) * 2);
   }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
@@ -376,18 +408,50 @@
       color: color-mix(in oklab, var(--color-text) 40%, transparent);
     }
   }
-  .transition-all {
-    transition-property: all;
-    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  @media (width >= 40rem) {
+    .sm\:order-0 {
+      order: 0;
+    }
   }
-  .duration-120 {
-    --tw-duration: 120ms;
-    transition-duration: 120ms;
+  @media (width >= 40rem) {
+    .sm\:flex {
+      display: flex;
+    }
   }
-  .ease-\[cubic-bezier\(0\.2\,1\.15\,0\.4\,1\.15\)\] {
-    --tw-ease: cubic-bezier(0.2,1.15,0.4,1.15);
-    transition-timing-function: cubic-bezier(0.2,1.15,0.4,1.15);
+  @media (width >= 40rem) {
+    .sm\:hidden\! {
+      display: none !important;
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:w-fit {
+      width: fit-content;
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:flex-row {
+      flex-direction: row;
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:items-center {
+      align-items: center;
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:gap-2 {
+      gap: calc(var(--spacing) * 2);
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:px-10 {
+      padding-inline: calc(var(--spacing) * 10);
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:py-4 {
+      padding-block: calc(var(--spacing) * 4);
+    }
   }
   .dark\:text-text\/15:where(.dark, .dark *) {
     color: var(--color-text);
@@ -452,7 +516,7 @@
   height: fit-content;
   justify-content: center;
   padding: 12px 24px;
-  transition: 0.02s ease-in-out;
+  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7);
 }
 .btn:active {
   transform: scale(0.97);
@@ -506,6 +570,29 @@
   border-radius: var(--radius-3xl);
   padding: calc(var(--spacing) * 10);
 }
+.transition-bounce {
+  transition-property: padding margin top bottom left right grid-template-rows;
+  transition-duration: .12s;
+  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+}
+#navbar {
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content 1fr;
+  gap: 16px;
+}
+#navbar #navbarLinks {
+  visibility: visible;
+}
+#navbar.collapsed {
+  grid-template-rows: min-content 0fr 0fr;
+  gap: 0px;
+}
+#navbar.collapsed hr {
+  visibility: hidden;
+}
+#navbar.collapsed #navbarLinks {
+  visibility: invisible;
+}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -523,14 +610,6 @@
   syntax: "*";
   inherits: false;
 }
-@property --tw-duration {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-ease {
-  syntax: "*";
-  inherits: false;
-}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
@@ -538,8 +617,6 @@
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
-      --tw-duration: initial;
-      --tw-ease: initial;
     }
   }
 }

@@ -93,7 +93,7 @@
   height: fit-content;
   justify-content: center;
   padding: 12px 24px;
-  transition: 0.02s ease-in-out;
+  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7);
 }
 
 .btn:active {
@@ -160,4 +160,33 @@
   border-color: var(--color-border);
   border-radius: var(--radius-3xl);
   padding: calc(var(--spacing) * 10);
+}
+
+.transition-bounce {
+  transition-property: padding margin top bottom left right grid-template-rows;
+  transition-duration: .12s;
+  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+}
+
+#navbar {
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content 1fr;
+  gap: 16px;
+}
+
+#navbar #navbarLinks {
+  visibility: visible;
+}
+
+#navbar.collapsed {
+  grid-template-rows: min-content 0fr 0fr;
+  gap: 0px;
+}
+
+#navbar.collapsed hr {
+  visibility: hidden;
+}
+
+#navbar.collapsed #navbarLinks {
+  visibility: invisible;
 }
