@@ -341,20 +341,17 @@
   .bg-slate-100 {
     background-color: var(--color-slate-100);
   }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
-  }
-  .px-7 {
-    padding-inline: calc(var(--spacing) * 7);
   }
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
   .py-4 {
     padding-block: calc(var(--spacing) * 4);
-  }
-  .py-5 {
-    padding-block: calc(var(--spacing) * 5);
   }
   .font-serif {
     font-family: var(--font-serif);
@@ -441,6 +438,11 @@
   @media (width >= 40rem) {
     .sm\:gap-2 {
       gap: calc(var(--spacing) * 2);
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:p-5 {
+      padding: calc(var(--spacing) * 5);
     }
   }
   @media (width >= 40rem) {
@@ -569,6 +571,11 @@
   border-color: var(--color-border);
   border-radius: var(--radius-3xl);
   padding: calc(var(--spacing) * 10);
+}
+@media (width <=40rem) {
+  .card {
+    padding: calc(var(--spacing) * 6);
+  }
 }
 .transition-bounce {
   transition-property: padding margin top bottom left right grid-template-rows;

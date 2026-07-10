@@ -162,6 +162,12 @@
   padding: calc(var(--spacing) * 10);
 }
 
+@media (width <=40rem) {
+  .card {
+    padding: calc(var(--spacing) * 6);
+  }
+}
+
 .transition-bounce {
   transition-property: padding margin top bottom left right grid-template-rows;
   transition-duration: .12s;
