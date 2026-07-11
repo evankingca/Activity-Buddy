@@ -16,21 +16,36 @@
   --color-bg: var(--bg);
   --color-card-bg: var(--card-bg);
 
+  --color-card-bg-alt: var(--card-bg-alt);
+
+  --color-card-bg-green: var(--card-bg-green);
+  --color-bg-green: var(--bg-green);
+
   --color-border: var(--border);
   --color-border-light: var(--color-slate-800);
   --color-border-dark: var(--color-slate-100);
 
+  --color-border-alt: var(--border-alt);
+
   --color-text: var(--text);
   --color-text-light: var(--color-slate-800);
   --color-text-dark: var(--color-slate-100);
+
+  --color-text-alt: var(--text-alt);
+
 }
 
 /* FOR LIGHT MODE */
 :root {
   --bg: var(--color-green-50);
   --card-bg: var(--color-slate-100);
+  --card-bg-alt: var(--color-green-900) ;
   --border: var(--color-border-light);
+  --border-alt: var(--color-border-dark);
   --text: var(--color-text-light);
+  --text-alt: var(--color-text-dark);
+  --bg-green: var(--color-green-900);
+  --card-bg-green: var(--color-green-100);
 }
 
 /* FOR DARK MODE */
@@ -38,8 +53,14 @@
   /* This is just Tailwind's green-950, but darker */
   --bg: oklch(20.0% 0.065 152.934);
   --card-bg: #20252A;
+  --card-bg-alt: var(--color-slate-100);
   --border: var(--color-border-dark);
+  --border-alt: var(--color-border-light);
   --text: var(--color-text-dark);
+  --text-alt: var(--color-text-light);
+  --bg-green: var(--color-green-50);
+  --card-bg-green: var(--color-green-200);
+
 }
 
 .material-symbols-outlined {
@@ -80,6 +101,9 @@
 .dark .link:active {
   color: var(--color-cyan-600);
 }
+/*****************/
+/**** BUTTONS ****/
+/*****************/
 
 .btn {
   align-items: center;
@@ -152,6 +176,9 @@
 .btn-tertiary:active {
   background-color: var(--color-slate-200);
 }
+/***************/
+/**** CARDS ****/
+/***************/
 
 .card {
   background-color: var(--color-card-bg);
@@ -160,6 +187,50 @@
   border-color: var(--color-border);
   border-radius: var(--radius-3xl);
   padding: calc(var(--spacing) * 10);
+}
+
+.card-alt {
+  background-color: var(--color-card-bg-alt);
+  border-style: solid;
+  border-width: 2px;
+  color: var(--text-alt);
+  border-color: var(--color-border-alt);
+  border-radius: var(--radius-3xl);
+  padding: calc(var(--spacing) * 6) calc(var(--spacing) * 12);
+}
+
+.card-small {
+  background-color: var(--color-card-bg);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-3xl);
+  padding: calc(var(--spacing) * 6);
+  width: 150px;
+}
+
+.card-small > div {
+  background-color: var(--color-green-950);
+}
+.dark .card-small > div {
+  background-color: var(--color-text-dark);
+}
+.card-small span {
+  color: var(--text-alt);
+}
+
+.card-green {
+  background-color: var(--color-card-bg-green);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--border-alt);
+  border-radius: var(--radius-3xl);
+  padding: calc(var(--spacing) * 10);
+  color: var(--color-text-light)
+}
+
+.dark .card-green {
+  color: var(--color-text-light)
 }
 
 @media (width <=40rem) {
@@ -173,6 +244,10 @@
   transition-duration: .12s;
   transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
 }
+
+/****************/
+/**** NAVBAR ****/
+/****************/
 
 #navbar {
   grid-template-columns: 1fr;
@@ -195,4 +270,16 @@
 
 #navbar.collapsed #navbarLinks {
   visibility: invisible;
+}
+
+/******************/
+/**** HEADINGS ****/
+/******************/
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
 }
