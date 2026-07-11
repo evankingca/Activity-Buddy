@@ -10,43 +10,189 @@
   */
 @source "../../../**/*.{html,py,js}";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-primary-100: #A9D6E5;
-  --color-primary-200: #89C2D9;
-  --color-primary-300: #468FAF;
-  --color-primary-400: #2A6F97;
-  --color-primary-500: #01497C;
-  --color-primary-600: #012A4A;
+  --color-bg: var(--bg);
+  --color-card-bg: var(--card-bg);
 
-  --color-secondary-100: #FFBD68;
-  --color-secondary-200: #FDA33C;
-  --color-secondary-300: #E26805;
-  --color-secondary-400: #AC4209;
-  --color-secondary-500: #73270D;
-  --color-secondary-600: #5C210D;
+  --color-border: var(--border);
+  --color-border-light: var(--color-slate-800);
+  --color-border-dark: var(--color-slate-100);
 
-  --font-sans: "Istok Web", sans-serif;
+  --color-text: var(--text);
+  --color-text-light: var(--color-slate-800);
+  --color-text-dark: var(--color-slate-100);
 }
 
-.btn {
-  display: inline-block;
-  background-color: var(--color-primary-100);
-  padding: 8px 16px;
-  border-radius: 12px;
-  border: solid 2px var(--color-slate-950);
-  transition: 0.06s ease,
-    text-decoration-thickness 0.10s cubic-bezier(0.2, 1.8, 0.4, 1.8);
-  text-decoration-thickness: 0px;
+/* FOR LIGHT MODE */
+:root {
+  --bg: var(--color-green-50);
+  --card-bg: var(--color-slate-100);
+  --border: var(--color-border-light);
+  --text: var(--color-text-light);
 }
 
-.btn:hover {
-  cursor: pointer;
-  background-color: var(--color-primary-200);
-  color: white;
+/* FOR DARK MODE */
+.dark {
+  /* This is just Tailwind's green-950, but darker */
+  --bg: oklch(20.0% 0.065 152.934);
+  --card-bg: #20252A;
+  --border: var(--color-border-dark);
+  --text: var(--color-text-dark);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+/* ELEMENT CLASSES */
+
+.link {
+  color: var(--color-cyan-800);
   text-decoration: underline;
+  text-decoration-thickness: 1px;
+  transition: 0.03s ease-in-out;
+}
+
+.dark .link {
+  color: var(--color-cyan-200);
+}
+
+.link:hover {
+  color: var(--color-cyan-600);
   text-decoration-thickness: 2px;
 }
 
+.dark .link:hover {
+  color: var(--color-cyan-400);
+}
+
+.link:active {
+  color: var(--color-cyan-500);
+  text-decoration-thickness: 3px;
+}
+
+.dark .link:active {
+  color: var(--color-cyan-600);
+}
+
+.btn {
+  align-items: center;
+  border-radius: 12px;
+  border-style: solid;
+  border-width: 2px;
+  cursor: pointer;
+  display: flex;
+  font-size: var(--text-md);
+  gap: 6px;
+  height: fit-content;
+  justify-content: center;
+  padding: 12px 24px;
+  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7);
+}
+
 .btn:active {
-  background-color: var(--color-primary-300);
+  transform: scale(0.97);
+}
+
+.btn-sm {
+  gap: 4px;
+  padding: 6px 12px;
+}
+
+.btn-primary {
+  color: var(--color-text-dark);
+  background-color: var(--color-green-950);
+  border-color: var(--color-text-light);
+}
+
+.dark .btn-primary {
+  background-color: var(--color-green-950);
+  border-color: var(--color-text-dark);
+}
+
+
+.btn-primary:hover {
+  background-color: var(--color-green-900);
+}
+
+.btn-primary:active {
+  background-color: var(--color-green-800);
+}
+
+.btn-secondary {
+  color: var(--color-text-light);
+  background-color: var(--color-green-200);
+  border-color: var(--color-border-light);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-green-100);
+}
+
+.btn-secondary:active {
+  background-color: var(--color-green-50);
+}
+
+.btn-tertiary {
+  color: var(--color-text-light);
+  background-color: var(--color-slate-100);
+  border-color: var(--color-border-light);
+}
+
+.btn-tertiary:hover {
+  background-color: var(--color-slate-50);
+}
+
+.btn-tertiary:active {
+  background-color: var(--color-slate-200);
+}
+
+.card {
+  background-color: var(--color-card-bg);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--color-border);
+  border-radius: var(--radius-3xl);
+  padding: calc(var(--spacing) * 10);
+}
+
+@media (width <=40rem) {
+  .card {
+    padding: calc(var(--spacing) * 6);
+  }
+}
+
+.transition-bounce {
+  transition-property: padding margin top bottom left right grid-template-rows;
+  transition-duration: .12s;
+  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+}
+
+#navbar {
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content min-content 1fr;
+  gap: 16px;
+}
+
+#navbar #navbarLinks {
+  visibility: visible;
+}
+
+#navbar.collapsed {
+  grid-template-rows: min-content 0fr 0fr;
+  gap: 0px;
+}
+
+#navbar.collapsed hr {
+  visibility: hidden;
+}
+
+#navbar.collapsed #navbarLinks {
+  visibility: invisible;
 }

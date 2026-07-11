@@ -8,6 +8,7 @@ Before starting, you'll need:
 
 - [Python](https://www.python.org/downloads/)
 - [Postgresql](https://www.postgresql.org/download/)
+- [Node.JS](https://nodejs.org/en/download) (If you have Laravel Herd installed on your system, it should already be installed. Check by running `node --version`)
 
 Since we're using Django 6, you'll need at least Python 3.12. Check with `python --version`
 
@@ -75,7 +76,21 @@ python manage.py migrate
 
 ### Run
 
-Then finally, to start the dev server:
+Then finally, to start the dev server with the Tailwind watcher on Windows, you'll need two terminals open. In one terminal, run:
+
+```
+python manage.py tailwind start
+```
+
+...and in the other, run:
+
+```
+python manage.py runserver
+```
+
+If you're not doing any front-end stuff, you can use just the `runserver` one.
+
+On Mac/Linux, it's just one command:
 
 ```
 python manage.py tailwind dev
@@ -84,6 +99,18 @@ python manage.py tailwind dev
 Which essentially just runs `python manage.py runserver` along with starting the tailwind watcher. You can read more about how that works [here](https://django-tailwind.readthedocs.io/en/latest/)
 
 Then just go to [http://127.0.0.1:8000](http://127.0.0.1:8000) to see the site.
+
+### Troubleshooting
+
+If your on Windows and you run into an issue where Tailwind tells you: 
+```
+CommandError: 
+It looks like node.js and/or npm is not installed or cannot be found.
+```
+you'll need to add a line to `gymgolf/settings.py` like:
+```
+NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+```
 
 Have fun!
 
