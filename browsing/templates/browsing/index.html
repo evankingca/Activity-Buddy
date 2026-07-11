@@ -2,11 +2,71 @@
 {% block title %}It's the Home Page{% endblock %}
 
 {% block content %}
+
 <div class="container mx-auto">
-    <section class="flex flex-col gap-4 items-center justify-center h-screen">
-        <h1 class="text-5xl">Welcome to GymGolf or something</h1>
-        <p class="text-xl mt-8">You can find this template in <code>/browsing/templates/browsing/index.html</code></p>
-        <button class="btn btn-tertiary">wow!</button>
-    </section>
+  <section class="flex flex-col gap-4 items-center justify-center">
+
+    <div id="home-hero" class="flex flex-col md:flex-row justify-center max-w-7xl p-6">
+      <img src="" alt="Activity Buddy logo" 
+      class="md:flex-2">
+      <div class="md:flex-1 bg-pink-400 rounded-sm p-6">
+        <h2>A Bold Vision</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et mauris id auctor. Nam sed eros egestas
+          velit pretium imperdiet vel quis nunc. Sed ut dolor eu ipsum maximus bibendum. Nunc tempor ornare turpis, at
+          euismod felis hendrerit at.</p>
+      </div>
+    </div>
+
+<!-- How it works -->
+    <div id="home-how-it-works" class="bg-red-100 p-4 m-4 rounded-lg text-center w-full max-w-7xl">
+      <h2 class="m-3">Here's How It Works</h2>
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="bg-blue-400 border rounded-lg shadow-sm p-6 flex-1">
+          <h3 class="text-left">Step 1</h3>
+          <p>This is step 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperdiet vel quis  nunc.</p>
+        </div>
+        <div class="w-0.5 h-8 md:h-0.5 md:w-auto md:basis-12 md:flex-none bg-gray-300"></div>
+        <div class="bg-blue-400 border rounded-lg shadow-sm p-6 flex-1">
+          <h3 class="text-left">Step 2</h3>
+          <p>This is step 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperdiet vel quis  nunc.</p>
+        </div>
+        <div class="w-0.5 h-8 md:h-0.5 md:w-auto md:basis-12 md:flex-none bg-gray-300"></div>
+        <div class="bg-blue-400 border rounded-lg shadow-sm p-6 flex-1">
+          <h3 class="text-left">Step 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperdiet vel quis  nunc.</h3>
+          <p>This is step 3</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities -->
+    <div id="home-activities" class="p-4 m-4 text-center w-full max-w-7xl">
+      <h2 class="m-2">Choose Your Activities</h2>
+      <div class="flex flex-col md:flex-row items-center justify-center">
+
+        <!-- START: populate with activities from database -->
+        <div class="bg-pink-400 border rounded-lg shadow-sm p-6 m-6 w-64">
+          <h3 class="m-2">Gym</h3>
+          <!-- Link to activity search page (should redirect to login if not logged in) -->
+          <div class="bg-red-100 rounded-lg p-2">
+            <a href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M96 176C96 149.5 117.5 128 144 128C170.5 128 192 149.5 192 176L192 288L448 288L448 176C448 149.5 469.5 128 496 128C522.5 128 544 149.5 544 176L544 192L560 192C586.5 192 608 213.5 608 240L608 288C625.7 288 640 302.3 640 320C640 337.7 625.7 352 608 352L608 400C608 426.5 586.5 448 560 448L544 448L544 464C544 490.5 522.5 512 496 512C469.5 512 448 490.5 448 464L448 352L192 352L192 464C192 490.5 170.5 512 144 512C117.5 512 96 490.5 96 464L96 448L80 448C53.5 448 32 426.5 32 400L32 352C14.3 352 0 337.7 0 320C0 302.3 14.3 288 32 288L32 240C32 213.5 53.5 192 80 192L96 192L96 176z"/></svg>
+            </a>
+          </div>
+        </div>
+        <!-- END: populate -->
+
+      </div>
+    </div>
+
+    <!-- Get started -->
+    <div id="home-get-started" class="bg-cyan-100 rounded-lg p-4 m-4 text-center">
+      <h2>Ready to Get Started?</h2>
+      <div class="m-3 p-3">
+        <button class="m-3 btn btn-primary">Sign Up</button>
+        <button class="m-3 btn btn-primary">Log In</button>        
+      </div>
+    </div>
+
+  </section>
 </div>
 {% endblock %}
