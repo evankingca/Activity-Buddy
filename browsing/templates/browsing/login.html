@@ -2,5 +2,27 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<!-- WIP! -->
+<div class="container mx-auto">
+    <section class="my-15 flex flex-row justify-around">
+        <div class="grow-1">
+            <h1 class="text-4xl text-center">Login</h1>
+            <form class="mt-3 p-7 border border-solid border-black rounded-lg">
+                <div class="flex flex-col items-center">
+                    <div class="w-full flex flex-row justify-around">
+                        <label for="username">Username</label>
+                        <input id="username" type="text" name="username" placeholder="Username" />
+                    </div>
+                    <div class="w-full flex flex-row justify-around">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Password" />
+                    </div>
+                    <button class="btn">Login</button>
+                </div>
+            </form>
+        </div>
+        <div class="grow-1">
+            <p class="text-center">this is where the logo goes</p>
+        </div>
+    </section>
+</div>
 {% endblock %}
