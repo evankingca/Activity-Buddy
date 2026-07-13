@@ -2,11 +2,71 @@
 {% block title %}It's the Home Page{% endblock %}
 
 {% block content %}
+{% load static %}
+
+
 <div class="container mx-auto">
-    <section class="flex flex-col gap-4 items-center justify-center h-screen">
-        <h1 class="text-5xl">Welcome to GymGolf or something</h1>
-        <p class="text-xl mt-8">You can find this template in <code>/browsing/templates/browsing/index.html</code></p>
-        <button class="btn btn-tertiary">wow!</button>
-    </section>
+  <section class="flex flex-col gap-4 items-center justify-center">
+
+
+    <div id="home-hero" class="m-4" style="margin-top:150px;">      
+      <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="max-w-96 sm:w-full w-40 mx-auto" alt="Activity Buddy logo">
+      <h2 class="md:text-7xl! sm:text-6xl! text-3xl! text-center mt-2">ACTIVITY BUDDY</h2>
+    </div>
+
+    <!-- How it works -->
+    <div id="home-how-it-works" class="bg-bg-green p-8 m-4 rounded-3xl text-center w-full max-w-6xl">
+      <h2 class="mb-3 text-text-alt">Here's How It Works</h2>
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="card-green flex-1 text-left">
+          <h3>Step 1</h3>
+          <p>This is step 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et mauris id auctor.
+            Nam sed eros egestas velit pretium imperdiet vel quis nunc.</p>
+        </div>
+        <div class="bg-border-alt w-0.5 h-8 md:h-0.5 md:w-auto md:basis-12 md:flex-none"></div>
+        <div class="card-green flex-1 text-left">
+          <h3>Step 2</h3>
+          <p >This is step 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et mauris id auctor.
+            Nam sed eros egestas velit pretium imperdiet vel quis nunc.</p>
+        </div>
+        <div class="bg-border-alt w-0.5 h-8 md:h-0.5 md:w-auto md:basis-12 md:flex-none"></div>
+        <div class="card-green flex-1 text-left">
+          <h3>Step 3.</h3>
+          <p>This is step 3.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et mauris id
+            auctor. Nam sed eros egestas velit pretium imperdiet vel quis nunc.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities -->
+    <div id="home-activities" class="m-4 text-center w-full max-w-7xl">
+      <h2 class="mb-4">Choose Your Activities</h2>
+      <div class="flex flex-col md:flex-row items-center justify-center">
+
+        <!-- START: populate with activities from database -->
+        <div class="card-small">
+          <h3 class="mb-4">Gym</h3>
+          <!-- Link to activity search page (should redirect to login if not logged in) -->
+          <div class="flex items-center justify-center rounded-2xl">
+            <a href="#" class="m-3 flex items-center justify-center"> 
+              <span class="material-symbols-outlined text-slate-800" style="font-size:48px;">fitness_center</span>
+            </a>
+          </div>
+        </div>
+        <!-- END: populate -->
+
+      </div>
+    </div>
+
+    <!-- Get started -->
+    <div id="home-get-started" class="card-alt rounded-lg m-6 text-center flex flex-col items-center">
+      <h2>Ready to Get Started?</h2>
+      <div class="flex flex-col md:flex-row">
+        <a href="#" class="btn btn-tertiary m-3">Sign Up</a>
+        <a href="#" class="btn btn-tertiary m-3">Log In</a>
+      </div>
+    </div>
+
+  </section>
 </div>
 {% endblock %}
