@@ -2,19 +2,21 @@
 {% block title %}It's the Home Page{% endblock %}
 
 {% block content %}
+{% load static %}
+
 
 <div class="container mx-auto">
   <section class="flex flex-col gap-4 items-center justify-center">
 
 
     <div id="home-hero" class="m-4" style="margin-top:150px;">      
-      <!-- Add: IF theme = dark, then this image, else light version "../../static/browsing/svg/logo-text-light.svg" -->
-      <img src="../../static/browsing/svg/logo-text-dark.svg" width="512" alt="Activity Buddy logo">
+      <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="max-w-96 sm:w-full w-40 mx-auto" alt="Activity Buddy logo">
+      <h2 class="md:text-7xl! sm:text-6xl! text-3xl! text-center mt-2">ACTIVITY BUDDY</h2>
     </div>
 
     <!-- How it works -->
     <div id="home-how-it-works" class="bg-bg-green p-8 m-4 rounded-3xl text-center w-full max-w-6xl">
-      <h2 class="m-3 text-text-alt">Here's How It Works</h2>
+      <h2 class="mb-3 text-text-alt">Here's How It Works</h2>
       <div class="flex flex-col md:flex-row items-center">
         <div class="card-green flex-1 text-left">
           <h3>Step 1</h3>
