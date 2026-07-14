@@ -9,7 +9,6 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=dark_mode,fitness_center,light_mode,menu" />
 
-
     {% load static %}
     <link rel="icon" href="{% static 'browsing/images/siteIcons/favicon.ico' %}" type="image/x-icon" sizes="any">
     <link rel="icon" href="{% static 'browsing/images/siteIcons/favicon16.png' %}" type="image/png" sizes="16x16">
@@ -51,7 +50,7 @@
         </nav>
     </header>
 
-    <main>
+    <main class="mb-8 mt-32">
         {% block content %}
         {% endblock %}
     </main>
