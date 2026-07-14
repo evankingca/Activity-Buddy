@@ -14,92 +14,81 @@
 @theme {
   --color-bg: var(--bg);
   --color-card-bg: var(--card-bg);
-
   --color-card-bg-alt: var(--card-bg-alt);
 
-  --color-card-bg-green: var(--card-bg-green);
-  --color-bg-green: var(--bg-green);
-
   --color-border: var(--border);
-  --color-border-light: var(--color-slate-800);
+  --color-border-alt: var(--border-alt);
+  --color-border-light: var(--color-zinc-800);
   --color-border-dark: var(--color-slate-100);
 
-  --color-border-alt: var(--border-alt);
-
   --color-text: var(--text);
-  --color-text-light: var(--color-slate-800);
+  --color-text-alt: var(--text-alt);
+  --color-text-light: var(--color-zinc-800);
   --color-text-dark: var(--color-slate-100);
 
   --color-text-alt: var(--text-alt);
 
-  --font-sans: "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* FOR LIGHT MODE */
 :root {
   --bg: var(--color-green-50);
   --card-bg: var(--color-slate-100);
-  --card-bg-alt: var(--color-green-900);
+  --card-bg-alt: var(--color-zinc-800);
   --border: var(--color-border-light);
   --border-alt: var(--color-border-dark);
   --text: var(--color-text-light);
   --text-alt: var(--color-text-dark);
   --bg-green: var(--color-green-900);
-  --card-bg-green: var(--color-green-100);
 }
 
 /* FOR DARK MODE */
 .dark {
   /* This is just Tailwind's green-950, but darker */
-  --bg: oklch(20.0% 0.065 152.934);
-  --card-bg: #20252A;
+  --bg: oklch(20% 0.065 152.934);
+  --card-bg: var(--color-zinc-800);
   --card-bg-alt: var(--color-slate-100);
   --border: var(--color-border-dark);
   --border-alt: var(--color-border-light);
   --text: var(--color-text-dark);
   --text-alt: var(--color-text-light);
   --bg-green: var(--color-green-50);
-  --card-bg-green: var(--color-green-200);
-
 }
 
 .material-symbols-outlined {
   font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 /* ELEMENT CLASSES */
 
+/*****************/
+/**** LINKS ****/
+/*****************/
+
 .link {
-  color: var(--color-cyan-800);
-  text-decoration: underline;
+  @apply text-cyan-800 hover:text-cyan-600 underline active:text-cyan-500;
+  @variant dark {
+    @apply text-cyan-200 hover:text-cyan-400 active:text-cyan-600;
+  }
+  /* Tailwind doesn't expose text-decoration-thickness: */
   text-decoration-thickness: 1px;
+  /* Transitions in tailwind are a pain, so I'm doing it manually */
   transition: 0.03s ease-in-out;
 }
 
-.dark .link {
-  color: var(--color-cyan-200);
-}
-
 .link:hover {
-  color: var(--color-cyan-600);
   text-decoration-thickness: 2px;
 }
 
-.dark .link:hover {
-  color: var(--color-cyan-400);
-}
-
 .link:active {
-  color: var(--color-cyan-500);
   text-decoration-thickness: 3px;
-}
-
-.dark .link:active {
-  color: var(--color-cyan-600);
 }
 
 /*****************/
@@ -107,75 +96,41 @@
 /*****************/
 
 .btn {
-  align-items: center;
-  border-radius: 12px;
-  border-style: solid;
-  border-width: 2px;
-  cursor: pointer;
-  display: flex;
-  font-size: var(--text-md);
-  gap: 6px;
-  height: fit-content;
-  justify-content: center;
-  padding: 12px 24px;
-  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7);
-}
-
-.btn:active {
-  transform: scale(0.97);
+  @apply flex items-center justify-center gap-1.5 h-fit px-6 py-3 border rounded-xl cursor-pointer active:transform-[scale(0.97)];
+  /* Transitions in tailwind are a pain, so I'm doing it manually */
+  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7) transform;
 }
 
 .btn-sm {
-  gap: 4px;
-  padding: 6px 12px;
+  @apply gap-1 px-3 py-1.5;
 }
 
 .btn-primary {
-  color: var(--color-text-dark);
-  background-color: var(--color-green-950);
-  border-color: var(--color-text-light);
-}
-
-.dark .btn-primary {
-  background-color: var(--color-green-950);
-  border-color: var(--color-text-dark);
-}
-
-
-.btn-primary:hover {
-  background-color: var(--color-green-900);
-}
-
-.btn-primary:active {
-  background-color: var(--color-green-800);
+  @apply text-text-dark border-border bg-green-950 hover:bg-green-900 active:bg-green-800;
 }
 
 .btn-secondary {
-  color: var(--color-text-light);
-  background-color: var(--color-green-200);
-  border-color: var(--color-border-light);
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-green-100);
-}
-
-.btn-secondary:active {
-  background-color: var(--color-green-50);
+  @apply text-text-light border-border-light bg-green-200 hover:bg-green-100 active:bg-green-50;
 }
 
 .btn-tertiary {
-  color: var(--color-text-light);
-  background-color: var(--color-slate-100);
-  border-color: var(--color-border-light);
+  @apply text-text-light border-border-light bg-slate-100 hover:bg-slate-50 active:bg-slate-200;
 }
 
-.btn-tertiary:hover {
-  background-color: var(--color-slate-50);
+/***************/
+/*** INPUTS ****/
+/***************/
+
+.input {
+  @apply bg-slate-50 border border-border rounded-lg px-3 py-1 text-text;
+
+  @variant dark {
+    @apply bg-zinc-900;
+  }
 }
 
-.btn-tertiary:active {
-  background-color: var(--color-slate-200);
+.input-select {
+  @apply cursor-pointer;
 }
 
 /***************/
@@ -183,109 +138,82 @@
 /***************/
 
 .card {
-  background-color: var(--color-card-bg);
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--color-border);
-  border-radius: var(--radius-3xl);
-  padding: calc(var(--spacing) * 10);
+  @apply border rounded-3xl sm:px-10 px-6 py-6;
 }
 
-.card-alt {
-  background-color: var(--color-card-bg-alt);
-  border-style: solid;
-  border-width: 2px;
-  color: var(--text-alt);
-  border-color: var(--color-border-alt);
-  border-radius: var(--radius-3xl);
-  padding: calc(var(--spacing) * 6) calc(var(--spacing) * 12);
+.card-primary {
+  @apply bg-card-bg border-border text-text;
 }
 
-.card-small {
-  background-color: var(--color-card-bg);
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--color-border);
-  border-radius: var(--radius-3xl);
-  padding: calc(var(--spacing) * 6);
-  width: 150px;
+.card-even-spacing {
+  @apply sm:p-10 p-6;
 }
 
-.card-small>div {
-  background-color: var(--color-green-950);
+.card-secondary {
+  @apply bg-card-bg-alt text-text-alt border-border-alt;
 }
 
-.dark .card-small>div {
-  background-color: var(--color-text-dark);
+.card-sm {
+  @apply p-6;
 }
 
-.card-small span {
-  color: var(--text-alt);
-}
+.card-tertiary {
+  @apply bg-green-100 border-border-light text-text-light;
 
-.card-green {
-  background-color: var(--color-card-bg-green);
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--border-alt);
-  border-radius: var(--radius-3xl);
-  padding: calc(var(--spacing) * 10);
-  color: var(--color-text-light)
-}
-
-.dark .card-green {
-  color: var(--color-text-light)
-}
-
-@media (width <=40rem) {
-  .card {
-    padding: calc(var(--spacing) * 6);
+  @variant dark {
+    @apply bg-green-200 text-text-light;
   }
 }
 
 .transition-bounce {
   transition-property: padding margin top bottom left right grid-template-rows;
-  transition-duration: .12s;
+  transition-duration: 0.12s;
   transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+}
+
+hr {
+  @apply border-1 border-border rounded-full;
 }
 
 /****************/
 /**** NAVBAR ****/
 /****************/
 
-#navbar {
-  grid-template-columns: 1fr;
-  grid-template-rows: min-content min-content 1fr;
-  gap: 16px;
-}
+/* These styles are here to allow the mobile navbar to be enabled */
+/* via a single .collapsed class. */
 
-#navbar #navbarLinks {
-  visibility: visible;
+#navbar {
+  @apply grid-cols-1 grid-rows-[min-content_min-content_1fr] gap-4;
 }
 
 #navbar.collapsed {
-  grid-template-rows: min-content 0fr 0fr;
-  gap: 0px;
+  @apply grid-rows-[min-content_0_0] gap-0;
 }
 
 #navbar.collapsed hr {
-  visibility: hidden;
+  @apply hidden;
+}
+
+#navbar:not(.collapsed) hr {
+  @apply sm:hidden flex;
 }
 
 #navbar.collapsed #navbarLinks {
-  visibility: invisible;
+  @apply hidden sm:flex;
 }
 
 /******************/
 /**** HEADINGS ****/
 /******************/
 
+h1 {
+  @apply text-4xl;
+}
+
 h2 {
-  font-size: 24px;
-  font-weight: bold;
+  @apply text-2xl font-bold;
 }
 
 h3 {
-  font-size: 20px;
-  font-weight: bold;
+  @apply text-xl font-bold;
 }
