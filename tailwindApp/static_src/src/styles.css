@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
@@ -33,13 +32,14 @@
 
   --color-text-alt: var(--text-alt);
 
+  --font-sans: "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /* FOR LIGHT MODE */
 :root {
   --bg: var(--color-green-50);
   --card-bg: var(--color-slate-100);
-  --card-bg-alt: var(--color-green-900) ;
+  --card-bg-alt: var(--color-green-900);
   --border: var(--color-border-light);
   --border-alt: var(--color-border-dark);
   --text: var(--color-text-light);
@@ -101,6 +101,7 @@
 .dark .link:active {
   color: var(--color-cyan-600);
 }
+
 /*****************/
 /**** BUTTONS ****/
 /*****************/
@@ -176,6 +177,7 @@
 .btn-tertiary:active {
   background-color: var(--color-slate-200);
 }
+
 /***************/
 /**** CARDS ****/
 /***************/
@@ -209,12 +211,14 @@
   width: 150px;
 }
 
-.card-small > div {
+.card-small>div {
   background-color: var(--color-green-950);
 }
-.dark .card-small > div {
+
+.dark .card-small>div {
   background-color: var(--color-text-dark);
 }
+
 .card-small span {
   color: var(--text-alt);
 }
