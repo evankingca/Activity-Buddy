@@ -1,10 +1,9 @@
-/*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
@@ -227,10 +226,10 @@
     top: calc(var(--spacing) * -28);
   }
   .top-0 {
-    top: 0;
+    top: calc(var(--spacing) * 0);
   }
   .left-0 {
-    left: 0;
+    left: calc(var(--spacing) * 0);
   }
   .order-0 {
     order: 0;
@@ -278,20 +277,26 @@
   .m-4 {
     margin: calc(var(--spacing) * 4);
   }
-  .m-6 {
-    margin: calc(var(--spacing) * 6);
-  }
   .mx-auto {
     margin-inline: auto;
   }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
+  .mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+  .mt-32 {
+    margin-top: calc(var(--spacing) * 32);
+  }
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
+  }
+  .mb-8 {
+    margin-bottom: calc(var(--spacing) * 8);
   }
   .block {
     display: block;
@@ -579,11 +584,10 @@
     }
   }
 }
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 :root {
   --bg: var(--color-green-50);
   --card-bg: var(--color-slate-100);
-  --card-bg-alt: var(--color-green-900) ;
+  --card-bg-alt: var(--color-green-900);
   --border: var(--color-border-light);
   --border-alt: var(--color-border-dark);
   --text: var(--color-text-light);
@@ -715,10 +719,10 @@
   padding: calc(var(--spacing) * 6);
   width: 150px;
 }
-.card-small > div {
+.card-small>div {
   background-color: var(--color-green-950);
 }
-.dark .card-small > div {
+.dark .card-small>div {
   background-color: var(--color-text-dark);
 }
 .card-small span {

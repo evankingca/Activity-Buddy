@@ -140,6 +140,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
+
 AUTH_USER_MODEL = "browsing.User"
 
+if os.getenv("NPM_LOCATION") != "" and os.getenv("NPM_LOCATION") != None:
+    NPM_BIN_PATH = os.getenv("NPM_LOCATION")
