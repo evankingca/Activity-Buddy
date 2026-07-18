@@ -31,6 +31,8 @@
   --font-sans:
     "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --default-border-width: 2px;
 }
 
 /* FOR LIGHT MODE */
@@ -66,70 +68,136 @@
     "opsz" 24;
 }
 
-/* ELEMENT CLASSES */
+/*---------------------------*/
+/* GENERIC CUSTOM UTILITIES */
+/*-------------------------*/
+
+/* Tailwind doesn't expose text-decoration-thickness, so we
+make our own: */
+@utility underline-sm {
+  text-decoration-thickness: calc(var(--spacing) * 0.25);
+}
+
+@utility underline-md {
+  text-decoration-thickness: calc(var(--spacing) * 0.5);
+}
+
+@utility underline-lg {
+  text-decoration-thickness: calc(var(--spacing) * 0.75);
+}
+
+/*---------------------------*/
+/* ELEMENT CUSTOM UTILITIES */
+/*-------------------------*/
+
+/*
+Usually when possible, we try to use Tailwind's built-in
+functions for handling stuff. See here for some of the options
+available:
+https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes
+---------------------------------------------------------------
+When writing classes for elements, you should write it such
+that you have a base class (e.g. btn) that is variant-agnostic,
+with child classes (e.g. btn-primary, btn-sm) that modify
+properties of that base class. The base class should be in the
+components layer (@layer components { .btn {...} }) to allow
+for easy overrides, while child classes should be utilities
+(@utility btn-primary {...}) so they can be used with variants:
+| class="card card-primary dark:card-secondary"
+---------------------------------------------------------------
+When writing dark and light variants of elements, separate each
+variant into their own utilities, and then apply the to main
+utility via:
+| @apply element-light dark:element-dark
+This allows you to force either the dark or light variant by
+simply overriding the element's default variant for that
+respective colour scheme. For example, to force an input to
+always be dark, you could do:
+| class="link link-dark"
+To force it to light mode, you would override the dark variant:
+| class="link dark:link-light"
+It's sometimes also a good idea to do this for padding.
+---------------------------------------------------------------
+Since elements are written as base and child classes, they
+should be applied like bootstrap classes. e.g. If you want
+your button to be a primary one, you would apply:
+| class="btn btn-primary"
+A small Secondary button would be:
+| class="btn btn-sm btn-secondary"
+*/
 
 /*****************/
-/**** LINKS ****/
+/***** LINKS *****/
 /*****************/
 
-.link {
-  @apply text-cyan-800 hover:text-cyan-600 underline active:text-cyan-500;
-  @variant dark {
-    @apply text-cyan-200 hover:text-cyan-400 active:text-cyan-600;
+@layer components {
+  .link {
+    @apply link-light dark:link-dark underline underline-sm hover:underline-md active:underline-lg;
+
+    /* Transitions in tailwind are a pain, so I'm doing it manually */
+    transition: 0.03s ease-in-out;
   }
-  /* Tailwind doesn't expose text-decoration-thickness: */
-  text-decoration-thickness: 1px;
-  /* Transitions in tailwind are a pain, so I'm doing it manually */
-  transition: 0.03s ease-in-out;
 }
 
-.link:hover {
-  text-decoration-thickness: 2px;
+@utility link-light {
+  @apply text-cyan-800 hover:text-cyan-600 active:text-cyan-500;
 }
 
-.link:active {
-  text-decoration-thickness: 3px;
+@utility link-dark {
+  @apply text-cyan-200 hover:text-cyan-400 active:text-cyan-600;
 }
 
 /*****************/
 /**** BUTTONS ****/
 /*****************/
 
-.btn {
-  @apply flex items-center justify-center gap-1.5 h-fit px-6 py-3 border rounded-xl cursor-pointer active:transform-[scale(0.97)];
-  /* Transitions in tailwind are a pain, so I'm doing it manually */
-  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7) transform;
+@layer components {
+  .btn {
+    @apply btn-md flex items-center justify-center gap-1.5 h-fit border rounded-xl cursor-pointer active:transform-[scale(0.97)];
+    /* Transitions in tailwind are a pain, so I'm doing it manually */
+    transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7) transform;
+  }
 }
 
-.btn-sm {
-  @apply gap-1 px-3 py-1.5;
-}
-
-.btn-primary {
+@utility btn-primary {
   @apply text-text-dark border-border bg-green-950 hover:bg-green-900 active:bg-green-800;
 }
 
-.btn-secondary {
+@utility btn-secondary {
   @apply text-text-light border-border-light bg-green-200 hover:bg-green-100 active:bg-green-50;
 }
 
-.btn-tertiary {
+@utility btn-tertiary {
   @apply text-text-light border-border-light bg-slate-100 hover:bg-slate-50 active:bg-slate-200;
+}
+
+@utility btn-md {
+  @apply px-6 py-3;
+}
+
+@utility btn-sm {
+  @apply gap-1 px-3 py-1.5;
 }
 
 /***************/
 /*** INPUTS ****/
 /***************/
 
-.input {
-  @apply bg-slate-50 border border-border rounded-lg px-3 py-1 text-text;
-
-  @variant dark {
-    @apply bg-zinc-900;
+@layer components {
+  .input {
+    @apply input-light dark:input-dark border border-border rounded-lg px-3 py-1 text-text;
   }
 }
 
-.input-select {
+@utility input-light {
+  @apply bg-slate-50 text-text;
+}
+
+@utility input-dark {
+  @apply bg-zinc-900 text-text-dark;
+}
+
+@utility input-select {
   @apply cursor-pointer;
 }
 
@@ -137,42 +205,46 @@
 /**** CARDS ****/
 /***************/
 
-.card {
-  @apply border rounded-3xl sm:px-10 px-6 py-6;
-}
-
-.card-primary {
-  @apply bg-card-bg border-border text-text;
-}
-
-.card-even-spacing {
-  @apply sm:p-10 p-6;
-}
-
-.card-secondary {
-  @apply bg-card-bg-alt text-text-alt border-border-alt;
-}
-
-.card-sm {
-  @apply p-6;
-}
-
-.card-tertiary {
-  @apply bg-green-100 border-border-light text-text-light;
-
-  @variant dark {
-    @apply bg-green-200 text-text-light;
+@layer components {
+  .card {
+    @apply border rounded-3xl card-md;
   }
 }
 
-.transition-bounce {
-  transition-property: padding margin top bottom left right grid-template-rows;
-  transition-duration: 0.12s;
-  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+@utility card-primary {
+  @apply bg-card-bg border-border text-text;
 }
 
-hr {
-  @apply border-1 border-border rounded-full;
+@utility card-secondary {
+  @apply bg-card-bg-alt text-text-alt border-border-alt;
+}
+
+@utility card-tertiary-light {
+  @apply bg-green-100;
+}
+
+@utility card-tertiary-dark {
+  @apply bg-green-200;
+}
+
+@utility card-tertiary {
+  @apply card-tertiary-light dark:card-tertiary-dark border-border-light text-text-light;
+}
+
+@utility card-even-spacing {
+  @apply sm:p-10 p-6;
+}
+
+@utility card-md {
+  @apply sm:px-10 px-6 py-6;
+}
+
+@utility card-sm {
+  @apply p-6;
+}
+
+@utility card-xs {
+  @apply py-4 px-2;
 }
 
 /****************/
@@ -202,18 +274,36 @@ hr {
   @apply hidden sm:flex;
 }
 
-/******************/
-/**** HEADINGS ****/
-/******************/
+@layer base {
+  /******************/
+  /**** HEADINGS ****/
+  /******************/
+  h1 {
+    @apply text-4xl;
+  }
 
-h1 {
-  @apply text-4xl;
+  h2 {
+    @apply text-2xl font-bold;
+  }
+
+  h3 {
+    @apply text-xl font-bold;
+  }
+
+  /******************/
+  /*** SEPARATORS ***/
+  /******************/
+  hr {
+    @apply border-1 border-border rounded-full;
+  }
 }
 
-h2 {
-  @apply text-2xl font-bold;
-}
+/******************/
+/*** TRANSITIONS **/
+/******************/
 
-h3 {
-  @apply text-xl font-bold;
+@utility transition-bounce {
+  transition-property: padding margin top bottom left right grid-template-rows;
+  transition-duration: 0.12s;
+  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
 }
