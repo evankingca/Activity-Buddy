@@ -34,6 +34,14 @@ Or if you're on Mac/Linux:
 source ./.venv/bin/activate
 ```
 
+### Setup Local Settings
+This project uses a `.local_settings.py` file for machine-specific config (like npm paths) that shouldn't be committed to version control.
+
+Setup:
+1. Copy the template: `cp gymgolf/.local_settings.example.py gymgolf/.local_settings.py`
+2. Edit `.local_settings.py` and set `NPM_BIN_PATH` to your `which npm` output
+
+
 ### Install
 
 Install all the pip dependencies, including Django:
@@ -100,17 +108,7 @@ Which essentially just runs `python manage.py runserver` along with starting the
 
 Then just go to [http://127.0.0.1:8000](http://127.0.0.1:8000) to see the site.
 
-### Troubleshooting
 
-If your on Windows and you run into an issue where Tailwind tells you: 
-```
-CommandError: 
-It looks like node.js and/or npm is not installed or cannot be found.
-```
-you'll need to add a line to `gymgolf/settings.py` like:
-```
-NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
-```
 
 Have fun!
 
