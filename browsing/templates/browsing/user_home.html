@@ -1,0 +1,136 @@
+{% extends 'browsing/base.html' %}
+{% block title %}It's the Home Page{% endblock %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="container mx-auto">
+  <section class="flex flex-col gap-4 items-center justify-center">
+
+    <!-- ADD username of logged in user -->
+    <h1>Welcome, {USERNAME}!</h1>
+
+    <!-- Most Recent Messages -->
+    <div class="text-center w-full max-w-6xl bg-bg-green p-5">
+      <h2>Most Recent Messages</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- START: populate with messsages from database -->
+        <div class="bg-white flex flex-col p-3">
+          <p class="text-left font-bold text-lg">Lauren</p>
+          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
+          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+        </div>
+        <!-- END -->
+        <!-- SAMPLE DATA START - to be deleted once populated -->
+        <div class="bg-white flex flex-col p-3">
+          <p class="text-left font-bold text-lg">Lauren</p>
+          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
+          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+        </div>
+        <div class="bg-white flex flex-col p-3">
+          <p class="text-left font-bold text-lg">Lauren</p>
+          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
+          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+        </div>
+        <div class="bg-white flex flex-col p-3">
+          <p class="text-left font-bold text-lg">Lauren</p>
+          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
+          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+        </div>
+        <!-- SAMPLE DATA END -->
+      </div>
+      <button class="btn btn-secondary mx-auto mt-5">View All</button>
+
+
+    </div>
+
+
+    <!-- Start Activity Search -->
+    <div class="m-4 text-center w-full max-w-7xl">
+      <h2>Start an Activity Search</h2>
+
+      <!-- START: populate with activities from database -->
+      <div class="card-small mx-auto">
+        <h3 class="mb-4">Gym</h3>
+        <!-- Link to activity search page (should redirect to login if not logged in) -->
+        <div class="flex items-center justify-center rounded-2xl">
+          <a href="#" class="m-3 flex items-center justify-center">
+            <span class="material-symbols-outlined text-slate-800" style="font-size:48px;">fitness_center</span>
+          </a>
+        </div>
+      </div>
+      <!-- END: populate -->
+    </div>
+
+
+    <!-- Buddies -->
+    <div class="text-center w-full max-w-7xl">
+      <h2>Buddies</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <!-- START: populate with messsages from database -->
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <!-- <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p> -->
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <!-- END -->
+        <!-- SAMPLE DATA START - to be deleted once populated -->
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <!-- <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p> -->
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <!-- <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p> -->
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+        <div class="flex flex-col text-left gap-1 bg-bg-green p-4">
+          <h3 class="text-center">Gavin</h3>
+          <p><span class="font-semibold">Activities: </span>Gym</p>
+          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
+          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
+          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
+        </div>
+      <!-- SAMPLE DATA END -->
+      </div>
+    </div>
+
+  </section>
+</div>
+{% endblock %}

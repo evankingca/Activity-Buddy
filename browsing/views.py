@@ -19,6 +19,10 @@ def login(request):
     context = {}
     return render(request, "browsing/login.html", context)
 
+def user_home(request):
+    context = {}
+    return render(request, "browsing/user_home.html", context)
+
 # -------------------------
 # User Views
 # -------------------------
