@@ -140,7 +140,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-
 AUTH_USER_MODEL = "browsing.User"
 
 if os.getenv("NPM_LOCATION") != "" and os.getenv("NPM_LOCATION") != None:

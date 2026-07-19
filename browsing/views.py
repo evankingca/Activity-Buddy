@@ -11,6 +11,14 @@ def index(request):
     context = {}
     return render(request, "browsing/index.html", context)
 
+def register(request):
+    context = {}
+    return render(request, "browsing/register.html", context)
+
+def login(request):
+    context = {}
+    return render(request, "browsing/login.html", context)
+
 # -------------------------
 # User Views
 # -------------------------
@@ -96,8 +104,3 @@ class UserActivityDeleteView(generics.DestroyAPIView):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivityWriteSerializer
     permission_classes = [IsAuthenticated]
-
-
-
-
-

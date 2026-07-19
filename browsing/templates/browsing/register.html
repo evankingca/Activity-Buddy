@@ -1,0 +1,161 @@
+{% extends 'browsing/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="mt-32 mb-8 flex lg:flex-row flex-col gap-12 lg:justify-between max-w-5xl mx-auto">
+    <div class="lg:fixed lg:w-96 flex flex-col gap-4">
+        <h2>Welcome to Activity Buddy!</h2>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque quaerat, fuga consequatur officia sunt, illo
+            et, omnis quae laboriosam labore similique velit. Veniam aspernatur nostrum repellat atque rem laudantium
+            asperiores?</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam vero minima temporibus. Autem, perspiciatis
+            temporibus neque quas ipsum fuga perferendis. Tempora quas quisquam consequuntur magnam aperiam culpa
+            deserunt fuga exercitationem!</p>
+    </div>
+    <div class="hidden lg:block w-160"></div>
+    <form action="" class="card card-tertiary card-xs sm:card-sm w-full flex flex-col sm:gap-8 gap-6 lg:mx-0 mx-auto">
+        <h1 class="text-center">Register</h1>
+        <hr class="border-text-light!">
+        <div class="flex flex-col gap-2">
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <h2>Profile</h2>
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col">
+                        <label for="username">Username</label>
+                        <input class="input" id="username" type="text" name="username" placeholder="Username" />
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="password">Password</label>
+                        <input class="input" id="password" type="password" name="password" placeholder="Password" />
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="email">Email</label>
+                        <input class="input" id="email" type="email" name="email" placeholder="Email" />
+                    </div>
+
+                    <div class="flex flex-col">
+                        <label for="summary">Profile Summary</label>
+                        <textarea class="input h-40" id="summary" type="summary" name="summary"
+                            placeholder="Tell buddies a bit about yourself..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <label for="experience">
+                    <h2>Experience</h2>
+                </label>
+                <select class="input input-select" id="experience" type="experience" name="experience">
+                    <option value="" selected>Select Experience level...</option>
+                    <option value="1">Beginner</option>
+                    <option value="2">Intermediate</option>
+                    <option value="3">Advanced</option>
+                </select>
+            </div>
+
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <h2>Goals</h2>
+                <div class="flex flex-col gap-2">
+                    <div>
+                        <input type="checkbox" id="goalBuildMuscle" name="goals" value="1" />
+                        <label for="goalBuildMuscle">Build Muscle</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="goalWeightLoss" name="goals" value="2" />
+                        <label for="goalWeightLoss">Weight Loss</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="goalGeneralFitness" name="goals" value="3" />
+                        <label for="goalGeneralFitness">General Fitness</label>
+                    </div>
+                    <div class="col-span-2">
+                        <input type="checkbox" id="goalStrengthTraining" name="goals" value="4" />
+                        <label for="goalStrengthTraining">Strength Training</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="goalPowerLifting" name="goals" value="5" />
+                        <label for="goalPowerLifting">Powerlifting</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="goalBodyBuilding" name="goals" value="6" />
+                        <label for="goalBodyBuilding">Bodybuilding</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <h2>Training Style</h2>
+                <div class="grid grid-cols-1 gap-y-2 gap-x-16 w-fit">
+                    <div>
+                        <input type="checkbox" id="trainWeightLifting" name="training" value="1" />
+                        <label for="trainWeightLifting">Weightlifting</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="trainPowerLifting" name="training" value="2" />
+                        <label for="trainPowerLifting">Powerlifting</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="trainBodyBuilding" name="training" value="3" />
+                        <label for="trainBodyBuilding">Bodybuilding</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="trainCrossFit" name="trainiing" value="4" />
+                        <label for="trainCrossFit">CrossFit</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="trainCardio" name="training" value="5" />
+                        <label for="trainCardio">Cardio</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="trainFunctionalFitness" name="training" value="6" />
+                        <label for="trainFunctionalFitness">Functional Fitness</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <label for="goals">
+                    <h2>Gym Frequency</h2>
+                </label>
+                <select class="input input-select" type="frequency" name="frequency">
+                    <option value="" selected>Select Frequency...</option>
+                    <option value="1">1-2 times/week</option>
+                    <option value="2">3-4 times/week</option>
+                    <option value="3">5+ times/week</option>
+                </select>
+            </div>
+
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <h2>Preferred Workout Time</h2>
+                <div class="grid grid-cols-1 gap-y-2 gap-x-16 w-fit">
+                    <div class="">
+                        <input type="checkbox" id="earlyMorning" name="time" value="1" />
+                        <label for="earlyMorning">Early Morning</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="morning" name="time" value="2" />
+                        <label for="morning">Morning</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="afternoon" name="time" value="3" />
+                        <label for="afternoon">Afternoon</label>
+                    </div>
+                    <div class="">
+                        <input type="checkbox" id="evening" name="time" value="4" />
+                        <label for="evening">Evening</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="lateNight" name="time" value="5" />
+                        <label for="lateNight">Late Night</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary border-border-light">Register</button>
+    </form>
+</div>
+
+{% endblock %}
