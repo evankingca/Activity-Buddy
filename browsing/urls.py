@@ -6,6 +6,9 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path("login", views.login, name="login"),
 
+    
+    path("user",views.user_home, name="user_home"),
+    
     # ------------------------------
     # User Endpoints
     # ------------------------------
