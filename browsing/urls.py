@@ -7,6 +7,14 @@ urlpatterns = [
     path("login", views.login, name="login"),
 
     # ------------------------------
+    # Auth Endpoints
+    # ------------------------------
+    path("auth/signup/", views.AuthSignupView.as_view()),
+    path("auth/login/", views.AuthLoginView.as_view()),
+    path("auth/logout/", views.AuthLogoutView.as_view()),
+    path("auth/me/", views.AuthMeView.as_view()),
+
+    # ------------------------------
     # User Endpoints
     # ------------------------------
     path('users/', views.UserListView.as_view()),
@@ -29,5 +37,12 @@ urlpatterns = [
     path('users/<int:pk>/activities/add/', views.UserActivityCreateView.as_view()),
     path('useractivities/<int:pk>/edit/', views.UserActivityUpdateView.as_view()),
     path('useractivities/<int:pk>/delete/', views.UserActivityDeleteView.as_view()),
+
+    # ------------------------------
+    # Preference Endpoints
+    # ------------------------------
+    path("preferences/", views.PreferenceListCreateView.as_view()),
+    path("preferences/<int:pk>/", views.PreferenceDetailView.as_view()),
+    path("users/<int:pk>/preferences/", views.UserPreferenceListView.as_view()),
 
 ]
