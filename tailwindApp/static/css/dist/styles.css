@@ -296,9 +296,6 @@
   .-mt-3 {
     margin-top: calc(var(--spacing) * -3);
   }
-  .mt-2 {
-    margin-top: calc(var(--spacing) * 2);
-  }
   .mt-5 {
     margin-top: calc(var(--spacing) * 5);
   }
@@ -442,6 +439,9 @@
   .gap-6 {
     gap: calc(var(--spacing) * 6);
   }
+  .gap-8 {
+    gap: calc(var(--spacing) * 8);
+  }
   .gap-10 {
     gap: calc(var(--spacing) * 10);
   }
@@ -583,13 +583,6 @@
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
-  }
-  .p-5 {
-    padding: calc(var(--spacing) * 5);
-  }
-  .btn-md {
-    padding-inline: calc(var(--spacing) * 6);
-    padding-block: calc(var(--spacing) * 3);
   }
   .card-xs {
     padding-inline: calc(var(--spacing) * 2);
@@ -846,19 +839,6 @@
     .xl\:grid-cols-5 {
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
-  }
-  .dark\:btn-tertiary:where(.dark, .dark *) {
-    border-color: var(--color-border-light);
-    background-color: var(--color-slate-100);
-    color: var(--color-text-light);
-  }
-  @media (hover: hover) {
-    .dark\:btn-tertiary:where(.dark, .dark *):hover {
-      background-color: var(--color-slate-50);
-    }
-  }
-  .dark\:btn-tertiary:where(.dark, .dark *):active {
-    background-color: var(--color-slate-200);
   }
   .dark\:card-tertiary:where(.dark, .dark *) {
     border-color: var(--color-border-light);

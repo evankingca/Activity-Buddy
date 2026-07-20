@@ -6,14 +6,14 @@
 
 
 <div class="container mx-auto mt-30">
-  <section class="flex flex-col gap-4 items-center justify-center">
+  <section class="flex flex-col gap-8 items-center justify-center">
 
     <!-- ADD username of logged in user -->
     <h1>Welcome, {USERNAME}!</h1>
 
     <!-- Most Recent Messages -->
-    <div class="card card-tertiary dark:card-primary text-center w-full max-w-6xl bg-bg-green p-5">
-      <h2 class="mb-4">Most Recent Messages</h2>
+    <div class="flex flex-col gap-6 card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
+      <h2>Most Recent Messages</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <!-- START: populate with messsages from database -->
         <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
@@ -40,18 +40,18 @@
         </div>
         <!-- SAMPLE DATA END -->
       </div>
-      <button class="btn btn-secondary btn-md mx-auto mt-5">View All</button>
+      <button class="btn btn-secondary mx-auto">View All</button>
     </div>
 
 
     <!-- Start Activity Search -->
-    <div class="m-4 text-center w-full max-w-7xl">
-      <h2 class="mb-4">Start an Activity Search</h2>
+    <div class="flex flex-col gap-6 text-center w-full max-w-7xl">
+      <h2>Start an Activity Search</h2>
       <div class="flex flex-col md:flex-row items-center justify-center">
 
         <!-- START: populate with activities from database -->
         <div class="card card-primary card-sm">
-          <h3 class="mb-4">Gym</h3>
+          <h3>Gym</h3>
           <!-- Link to activity search page (should redirect to login if not logged in) -->
           <div class="flex items-center justify-center rounded-2xl bg-green-950 dark:bg-text-dark">
             <a href="#" class="m-3 flex items-center justify-center">
@@ -65,12 +65,14 @@
 
 
     <!-- Buddies -->
-    <div class="text-center w-full max-w-7xl m-6">
-      <h2 class="mb-4">Buddies</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+    <div class="text-center flex flex-col gap-6 w-full max-w-7xl">
+      <h2>Buddies</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         <!-- START: populate with messsages from database -->
         <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
+          <!--  -->
           <h3 class="text-center">Gavin</h3>
+          <p class="text-center italic text-sm">Username</p>
           <p><span class="font-semibold">Activities: </span>Gym</p>
           <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
           <!-- <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p> -->
