@@ -62,11 +62,12 @@ class ActivitySerializer(serializers.ModelSerializer):
 
 
 class UserActivitySerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     activity = ActivitySerializer()
 
     class Meta:
         model = UserActivity
-        fields = ["id", "activity", "is_active", "postal_codes"]
+        fields = ["id", "user", "activity", "is_active"]
 
 
 class UserActivityWriteSerializer(serializers.ModelSerializer):
@@ -77,7 +78,6 @@ class UserActivityWriteSerializer(serializers.ModelSerializer):
             "user",
             "activity",
             "is_active",
-            "postal_codes",
         ]
         read_only_fields = ["id", "user"]
 
@@ -95,6 +95,7 @@ class PreferenceSerializer(serializers.ModelSerializer):
             "training_styles",
             "gym_frequency",
             "preferred_workout_times",
+            "location_ids",
         ]
 
 
@@ -122,6 +123,7 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
             "training_styles",
             "gym_frequency",
             "preferred_workout_times",
+            "location_ids",
         ]
 
         read_only_fields = ["id", "user_activity"]

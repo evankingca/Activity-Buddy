@@ -7,7 +7,7 @@ urlpatterns = [
     path("login", views.login, name="login"),
 
     
-    path("user",views.user_home, name="user_home"),
+    #path("user",views.user_home, name="user_home"),
     
     # ------------------------------
     # Auth Endpoints
