@@ -38,7 +38,7 @@ loginForm.addEventListener("submit", async (event) => {
             throw new Error(message);
         }
 
-        window.location.href = "/";
+        window.location.href = "/user";
     } catch (error) {
         errorElement.textContent = error.message;
         errorElement.classList.remove("hidden");
