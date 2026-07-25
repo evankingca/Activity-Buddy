@@ -71,7 +71,7 @@ requireAtLeastOne(
         throw new Error(getErrorMessage(data));
     }
 
-    window.location.href = "/user/";
+    
             
     }catch(error){
         showError(error.message);
@@ -98,4 +98,25 @@ function requireAtLeastOne(name, message) {
     if (checked.length === 0) {
         throw new Error(message);
     }
+}
+function getErrorMessage(data) {
+    for (const value of Object.values(data)) {
+        if (Array.isArray(value) && value.length > 0) {
+            return value[0];
+        }
+
+        if (typeof value === "object" && value !== null) {
+            for (const nestedValue of Object.values(value)) {
+                if (Array.isArray(nestedValue) && nestedValue.length > 0) {
+                    return nestedValue[0];
+                }
+            }
+        }
+
+        if (typeof value === "string") {
+            return value;
+        }
+    }
+
+    return "Registration failed. Please check your information.";
 }
