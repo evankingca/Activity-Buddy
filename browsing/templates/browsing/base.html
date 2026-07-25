@@ -32,7 +32,7 @@
         <nav class="grid sm:flex bg-slate-100 justify-between sm:items-center text-text-light sm:p-5 p-4 rounded-3xl border-2 border-slate-800 transition-bounce collapsed sm:h-24"
             id="navbar">
             <div class="flex justify-between items-center sm:w-fit w-full">
-                <a class="flex flex-row gap-4 items-center h-full" href="/">
+                <a class="flex flex-row gap-4 items-center h-full" href="/" title="Home">
                     <img src="{% static 'browsing/svg/logo-plain.svg' %}" class="h-8" alt="">
                     <span class="font-bold text-2xl">Activity Buddy</span>
                 </a>
@@ -45,34 +45,34 @@
             <hr class="border-text-light!">
             <div class="flex sm:flex-row flex-col gap-2 h-full overflow-hidden" id="navbarLinks">
                 {% if user.is_authenticated %}
-                    <a href="logout" class="btn btn-tertiary sm:order-1 order-2">
-                        <span class="material-symbols-outlined">
-                            logout
-                        </span>
-                        <span class="md:inline-block sm:hidden">Log out</span>
+                <a href="logout" class="btn btn-tertiary sm:order-1 order-2">
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                    <span class="md:inline-block sm:hidden">Log out</span>
 
-                    </a>
-                    <a href="search" class="btn btn-primary border-border-light order-1" title="Buddy Search">
-                        <span class="material-symbols-outlined">
-                            search
-                        </span>
-                        <span class="lg:inline-block sm:hidden">Buddy Search</span>
-                    </a>
-                    <a href="messages" class="btn btn-primary border-border-light order-1" title="Messages">
-                        <span class="material-symbols-outlined">
-                            chat_bubble
-                        </span>
-                        <span class="lg:inline-block sm:hidden">Messages</span>
-                    </a>
-                    <a href="user" class="btn btn-primary border-border-light order-1" title="Profile">
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-                        <span class="lg:inline-block sm:hidden">Profile</span>
-                    </a>
+                </a>
+                <a href="search" class="btn btn-secondary border-border-light order-1" title="Buddy Search">
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+                    <span class="lg:inline-block sm:hidden">Buddy Search</span>
+                </a>
+                <a href="messages" class="btn btn-secondary border-border-light order-1" title="Messages">
+                    <span class="material-symbols-outlined">
+                        chat_bubble
+                    </span>
+                    <span class="lg:inline-block sm:hidden">Messages</span>
+                </a>
+                <a href="user" class="btn btn-primary border-border-light order-1" title="Dashboard">
+                    <span class="material-symbols-outlined">
+                        person
+                    </span>
+                    <span class="lg:inline-block sm:hidden">Dashboard</span>
+                </a>
                 {% else %}
-                    <a href="register" class="btn btn-primary border-border-light">Sign Up</a>
-                    <a href="login" class="btn btn-secondary">Login</a>
+                <a href="register" class="btn btn-primary border-border-light">Sign Up</a>
+                <a href="login" class="btn btn-secondary">Login</a>
                 {% endif %}
             </div>
         </nav>
