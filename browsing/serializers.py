@@ -1,4 +1,5 @@
 from .models import User, Activity, UserActivity, Preference
+from .models import User, Activity, UserActivity, Preference
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db import transaction
@@ -152,10 +153,16 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username", "display_name", "bio_text", "creation_date"]
         read_only_fields = ["id", "username", "creation_date"]
 
+        fields = ["id", "username", "display_name", "bio_text", "creation_date"]
+        read_only_fields = ["id", "username", "creation_date"]
+
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
+        fields = ["id", "name", "description", "is_active"]
+        read_only_fields = ["id"]
+
         fields = ["id", "name", "description", "is_active"]
         read_only_fields = ["id"]
 
@@ -165,6 +172,7 @@ class UserActivitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserActivity
+        fields = ["id", "activity", "is_active", "postal_codes"]
         fields = ["id", "activity", "is_active", "postal_codes"]
 
 

@@ -4,7 +4,24 @@ from django.shortcuts import render, redirect
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.response import Response
 from .permissions import IsSelf
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout,
+)
+from rest_framework.views import APIView
+from .models import User, UserActivity, Activity, Preference
+from .serializers import (
+    UserSerializer,
+    UserActivitySerializer,
+    ActivitySerializer,
+    UserActivityWriteSerializer,
+    SignupSerializer,
+    LoginSerializer,
+    PreferenceSerializer,
+    PreferenceWriteSerializer,
+)
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout,
