@@ -24,7 +24,17 @@ from .serializers import (
 
 
 def index(request):
-    context = {}
+    context = {
+        'activities': [
+            {
+              'name': 'Gym',
+              'icon': 'fitness_center'
+            }
+          ]
+        }
+    
+        
+
     return render(request, "browsing/index.html", context)
 
 
@@ -37,6 +47,9 @@ def login(request):
     context = {}
     return render(request, "browsing/login.html", context)
 
+def user_home(request):
+    context = {}
+    return render(request, "browsing/user_home.html", context)
 
 # -------------------------
 # Authentication Views
