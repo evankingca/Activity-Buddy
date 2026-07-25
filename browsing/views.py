@@ -51,6 +51,10 @@ def user_home(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
 
+def user_profile(request):
+    context = {}
+    return render(request, "browsing/user_profile.html", context)
+
 # -------------------------
 # Authentication Views
 # -------------------------

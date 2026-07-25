@@ -254,8 +254,14 @@
   .order-3 {
     order: 3;
   }
+  .col-span-1 {
+    grid-column: span 1 / span 1;
+  }
   .col-span-2 {
     grid-column: span 2 / span 2;
+  }
+  .col-span-3 {
+    grid-column: span 3 / span 3;
   }
   .container {
     width: 100%;
@@ -296,6 +302,9 @@
   }
   .mx-auto {
     margin-inline: auto;
+  }
+  .my-30 {
+    margin-block: calc(var(--spacing) * 30);
   }
   .-mt-3 {
     margin-top: calc(var(--spacing) * -3);
@@ -390,6 +399,9 @@
   .flex-1 {
     flex: 1;
   }
+  .basis-auto {
+    flex-basis: auto;
+  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
@@ -402,20 +414,38 @@
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
   .flex-col {
     flex-direction: column;
   }
   .flex-row {
     flex-direction: row;
   }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
   .items-center {
     align-items: center;
+  }
+  .items-stretch {
+    align-items: stretch;
   }
   .justify-between {
     justify-content: space-between;
   }
   .justify-center {
     justify-content: center;
+  }
+  .justify-stretch {
+    justify-content: stretch;
+  }
+  .justify-items-stretch {
+    justify-items: stretch;
   }
   .btn-sm {
     gap: var(--spacing);
@@ -427,6 +457,9 @@
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
   }
   .gap-4 {
     gap: calc(var(--spacing) * 4);
@@ -445,6 +478,9 @@
   }
   .gap-12 {
     gap: calc(var(--spacing) * 12);
+  }
+  .gap-32 {
+    gap: calc(var(--spacing) * 32);
   }
   .gap-x-4 {
     column-gap: calc(var(--spacing) * 4);
@@ -797,8 +833,18 @@
     }
   }
   @media (width >= 48rem) {
+    .md\:flex-col {
+      flex-direction: column;
+    }
+  }
+  @media (width >= 48rem) {
     .md\:flex-row {
       flex-direction: row;
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:justify-center {
+      justify-content: center;
     }
   }
   @media (width >= 64rem) {
@@ -834,6 +880,11 @@
   @media (width >= 64rem) {
     .lg\:justify-between {
       justify-content: space-between;
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:px-\[100px\] {
+      padding-inline: 100px;
     }
   }
   @media (width >= 80rem) {
@@ -1027,6 +1078,12 @@
   h3 {
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  h4 {
+    font-size: var(--text-lg);
+    line-height: var(--tw-leading, var(--text-lg--line-height));
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
   }

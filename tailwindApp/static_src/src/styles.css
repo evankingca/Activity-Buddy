@@ -289,6 +289,9 @@ A small Secondary button would be:
   h3 {
     @apply text-xl font-bold;
   }
+  h4 {
+    @apply text-lg font-bold;
+  }
 
   /******************/
   /*** SEPARATORS ***/
