@@ -2,46 +2,14 @@ const registerForm = document.getElementById("register-form");
 const errorElement = document.getElementById("register-error");
 
 registerForm.addEventListener("submit", async(event)=>{
-event.preventDefault();
+    event.preventDefault();
+    clearError();
 
-function showError(message) {
-    errorElement.textContent = message;
-    errorElement.classList.remove("hidden");
-    console.log(errorElement.textContent);;
-}
-
-
-function requireAtLeastOne(name, message) {
-    const checked = registerForm.querySelectorAll(
-        `input[name="${name}"]:checked`
-    );
-
-    if (checked.length === 0) {
-        showError(message);
-        throw new Error(message);
-    }
-}
-
-requireAtLeastOne(
-    "goals",
-    "Select at least one goal."
-);
-
-requireAtLeastOne(
-    "training",
-    "Select at least one training style."
-);
-
-requireAtLeastOne(
-    "time",
-    "Select at least one preferred workout time."
-);
-
-  const csrfToken = document.querySelector(
+  const csrfToken = registerForm.querySelector(
         "[name=csrfmiddlewaretoken]"
     ).value;
 
-    const username = document.getElementById("username").value;
+    const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value;
 
     const goals = document.querySelectorAll('input[name="goals"]:checked');
@@ -64,13 +32,28 @@ requireAtLeastOne(
     const registrationData = {
         username,
         password,
-        display_name: document.getElementById("username").value.trim(),
-        email: document.getElementById("email").value,
-        bio_text: document.getElementById("summary").value,
+        display_name: username,
+        email: document.getElementById("email").value.trim(),
+        bio_text: document.getElementById("summary").value.trim(),
         preferences
     }
 
     try{
+        requireAtLeastOne(
+    "goals",
+    "Select at least one goal."
+);
+
+requireAtLeastOne(
+    "training",
+    "Select at least one training style."
+);
+
+requireAtLeastOne(
+    "time",
+    "Select at least one preferred workout time."
+);
+
     const response = await fetch("/auth/signup/", {
 
         method: "POST",
@@ -82,13 +65,37 @@ requireAtLeastOne(
         body: JSON.stringify(registrationData)
     });
 
-    const text = await response.json();
-    console.log(text);
+    const data = await response.json();
 
-    window.location.href = "/user";
-        
+    if (!response.ok) {
+        throw new Error(getErrorMessage(data));
+    }
+
+    window.location.href = "/user/";
+            
     }catch(error){
         showError(error.message);
     }
 
     });
+
+function showError(message) {
+    errorElement.textContent = message;
+    errorElement.classList.remove("hidden");
+    console.log(errorElement.textContent);
+}
+
+function clearError() {
+    errorElement.textContent = "";
+    errorElement.classList.add("hidden");
+}
+
+function requireAtLeastOne(name, message) {
+    const checked = registerForm.querySelectorAll(
+        `input[name="${name}"]:checked`
+    );
+
+    if (checked.length === 0) {
+        throw new Error(message);
+    }
+}
