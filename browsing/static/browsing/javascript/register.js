@@ -60,6 +60,8 @@ registerForm.addEventListener("submit", async (event) => {
     if (!response.ok) {
       throw new Error(getErrorMessage(data));
     }
+
+    window.location.href = "/user";
   } catch (error) {
     showError(error.message);
   }
