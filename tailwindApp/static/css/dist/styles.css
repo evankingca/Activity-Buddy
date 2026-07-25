@@ -429,6 +429,9 @@
   .flex-wrap {
     flex-wrap: wrap;
   }
+  .content-stretch {
+    align-content: stretch;
+  }
   .items-center {
     align-items: center;
   }
@@ -685,6 +688,24 @@
   .tracking-normal {
     --tw-tracking: var(--tracking-normal);
     letter-spacing: var(--tracking-normal);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .text-wrap {
+    text-wrap: wrap;
+  }
+  .break-words {
+    overflow-wrap: break-word;
+  }
+  .wrap-break-word {
+    overflow-wrap: break-word;
+  }
+  .break-all {
+    word-break: break-all;
   }
   .text-black {
     color: var(--color-black);
