@@ -166,6 +166,21 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="card card-primary border-border-light flex flex-col gap-4">
+                <!-- The search field is a form within the Register form -->
+                <form id="locationSearchForm" action="">
+                    <input id="locationSearch" class="input" type="search" name="locationSearch" placeholder="Search for gyms..."/>
+                    <p>For best results, include your location, e.g., "Gyms in Ottawa".</p>
+                    <button class="btn btn-secondary" type ="submit">Search</button>
+                </form>
+
+                <!-- This is where the results will go; this is part of the Register form-->
+                 <p>Output results here:</p>
+                 <div id="locationSearchResults">
+
+                 </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary border-border-light">Register</button>
     </form>
