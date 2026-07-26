@@ -6,6 +6,9 @@ from django.db import models
 # User Models
 # -------------------------
 class User(AbstractUser):
+    first_name = None
+    last_name = None
+
     display_name = models.CharField(max_length=100)
     bio_text = models.TextField(blank=True)
     creation_date = models.DateTimeField(auto_now_add=True)
