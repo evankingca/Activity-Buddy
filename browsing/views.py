@@ -70,6 +70,9 @@ def search(request):
 def about(request):
     return render(request, "browsing/about.html")
 
+def chat(request):
+    context = {}
+    return render(request, "browsing/chat.html", context)
 
 # -------------------------
 # Authentication Views

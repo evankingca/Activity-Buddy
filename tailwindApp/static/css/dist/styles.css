@@ -1,4 +1,4 @@
-/*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -232,10 +232,10 @@
     top: calc(var(--spacing) * -28);
   }
   .top-0 {
-    top: calc(var(--spacing) * 0);
+    top: 0;
   }
   .left-0 {
-    left: calc(var(--spacing) * 0);
+    left: 0;
   }
   .-z-10 {
     z-index: calc(10 * -1);
@@ -428,12 +428,12 @@
     justify-content: flex-end;
   }
   .btn-sm {
-    gap: calc(var(--spacing) * 1);
+    gap: var(--spacing);
     padding-inline: calc(var(--spacing) * 3);
     padding-block: calc(var(--spacing) * 1.5);
   }
   .gap-1 {
-    gap: calc(var(--spacing) * 1);
+    gap: var(--spacing);
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
@@ -584,9 +584,6 @@
   }
   .bg-green-950 {
     background-color: var(--color-green-950);
-  }
-  .bg-red-500 {
-    background-color: var(--color-red-500);
   }
   .bg-slate-100 {
     background-color: var(--color-slate-100);
@@ -790,7 +787,7 @@
   }
   @media (width >= 48rem) {
     .md\:mt-0 {
-      margin-top: calc(var(--spacing) * 0);
+      margin-top: 0;
     }
   }
   @media (width >= 48rem) {
@@ -860,7 +857,7 @@
   }
   @media (width >= 64rem) {
     .lg\:mx-0 {
-      margin-inline: calc(var(--spacing) * 0);
+      margin-inline: 0;
     }
   }
   @media (width >= 64rem) {
@@ -1038,7 +1035,7 @@
     border-color: var(--color-border);
     background-color: var(--color-slate-50);
     padding-inline: calc(var(--spacing) * 3);
-    padding-block: calc(var(--spacing) * 1);
+    padding-block: var(--spacing);
     color: var(--color-text);
   }
   .input:where(.dark, .dark *) {
@@ -1067,7 +1064,7 @@
 }
 #navbar.collapsed {
   grid-template-rows: min-content 0 0;
-  gap: calc(var(--spacing) * 0);
+  gap: 0;
 }
 #navbar.collapsed hr {
   display: none;
