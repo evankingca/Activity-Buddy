@@ -4,9 +4,11 @@ const errorElement = document.getElementById("register-error");
 // Setting up the search form and adding the search results to the Register form:
 const searchButton = document.getElementById("locationSearchButton");
 const searchInput = document.getElementById("locationSearch");
+const searchResults = document.getElementById("locationSearchResults");
 
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
+  clearError();
 
   const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   const query = searchInput.value.trim();
@@ -20,7 +22,8 @@ searchButton.addEventListener("click", async (event) => {
 
     // Then call the backend endpoint to handle the call to Google Places
     // This ensures the Google API key is not exposed to client-side.
-    const response = await fetch("/text-search/", {
+    try {
+      const response = await fetch("/text-search/", {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -30,8 +33,39 @@ searchButton.addEventListener("click", async (event) => {
       body: JSON.stringify({ query: fullQuery }),
     });
 
+    // This should return an array of Place objects from Google Places:
     const data = await response.json();
-    console.log("Google Places response: ", data);
+
+    // Create document fragment for adding all the checkboxes:
+    const fragment = document.createDocumentFragment();
+
+    // Get all results by looping over the "places" array in the response:
+    data.places.forEach(place => {
+      const displayText = place.displayName.text + " / " + place.formattedAddress;
+
+      const placeDiv = document.createElement("div");
+
+      const placeCheckbox = document.createElement("input");
+      placeCheckbox.type = "checkbox";
+      placeCheckbox.id = place.id;
+      placeCheckbox.name = "location";
+      placeCheckbox.value = place.id;
+
+      const placeLabel = document.createElement("label");
+      placeLabel.for = place.id;
+      placeLabel.textContent = displayText;
+
+      placeDiv.append(placeCheckbox);
+      placeDiv.append(placeLabel);
+
+      fragment.append(placeDiv);
+    })
+    searchResults.innerHTML = ""; // Clear previous results
+    searchResults.append(fragment); // Add new results
+
+    } catch (error) {
+      showError(error.message);
+    }
   }
 });
 
