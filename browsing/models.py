@@ -99,18 +99,25 @@ class Preference(models.Model):
 # Messaging Models
 # -------------------------
 class Connection(models.Model):
+
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        ACCEPTED = "ACCEPTED", "Accepted"
+        BLOCKED = "BLOCKED", "Blocked"
+
     user_a = models.ForeignKey(
         User, related_name="connections_a", on_delete=models.CASCADE
     )
     user_b = models.ForeignKey(
         User, related_name="connections_b", on_delete=models.CASCADE
     )
-    status = models.CharField(max_length=50)
+    status = models.CharField( max_length=20, choices=Status.choices, default=Status.PENDING )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user_a} ↔ {self.user_b}"
+
 
 
 class DirectMessage(models.Model):

@@ -1,6 +1,7 @@
-from .models import User, Activity, UserActivity, Preference
+from .models import User, Activity, UserActivity, Preference, Connection
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -170,3 +171,25 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
             )
 
         return values
+
+class ConnectionSerializer(serializers.ModelSerializer):
+    user_a = UserSerializer(read_only=True)
+    user_b = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Connection
+        fields = [
+            "id",
+            "user_a",
+            "user_b",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+class ConnectionWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Connection
+        fields = ["user_a", "user_b", "status"]
+
