@@ -296,7 +296,7 @@ def text_search(request, query):
     
     # headers:
     headers = {
-        "X-Goog-Api-Key": api_key,
+        # "X-Goog-Api-Key": api_key,
         "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress",
     }
     # API request body:
@@ -305,9 +305,8 @@ def text_search(request, query):
         "IncludedType": "gym",
         "pageSize": 10,
     }
-
     # Make the call to Google Places API:
-    print(headers)
-    print(response_body)
+    # then return the actual result so that the register form can use the data to populate checkboxes
+    # for now, just output results as <p>?
 
     return JsonResponse({"query": query, "headers": headers, "body": response_body})
