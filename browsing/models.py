@@ -30,7 +30,7 @@ class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
-    postal_codes = models.CharField(max_length=200, blank=True, null=True)
+    #postal_codes = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         unique_together = ("user", "activity")
@@ -86,6 +86,7 @@ class Preference(models.Model):
     )
 
     preferred_workout_times = models.JSONField(default=list, blank=True)
+    location_ids = models.JSONField(default=list, blank=True)
 
     def __str__(self):
         return f"Preferences for {self.user_activity}"
