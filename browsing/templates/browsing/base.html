@@ -46,6 +46,9 @@
             <hr class="border-text-light!">
             <div class="flex sm:flex-row flex-col gap-2 h-full overflow-hidden" id="navbarLinks">
                 {% if user.is_authenticated %}
+                <form id="logout-csrf-form" class="hidden">
+                {% csrf_token %}
+                </form>
                 <a id="logout-btn" href="logout" class="btn btn-tertiary sm:order-1 order-2">
                     <span class="material-symbols-outlined">
                         logout
