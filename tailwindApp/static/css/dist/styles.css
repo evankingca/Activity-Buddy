@@ -259,9 +259,6 @@
   .col-span-2 {
     grid-column: span 2 / span 2;
   }
-  .col-span-3 {
-    grid-column: span 3 / span 3;
-  }
   .container {
     width: 100%;
   }
@@ -410,17 +407,11 @@
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .grid-cols-5 {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
   .flex-col {
     flex-direction: column;
   }
   .flex-row {
     flex-direction: row;
-  }
-  .flex-wrap {
-    flex-wrap: wrap;
   }
   .items-center {
     align-items: center;
@@ -505,7 +496,7 @@
     border-width: 4px;
   }
   .btn-danger {
-    border-color: var(--color-border-dark);
+    border-color: var(--color-border);
     background-color: var(--color-red-600);
     color: var(--color-text-dark);
   }
