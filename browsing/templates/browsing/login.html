@@ -1,6 +1,8 @@
 {% extends 'browsing/base.html' %}
 {% load static %}
 
+{% load static %}
+
 {% block title %}Login{% endblock %}
 
 {% block content %}
@@ -16,11 +18,17 @@
     >
         {% csrf_token %}
 
+    <form
+        id="login-form"
+        class="card card-tertiary dark:card-primary flex flex-col gap-4 max-w-100 w-full"
+    >
+        {% csrf_token %}
+
         <h1 class="text-center">Login</h1>
 
         <div
             id="login-error"
-            class="hidden text-red-600"
+            class="hidden text-red"
             role="alert"
         ></div>
 
