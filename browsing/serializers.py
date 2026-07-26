@@ -1,8 +1,8 @@
-from .models import User, Activity, UserActivity, Preference
-from .models import User, Activity, UserActivity, Preference
-from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db import transaction
+from rest_framework import serializers
+
+from .models import Activity, Preference, User, UserActivity
 
 
 class PreferenceWriteSerializer(serializers.ModelSerializer):
@@ -29,6 +29,7 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
             "training_styles",
             "gym_frequency",
             "preferred_workout_times",
+            "location_ids",
         ]
         read_only_fields = ["id", "user_activity"]
 
@@ -90,6 +91,7 @@ class SignupSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             "id",
+            "email",
             "username",
             "password",
             "display_name",
@@ -97,6 +99,14 @@ class SignupSerializer(serializers.ModelSerializer):
             "preferences",
         ]
         read_only_fields = ["id"]
+
+    def validate_email(self, value):
+        value = value.strip().lower()
+
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+
+        return value
 
     @transaction.atomic
     def create(self, validated_data):
@@ -150,30 +160,44 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "display_name", "bio_text", "creation_date"]
-        read_only_fields = ["id", "username", "creation_date"]
-
-        fields = ["id", "username", "display_name", "bio_text", "creation_date"]
-        read_only_fields = ["id", "username", "creation_date"]
+        fields = [
+            "id",
+            "username",
+            "display_name",
+            "bio_text",
+            "creation_date",
+        ]
+        read_only_fields = [
+            "id",
+            "username",
+            "creation_date",
+        ]
 
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ["id", "name", "description", "is_active"]
-        read_only_fields = ["id"]
-
-        fields = ["id", "name", "description", "is_active"]
+        fields = [
+            "id",
+            "name",
+            "description",
+            "is_active",
+        ]
         read_only_fields = ["id"]
 
 
 class UserActivitySerializer(serializers.ModelSerializer):
-    activity = ActivitySerializer()
+    user = UserSerializer(read_only=True)
+    activity = ActivitySerializer(read_only=True)
 
     class Meta:
         model = UserActivity
-        fields = ["id", "activity", "is_active", "postal_codes"]
-        fields = ["id", "activity", "is_active", "postal_codes"]
+        fields = [
+            "id",
+            "user",
+            "activity",
+            "is_active",
+        ]
 
 
 class UserActivityWriteSerializer(serializers.ModelSerializer):
@@ -184,9 +208,11 @@ class UserActivityWriteSerializer(serializers.ModelSerializer):
             "user",
             "activity",
             "is_active",
-            "postal_codes",
         ]
-        read_only_fields = ["id", "user"]
+        read_only_fields = [
+            "id",
+            "user",
+        ]
 
 
 class PreferenceSerializer(serializers.ModelSerializer):
@@ -202,4 +228,5 @@ class PreferenceSerializer(serializers.ModelSerializer):
             "training_styles",
             "gym_frequency",
             "preferred_workout_times",
+            "location_ids",
         ]
