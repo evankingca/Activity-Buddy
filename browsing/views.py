@@ -43,9 +43,6 @@ def login(request):
     return render(request, "browsing/login.html", context)
 
 
-from django.contrib.auth.decorators import login_required
-
-
 @login_required(login_url="/login/")
 def user(request):
     context = {}
