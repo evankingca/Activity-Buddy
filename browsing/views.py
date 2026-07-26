@@ -1,6 +1,7 @@
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -39,6 +40,7 @@ from .serializers import (
     PreferenceWriteSerializer,
 )
 
+import os
 
 def index(request):
     context = {}
@@ -277,3 +279,35 @@ class UserPreferenceListView(generics.ListAPIView):
         user_id = self.kwargs["pk"]
 
         return Preference.objects.filter(user_activity__user_id=user_id)
+
+# -----------------------------------
+# Location View for Google Places API
+# -----------------------------------
+
+# Get the user's search input from front end
+# the if block in the register.js should prevent empty strings from being passed
+def text_search(request, query):
+    url = "https://places.googleapis.com/v1/places:searchText"
+    api_key = os.getenv("GOOGLE_PLACES_API_KEY")
+
+    # check to see if API key exists:
+    if not api_key:
+        return JsonResponse({"error": "API Key not set"}, status=500)
+    
+    # headers:
+    headers = {
+        "X-Goog-Api-Key": api_key,
+        "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress",
+    }
+    # API request body:
+    response_body = {
+        "textQuery": query,
+        "IncludedType": "gym",
+        "pageSize": 10,
+    }
+
+    # Make the call to Google Places API:
+    print(headers)
+    print(response_body)
+
+    return JsonResponse({"query": query, "headers": headers, "body": response_body})

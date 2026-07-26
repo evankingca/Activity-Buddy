@@ -1,6 +1,32 @@
 const registerForm = document.getElementById("register-form");
 const errorElement = document.getElementById("register-error");
 
+// Setting up the search form and adding the search results to the Register form:
+const searchButton = document.getElementById("locationSearchButton");
+const searchInput = document.getElementById("locationSearch");
+
+searchButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  console.log("Search form submitted.");
+
+  const query = searchInput.value.trim();
+
+  // Check that query is not empty; WIP: to change into a proper error message
+  if (query === "") {
+    console.log("Please enter a search term.");
+  } else {
+    // Add the search term "gyms" to the user input; no effects if it is duplicated:
+    const fullQuery = query + " gyms"
+
+    // Then call the backend endpoint to handle the call to Google Places
+    // This ensures the Google API key is not exposed to client-side.
+    await fetch(`text-search/${fullQuery}/`);
+
+    // console.log(query);
+  }
+});
+
+// Handling of the register form itself:
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearError();

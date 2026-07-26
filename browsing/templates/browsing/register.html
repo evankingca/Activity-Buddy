@@ -168,12 +168,12 @@
             </div>
             
             <div class="card card-primary border-border-light flex flex-col gap-4">
-                <!-- The search field is a form within the Register form -->
-                <form id="locationSearchForm" action="">
+                <!-- The search field is a "form" within the Register form; using <section> as you cannot nest forms within a form -->
+                <section id="locationSearchForm" action="">
                     <input id="locationSearch" class="input" type="search" name="locationSearch" placeholder="Search for gyms..."/>
                     <p>For best results, include your location, e.g., "Gyms in Ottawa".</p>
-                    <button class="btn btn-secondary" type ="submit">Search</button>
-                </form>
+                    <button id="locationSearchButton" class="btn btn-secondary" type="button">Search</button>
+                </section>
 
                 <!-- This is where the results will go; this is part of the Register form-->
                  <p>Output results here:</p>
