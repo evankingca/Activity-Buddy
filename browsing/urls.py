@@ -43,5 +43,5 @@ urlpatterns = [
     # ------------------------------
     # Location Endpoints
     # ------------------------------
-    path("text-search/<str:query>/", views.text_search, name="text_search"),
+    path("text-search/", views.text_search, name="text_search"),
 ]

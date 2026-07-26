@@ -7,8 +7,8 @@ const searchInput = document.getElementById("locationSearch");
 
 searchButton.addEventListener("click", async (event) => {
   event.preventDefault();
-  console.log("Search form submitted.");
 
+  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   const query = searchInput.value.trim();
 
   // Check that query is not empty; WIP: to change into a proper error message
@@ -20,9 +20,18 @@ searchButton.addEventListener("click", async (event) => {
 
     // Then call the backend endpoint to handle the call to Google Places
     // This ensures the Google API key is not exposed to client-side.
-    await fetch(`text-search/${fullQuery}/`);
+    const response = await fetch("/text-search/", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ query: fullQuery }),
+    });
 
-    // console.log(query);
+    const data = await response.json();
+    console.log("Google Places response: ", data);
   }
 });
 

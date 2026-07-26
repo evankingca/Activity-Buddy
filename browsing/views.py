@@ -41,6 +41,8 @@ from .serializers import (
 )
 
 import os
+import requests
+import json
 
 def index(request):
     context = {}
@@ -286,27 +288,29 @@ class UserPreferenceListView(generics.ListAPIView):
 
 # Get the user's search input from front end
 # the if block in the register.js should prevent empty strings from being passed
-def text_search(request, query):
+def text_search(request):
     url = "https://places.googleapis.com/v1/places:searchText"
     api_key = os.getenv("GOOGLE_PLACES_API_KEY")
 
     # check to see if API key exists:
     if not api_key:
         return JsonResponse({"error": "API Key not set"}, status=500)
-    
+
+    # Get the user input:
+    payload = json.loads(request.body)
+    query = payload.get("query")
+
     # headers:
     headers = {
-        # "X-Goog-Api-Key": api_key,
+        "X-Goog-Api-Key": api_key,
         "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress",
     }
     # API request body:
-    response_body = {
+    request_body = {
         "textQuery": query,
-        "IncludedType": "gym",
+        "includedType": "gym",
         "pageSize": 10,
     }
     # Make the call to Google Places API:
-    # then return the actual result so that the register form can use the data to populate checkboxes
-    # for now, just output results as <p>?
-
-    return JsonResponse({"query": query, "headers": headers, "body": response_body})
+    response = requests.post(url, headers=headers, json=request_body)
+    return JsonResponse(response.json(), status=response.status_code)
