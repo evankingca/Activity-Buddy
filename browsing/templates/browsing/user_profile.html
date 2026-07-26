@@ -133,8 +133,13 @@
       
       <!-- IF LOGGED IN USER -->
       <!-- <button class="btn btn-secondary mx-auto">Edit</button> -->
-      <!-- ELSE -->
-      <button class="btn btn-secondary mx-auto">Connect With Buddy</button>
+      <!-- ELSE IF NOT CONNECTED -->
+      <!-- <button class="btn btn-secondary mx-auto">Connect With Buddy</button> -->
+      <!-- ELSE IF CONNECTED -->
+       <div class="flex justify-end gap-3">
+         <button class="btn btn-secondary">Remove Connection With Buddy</button>
+         <button class="btn btn-danger">Block Buddy</button>
+       </div>
     </div>
 
 
