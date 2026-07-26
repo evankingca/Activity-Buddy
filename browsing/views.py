@@ -55,6 +55,10 @@ def user_profile(request):
     context = {}
     return render(request, "browsing/user_profile.html", context)
 
+def chat(request):
+    context = {}
+    return render(request, "browsing/chat.html", context)
+
 # -------------------------
 # Authentication Views
 # -------------------------

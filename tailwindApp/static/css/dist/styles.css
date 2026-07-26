@@ -29,6 +29,10 @@
     --color-zinc-900: oklch(21% 0.006 285.885);
     --color-black: #000;
     --spacing: 0.25rem;
+    --container-sm: 24rem;
+    --container-md: 28rem;
+    --container-lg: 32rem;
+    --container-xl: 36rem;
     --container-3xl: 48rem;
     --container-4xl: 56rem;
     --container-5xl: 64rem;
@@ -402,6 +406,15 @@
   .basis-auto {
     flex-basis: auto;
   }
+  .basis-lg {
+    flex-basis: var(--container-lg);
+  }
+  .basis-md {
+    flex-basis: var(--container-md);
+  }
+  .basis-sm {
+    flex-basis: var(--container-sm);
+  }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
@@ -499,6 +512,9 @@
   }
   .self-stretch {
     align-self: stretch;
+  }
+  .justify-self-stretch {
+    justify-self: stretch;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -764,6 +780,16 @@
     }
   }
   @media (width >= 40rem) {
+    .sm\:basis-lg {
+      flex-basis: var(--container-lg);
+    }
+  }
+  @media (width >= 40rem) {
+    .sm\:basis-md {
+      flex-basis: var(--container-md);
+    }
+  }
+  @media (width >= 40rem) {
     .sm\:flex-row {
       flex-direction: row;
     }
@@ -844,6 +870,21 @@
     }
   }
   @media (width >= 48rem) {
+    .md\:basis-lg {
+      flex-basis: var(--container-lg);
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:basis-md {
+      flex-basis: var(--container-md);
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:basis-xl {
+      flex-basis: var(--container-xl);
+    }
+  }
+  @media (width >= 48rem) {
     .md\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -868,6 +909,16 @@
       justify-content: center;
     }
   }
+  @media (width >= 48rem) {
+    .md\:gap-0 {
+      gap: 0;
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:gap-1 {
+      gap: var(--spacing);
+    }
+  }
   @media (width >= 64rem) {
     .lg\:fixed {
       position: fixed;
@@ -886,6 +937,11 @@
   @media (width >= 64rem) {
     .lg\:w-96 {
       width: calc(var(--spacing) * 96);
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:basis-md {
+      flex-basis: var(--container-md);
     }
   }
   @media (width >= 64rem) {
@@ -925,6 +981,11 @@
     border-color: var(--color-border);
     background-color: var(--color-card-bg);
     color: var(--color-text);
+  }
+  .dark\:card-secondary:where(.dark, .dark *) {
+    border-color: var(--color-border-alt);
+    background-color: var(--color-card-bg-alt);
+    color: var(--color-text-alt);
   }
   .dark\:bg-green-100:where(.dark, .dark *) {
     background-color: var(--color-green-100);
