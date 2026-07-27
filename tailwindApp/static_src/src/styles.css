@@ -172,6 +172,10 @@ A small Secondary button would be:
   @apply text-text-light border-border-light bg-slate-100 hover:bg-slate-50 active:bg-slate-200;
 }
 
+@utility btn-danger {
+  @apply text-text-dark border-border bg-red-600 hover:bg-red-500 active:bg-red-700;
+}
+
 @utility btn-md {
   @apply px-6 py-3;
 }
@@ -289,6 +293,9 @@ A small Secondary button would be:
 
   h3 {
     @apply text-xl font-bold;
+  }
+  h4 {
+    @apply text-lg font-bold;
   }
 
   /******************/
