@@ -9,6 +9,7 @@ from django.contrib.auth import (
     login as django_login,
     logout as django_logout,
 )
+from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from .models import User, UserActivity, Activity, Preference, Connection
 from .serializers import (
@@ -20,7 +21,8 @@ from .serializers import (
     LoginSerializer,
     PreferenceSerializer,
     PreferenceWriteSerializer,
-    ConnectionWriteSerializer, ConnectionSerializer,
+    ConnectionWriteSerializer,
+    ConnectionSerializer,
 )
 from django.contrib.auth import (
     login as django_login,
@@ -41,16 +43,7 @@ from .serializers import (
 
 
 def index(request):
-    context = {
-        'activities': [
-            {
-              'name': 'Gym',
-              'icon': 'fitness_center'
-            }
-          ]
-        }
-    
-        
+    context = {"activities": [{"name": "Gym", "icon": "fitness_center"}]}
 
     return render(request, "browsing/index.html", context)
 
@@ -68,13 +61,16 @@ def login(request):
         return redirect("/user")
     return render(request, "browsing/login.html", context)
 
+
 def user_home(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
 
+
 def user_profile(request):
     context = {}
     return render(request, "browsing/user_profile.html", context)
+
 
 @login_required(login_url="/login/")
 def user(request):
@@ -296,6 +292,7 @@ class UserPreferenceListView(generics.ListAPIView):
 
         return Preference.objects.filter(user_activity__user_id=user_id)
 
+
 class ConnectionCreateView(generics.CreateAPIView):
     serializer_class = ConnectionWriteSerializer
     permission_classes = [IsAuthenticated]
@@ -309,11 +306,14 @@ class ConnectionCreateView(generics.CreateAPIView):
             raise ValidationError("You can only create connections involving yourself.")
 
         # Optional: prevent duplicate connections
-        if Connection.objects.filter(user_a=user_a, user_b=user_b).exists() or \
-           Connection.objects.filter(user_a=user_b, user_b=user_a).exists():
+        if (
+            Connection.objects.filter(user_a=user_a, user_b=user_b).exists()
+            or Connection.objects.filter(user_a=user_b, user_b=user_a).exists()
+        ):
             raise ValidationError("Connection already exists.")
 
         serializer.save()
+
 
 class ConnectionUpdateView(generics.UpdateAPIView):
     queryset = Connection.objects.all()
@@ -328,6 +328,7 @@ class ConnectionUpdateView(generics.UpdateAPIView):
             raise ValidationError("You cannot modify a connection you are not part of.")
 
         return connection
+
 
 class ConnectionDeleteView(generics.DestroyAPIView):
     queryset = Connection.objects.all()
