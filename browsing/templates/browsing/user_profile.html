@@ -1,0 +1,61 @@
+{% extends 'browsing/base.html' %}
+{% block title %}It's the Home Page{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- TEMP - my-30 -->
+<div class="container mx-auto my-30">
+  <section class="flex flex-col gap-8 items-center justify-center">
+
+    <!-- User Profile -->
+    <div class="flex flex-col gap-6 lg:px-[100px] card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
+      <h2>{ User name }</h2>
+      <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+        <h3>Summary</h3>
+        <p>{Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details.}</p>
+      </div>
+
+      <!-- IF LOGGED IN USER -->
+      <!-- <div class="flex gap-2">
+        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+          <h3>Username</h3>
+          <p>{ User's name}</p>
+        </div>     
+        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+          <h3>Email</h3>
+          <p class="text-balance break-all">{bestEmail_superawesome12334@example.com}</p>
+        </div>     
+      </div> -->
+
+      <div class="flex flex-col justify-center items-stretch gap-6 card card-primary dark:card-tertiary">
+        <!-- Loop (1): for each activity -->
+        <h3>Activity: {Gym}</h3>
+            <ul class="text-left">
+            <!-- Loop (2): For each preference for that activity -->
+              <li><span class="font-bold text-lg">{Experience}: </span>{Beginner}</li>
+              <!-- End loop(2) -->
+               <!-- placeholder text -->
+              <li><span class="font-bold text-lg">{Goals}: </span>{Build Muscle, Weight Loss}</li>
+              <li><span class="font-bold text-lg">{Training Style}: </span>{Build Muscle, Weight Loss, CrossFit, Cardio}</li>
+              <li><span class="font-bold text-lg">{Gym Frequency}: </span>{1-2 times/week}</li>
+              <li><span class="font-bold text-lg">{Preferred Workout Time}: </span>{Early Morning, Afternoon}</li>
+              <!-- end placeholder text -->
+           </ul>
+      </div>
+
+      <!-- IF LOGGED IN USER -->
+      <!-- <button class="btn btn-primary mx-auto">Edit</button> -->
+      <!-- ELSE IF NOT CONNECTED -->
+      <!-- <button class="btn btn-primary mx-auto">Connect With Buddy</button> -->
+      <!-- ELSE IF CONNECTED -->
+       <div class="flex justify-end gap-3">
+         <button class="btn btn-primary">Remove Connection With Buddy</button>
+         <button class="btn btn-danger">Block Buddy</button>
+       </div>
+    </div>
+
+
+  </section>
+</div>
+{% endblock %}

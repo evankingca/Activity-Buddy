@@ -1,6 +1,82 @@
 from .models import User, Activity, UserActivity, Preference, Connection
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from django.db import transaction
+from rest_framework import serializers
+
+from .models import Activity, Preference, User, UserActivity
+
+
+class PreferenceWriteSerializer(serializers.ModelSerializer):
+    valid_goals = {
+        "build_muscle",
+        "weight_loss",
+        "general_fitness",
+        "strength_training",
+        "powerlifting",
+        "bodybuilding",
+    }
+
+    valid_training_styles = {choice[0] for choice in Preference.TrainingStyle.choices}
+
+    valid_workout_times = {choice[0] for choice in Preference.WorkoutTime.choices}
+
+    class Meta:
+        model = Preference
+        fields = [
+            "id",
+            "user_activity",
+            "experience",
+            "goals",
+            "training_styles",
+            "gym_frequency",
+            "preferred_workout_times",
+            "location_ids",
+        ]
+        read_only_fields = ["id", "user_activity"]
+
+    def validate_goals(self, values):
+        if not values:
+            raise serializers.ValidationError("At least one goal must be selected.")
+
+        invalid = set(values) - self.valid_goals
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid goals: {', '.join(sorted(invalid))}"
+            )
+
+        return values
+
+    def validate_training_styles(self, values):
+        if not values:
+            raise serializers.ValidationError(
+                "At least one training style must be selected."
+            )
+
+        invalid = set(values) - self.valid_training_styles
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid training styles: {', '.join(sorted(invalid))}"
+            )
+
+        return values
+
+    def validate_preferred_workout_times(self, values):
+        if not values:
+            raise serializers.ValidationError(
+                "At least one preferred workout time must be selected."
+            )
+
+        invalid = set(values) - self.valid_workout_times
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid workout times: {', '.join(sorted(invalid))}"
+            )
+
+        return values
 
 
 
@@ -10,19 +86,55 @@ class SignupSerializer(serializers.ModelSerializer):
         min_length=8,
     )
 
+    preferences = PreferenceWriteSerializer(
+        write_only=True,
+    )
+
     class Meta:
         model = User
         fields = [
             "id",
+            "email",
             "username",
             "password",
             "display_name",
             "bio_text",
+            "preferences",
         ]
         read_only_fields = ["id"]
 
+    def validate_email(self, value):
+        value = value.strip().lower()
+
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+
+        return value
+
+    @transaction.atomic
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        preference_data = validated_data.pop("preferences")
+        password = validated_data.pop("password")
+
+        user = User.objects.create_user(
+            password=password,
+            **validated_data,
+        )
+
+        gym = Activity.objects.get(name="Gym")
+
+        user_activity = UserActivity.objects.create(
+            user=user,
+            activity=gym,
+            is_active=True,
+        )
+
+        Preference.objects.create(
+            user_activity=user_activity,
+            **preference_data,
+        )
+
+        return user
 
 
 class LoginSerializer(serializers.Serializer):
@@ -51,24 +163,44 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "display_name", "bio_text", "creation_date"]
-        read_only_fields = ["id", "username", "creation_date"]
+        fields = [
+            "id",
+            "username",
+            "display_name",
+            "bio_text",
+            "creation_date",
+        ]
+        read_only_fields = [
+            "id",
+            "username",
+            "creation_date",
+        ]
 
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Activity
-        fields = ["id", "name", "description", "is_active"]
+        fields = [
+            "id",
+            "name",
+            "description",
+            "is_active",
+        ]
         read_only_fields = ["id"]
 
 
 class UserActivitySerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    activity = ActivitySerializer()
+    activity = ActivitySerializer(read_only=True)
 
     class Meta:
         model = UserActivity
-        fields = ["id", "user", "activity", "is_active"]
+        fields = [
+            "id",
+            "user",
+            "activity",
+            "is_active",
+        ]
 
 
 class UserActivityWriteSerializer(serializers.ModelSerializer):
@@ -80,39 +212,14 @@ class UserActivityWriteSerializer(serializers.ModelSerializer):
             "activity",
             "is_active",
         ]
-        read_only_fields = ["id", "user"]
+        read_only_fields = [
+            "id",
+            "user",
+        ]
 
 
 class PreferenceSerializer(serializers.ModelSerializer):
     user_activity = UserActivitySerializer(read_only=True)
-
-    class Meta:
-        model = Preference
-        fields = [
-            "id",
-            "user_activity",
-            "experience",
-            "goals",
-            "training_styles",
-            "gym_frequency",
-            "preferred_workout_times",
-            "location_ids",
-        ]
-
-
-class PreferenceWriteSerializer(serializers.ModelSerializer):
-    valid_goals = {
-        "build_muscle",
-        "weight_loss",
-        "general_fitness",
-        "strength_training",
-        "powerlifting",
-        "bodybuilding",
-    }
-
-    valid_training_styles = {choice[0] for choice in Preference.TrainingStyle.choices}
-
-    valid_workout_times = {choice[0] for choice in Preference.WorkoutTime.choices}
 
     class Meta:
         model = Preference

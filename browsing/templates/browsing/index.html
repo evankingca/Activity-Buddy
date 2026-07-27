@@ -5,7 +5,7 @@
 {% load static %}
 
 
-<div class="container mx-auto mt-30">
+<div class="container mx-auto">
   <section class="flex flex-col gap-4 items-center justify-center">
     <div id="home-hero" class="px-4 max-w-140 w-full">
       {% include 'browsing/svgs/logo-text-adaptive.html' %}
@@ -47,25 +47,27 @@
     <!-- Activities -->
     <div id="home-activities" class="m-4 text-center w-full max-w-7xl">
       <h2 class="mb-4">Choose Your Activities</h2>
-      <div class="flex flex-col md:flex-row items-center justify-center">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4">
 
         <!-- START: populate with activities from database -->
+         {% for activity in activities %}
         <div class="card card-primary card-sm">
-          <h3 class="mb-4">Gym</h3>
+          <h3 class="mb-4">{{ activity.name }}</h3>
           <!-- Link to activity search page (should redirect to login if not logged in) -->
           <div class="flex items-center justify-center rounded-2xl bg-green-950 dark:bg-text-dark">
             <a href="#" class="m-3 flex items-center justify-center">
-              <span class="material-symbols-outlined text-text-alt" style="font-size:48px;">fitness_center</span>
+              <span class="material-symbols-outlined text-text-alt" style="font-size:48px;">{{ activity.icon }}</span>
             </a>
           </div>
         </div>
+        {% endfor %}
         <!-- END: populate -->
 
       </div>
     </div>
 
     <!-- Get started -->
-    <div id="home-get-started" class="card card-secondary m-6 text-center flex flex-col items-center">
+    <div id="home-get-started" class="card card-secondary mt-6 text-center flex flex-col items-center">
       <h2>Ready to Get Started?</h2>
       <div class="flex flex-col md:flex-row">
         <a href="register" class="btn btn-tertiary m-3">Sign Up</a>

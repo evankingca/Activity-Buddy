@@ -1,8 +1,9 @@
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
 from rest_framework.response import Response
 from .permissions import IsSelf
 from django.contrib.auth import (
@@ -22,21 +23,63 @@ from .serializers import (
     PreferenceWriteSerializer,
     ConnectionWriteSerializer, ConnectionSerializer,
 )
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout,
+)
+from rest_framework.views import APIView
+from .models import User, UserActivity, Activity, Preference
+from .serializers import (
+    UserSerializer,
+    UserActivitySerializer,
+    ActivitySerializer,
+    UserActivityWriteSerializer,
+    SignupSerializer,
+    LoginSerializer,
+    PreferenceSerializer,
+    PreferenceWriteSerializer,
+)
 
 
 def index(request):
-    context = {}
+    context = {
+        'activities': [
+            {
+              'name': 'Gym',
+              'icon': 'fitness_center'
+            }
+          ]
+        }
+    
+        
+
     return render(request, "browsing/index.html", context)
 
 
 def register(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect("/user")
     return render(request, "browsing/register.html", context)
 
 
 def login(request):
     context = {}
+    if request.user.is_authenticated:
+        return redirect("/user")
     return render(request, "browsing/login.html", context)
+
+def user_home(request):
+    context = {}
+    return render(request, "browsing/user_home.html", context)
+
+def user_profile(request):
+    context = {}
+    return render(request, "browsing/user_profile.html", context)
+
+def user(request):
+    context = {}
+    return render(request, "browsing/user_home.html", context)
 
 
 # -------------------------
@@ -46,6 +89,18 @@ def login(request):
 class AuthSignupView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = SignupSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.save()
+        django_login(request, user)
+
+        return Response(
+            UserSerializer(user).data,
+            status=status.HTTP_201_CREATED,
+        )
 
 
 # /auth/login/ POST
