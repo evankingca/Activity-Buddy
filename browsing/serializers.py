@@ -1,3 +1,5 @@
+from .models import User, Activity, UserActivity, Preference, Connection
+from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.db import transaction
 from rest_framework import serializers
@@ -75,6 +77,7 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
             )
 
         return values
+
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -230,3 +233,70 @@ class PreferenceSerializer(serializers.ModelSerializer):
             "preferred_workout_times",
             "location_ids",
         ]
+
+        read_only_fields = ["id", "user_activity"]
+
+    def validate_goals(self, values):
+        if not values:
+            raise serializers.ValidationError("At least one goal must be selected.")
+
+        invalid = set(values) - self.valid_goals
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid goals: {', '.join(sorted(invalid))}"
+            )
+
+        return values
+
+    def validate_training_styles(self, values):
+        if not values:
+            raise serializers.ValidationError(
+                "At least one training style must be selected."
+            )
+
+        invalid = set(values) - self.valid_training_styles
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid training styles: {', '.join(sorted(invalid))}"
+            )
+
+        return values
+
+    def validate_preferred_workout_times(self, values):
+        if not values:
+            raise serializers.ValidationError(
+                "At least one preferred workout time must be selected."
+            )
+
+        invalid = set(values) - self.valid_workout_times
+
+        if invalid:
+            raise serializers.ValidationError(
+                f"Invalid workout times: {', '.join(sorted(invalid))}"
+            )
+
+        return values
+
+class ConnectionSerializer(serializers.ModelSerializer):
+    user_a = UserSerializer(read_only=True)
+    user_b = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Connection
+        fields = [
+            "id",
+            "user_a",
+            "user_b",
+            "status",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+class ConnectionWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Connection
+        fields = ["user_a", "user_b", "status"]
+

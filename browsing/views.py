@@ -10,8 +10,24 @@ from django.contrib.auth import (
     logout as django_logout,
 )
 from rest_framework.views import APIView
+from .models import User, UserActivity, Activity, Preference, Connection
+from .serializers import (
+    UserSerializer,
+    UserActivitySerializer,
+    ActivitySerializer,
+    UserActivityWriteSerializer,
+    SignupSerializer,
+    LoginSerializer,
+    PreferenceSerializer,
+    PreferenceWriteSerializer,
+    ConnectionWriteSerializer, ConnectionSerializer,
+)
+from django.contrib.auth import (
+    login as django_login,
+    logout as django_logout,
+)
+from rest_framework.views import APIView
 from .models import User, UserActivity, Activity, Preference
-from django.contrib.auth.decorators import login_required
 from .serializers import (
     UserSerializer,
     UserActivitySerializer,
@@ -279,3 +295,50 @@ class UserPreferenceListView(generics.ListAPIView):
         user_id = self.kwargs["pk"]
 
         return Preference.objects.filter(user_activity__user_id=user_id)
+
+class ConnectionCreateView(generics.CreateAPIView):
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user_a = serializer.validated_data["user_a"]
+        user_b = serializer.validated_data["user_b"]
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [user_a, user_b]:
+            raise ValidationError("You can only create connections involving yourself.")
+
+        # Optional: prevent duplicate connections
+        if Connection.objects.filter(user_a=user_a, user_b=user_b).exists() or \
+           Connection.objects.filter(user_a=user_b, user_b=user_a).exists():
+            raise ValidationError("Connection already exists.")
+
+        serializer.save()
+
+class ConnectionUpdateView(generics.UpdateAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot modify a connection you are not part of.")
+
+        return connection
+
+class ConnectionDeleteView(generics.DestroyAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot delete a connection you are not part of.")
+
+        return connection
