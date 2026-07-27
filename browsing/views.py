@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.response import Response
 from .permissions import IsSelf
 from django.contrib.auth import (
     login as django_login,
@@ -12,22 +11,7 @@ from django.contrib.auth import (
 )
 from rest_framework.views import APIView
 from .models import User, UserActivity, Activity, Preference
-from .serializers import (
-    UserSerializer,
-    UserActivitySerializer,
-    ActivitySerializer,
-    UserActivityWriteSerializer,
-    SignupSerializer,
-    LoginSerializer,
-    PreferenceSerializer,
-    PreferenceWriteSerializer,
-)
-from django.contrib.auth import (
-    login as django_login,
-    logout as django_logout,
-)
-from rest_framework.views import APIView
-from .models import User, UserActivity, Activity, Preference
+from django.contrib.auth.decorators import login_required
 from .serializers import (
     UserSerializer,
     UserActivitySerializer,
@@ -76,6 +60,7 @@ def user_profile(request):
     context = {}
     return render(request, "browsing/user_profile.html", context)
 
+@login_required(login_url="/login/")
 def user(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
