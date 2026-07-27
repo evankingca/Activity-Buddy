@@ -47,6 +47,7 @@
     --text-2xl--line-height: calc(2 / 1.5);
     --text-4xl: 2.25rem;
     --text-4xl--line-height: calc(2.5 / 2.25);
+    --font-weight-light: 300;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
     --radius-lg: 0.5rem;
@@ -292,11 +293,14 @@
   .mx-auto {
     margin-inline: auto;
   }
-  .my-30 {
-    margin-block: calc(var(--spacing) * 30);
-  }
   .-mt-3 {
     margin-top: calc(var(--spacing) * -3);
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
   }
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
@@ -318,6 +322,9 @@
   }
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
+  }
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
   }
   .block {
     display: block;
@@ -414,6 +421,12 @@
   }
   .items-center {
     align-items: center;
+  }
+  .items-end {
+    align-items: flex-end;
+  }
+  .items-start {
+    align-items: flex-start;
   }
   .items-stretch {
     align-items: stretch;
@@ -642,6 +655,10 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
   .text-xl\! {
     font-size: var(--text-xl) !important;
     line-height: var(--tw-leading, var(--text-xl--line-height)) !important;
@@ -653,6 +670,10 @@
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
+  }
+  .font-light {
+    --tw-font-weight: var(--font-weight-light);
+    font-weight: var(--font-weight-light);
   }
   .font-semibold {
     --tw-font-weight: var(--font-weight-semibold);
@@ -691,6 +712,9 @@
   }
   .italic {
     font-style: italic;
+  }
+  .opacity-50 {
+    opacity: 50%;
   }
   .transition-bounce {
     transition-property: padding margin top bottom left right grid-template-rows;
@@ -858,6 +882,11 @@
   @media (width >= 64rem) {
     .lg\:mx-0 {
       margin-inline: 0;
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:mx-60 {
+      margin-inline: calc(var(--spacing) * 60);
     }
   }
   @media (width >= 64rem) {

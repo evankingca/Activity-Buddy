@@ -52,7 +52,8 @@ def user_profile(request):
         "preferences": Preference.objects.filter( user_activity__user=request.user ),
         "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
     }
-    return render(request, "browsing/user_profile.html", context)
+    return render(request, "browsing/chat.html", context)
+
 
 @login_required(login_url="/login/")
 def user(request):
@@ -69,10 +70,6 @@ def search(request):
 
 def about(request):
     return render(request, "browsing/about.html")
-
-def chat(request):
-    context = {}
-    return render(request, "browsing/chat.html", context)
 
 # -------------------------
 # Authentication Views
