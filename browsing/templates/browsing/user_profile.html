@@ -11,15 +11,9 @@
     <!-- User Profile -->
     <div class="flex flex-col gap-6 lg:px-[100px] card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>{ User name }</h2>
-      <div class="flex gap-2">
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <h3>Activities</h3>
-          <p>{Gym}</p>
-        </div>
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <h3>Summary</h3>
-          <p>{Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details.}</p>
-        </div>
+      <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+        <h3>Summary</h3>
+        <p>{Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details. Placeholder summary details.}</p>
       </div>
 
       <!-- IF LOGGED IN USER -->
@@ -34,107 +28,31 @@
         </div>     
       </div> -->
 
-      <!-- EXAMPLE 1 (condensed section for each activity) -->
-      <div class="flex flex-col justify-center items-stretch gap-6">
+      <div class="flex flex-col justify-center items-stretch gap-6 card card-primary dark:card-tertiary">
         <!-- Loop (1): for each activity -->
         <h3>Activity: {Gym}</h3>
-        <div class="card card-primary dark:card-tertiary text-left">
-            <ul>
+            <ul class="text-left">
+            <!-- Loop (2): For each preference for that activity -->
               <li><span class="font-bold text-lg">{Experience}: </span>{Beginner}</li>
+              <!-- End loop(2) -->
+               <!-- placeholder text -->
               <li><span class="font-bold text-lg">{Goals}: </span>{Build Muscle, Weight Loss}</li>
               <li><span class="font-bold text-lg">{Training Style}: </span>{Build Muscle, Weight Loss, CrossFit, Cardio}</li>
               <li><span class="font-bold text-lg">{Gym Frequency}: </span>{1-2 times/week}</li>
               <li><span class="font-bold text-lg">{Preferred Workout Time}: </span>{Early Morning, Afternoon}</li>
+              <!-- end placeholder text -->
            </ul>
-        </div>
       </div>
 
-      <!-- EXAMPLE 2 (individual preferences, compact) -->
-      <div class="flex flex-col justify-center items-stretch gap-6">
-        <!-- Loop (1): for each activity -->
-        <h3>Activity: {Gym}</h3>
-        <div class="flex flex-col md:flex-row flex-wrap justify-center items-stretch gap-2"> 
-        <!-- Loop (2): For each preference for that activity -->
-        
-          <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-            <h4 class="text-left">{Experience}</h4>
-            <p class="text-left">{Beginner}</p>
-          </div>
-          <!-- End Loop (2) -->
-           <!-- Example placeholder -->
-          <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-            <h4 class="text-left">{Goals}</h4>
-            <p class="text-left">{Build Muscle, Weight Loss}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-            <h4 class="text-left">{Training Style}</h4>
-            <p class="text-left">{Build Muscle, Weight Loss, CrossFit, Cardio}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-            <h4 class="text-left">{Gym Frequency}</h4>
-            <p class="text-left">{1-2 times/week}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-            <h4 class="text-left">{Preferred Workout Time}</h4>
-            <p class="text-left">{Early Morning, Afternoon}</p>
-          </div>
-          <!-- End Example placeholder -->
-        </div>
-      </div>
-      <!-- End Loop (1) -->
-
-
-       <!-- EXAMPLE 3 (individual preferences, spread) -->
-      <div class="flex flex-col justify-center items-stretch gap-6">
-        <!-- Loop (1): for each activity -->
-        <h3>Activity: {Gym}</h3>
-        <div class="grid grid-cols-5"> 
-        <!-- Loop (2): For each preference for that activity -->
-        
-          <div class="card card-primary card-sm dark:card-tertiary col-span-2">
-            <h4 class="text-left">{Experience}</h4>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-3">
-            <p class="text-left">{Beginner}</p>
-          </div>
-          <!-- End Loop (2) -->
-           <!-- Example placeholder -->
-          <div class="card card-primary card-sm dark:card-tertiary col-span-2">
-            <h4 class="text-left">{Goals}</h4>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-3">
-            <p class="text-left">{Build Muscle, Weight Loss}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-2">
-            <h4 class="text-left">{Training Style}</h4>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-3">
-            <p class="text-left">{Build Muscle, Weight Loss, CrossFit, Cardio}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-2">
-            <h4 class="text-left">{Gym Frequency}</h4>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-3">
-            <p class="text-left">{1-2 times/week}</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-2">
-            <h4 class="text-left">{Preferred Workout Time}</h4>
-          </div>
-          <div class="card card-primary card-sm dark:card-tertiary col-span-3">
-            <p class="text-left">{Early Morning, Afternoon}</p>
-          </div>
-         
-         
-           
-          <!-- End Example placeholder -->
-        </div>
-      </div>
-      <!-- End Loop (1) -->
-      
       <!-- IF LOGGED IN USER -->
-      <!-- <button class="btn btn-secondary mx-auto">Edit</button> -->
-      <!-- ELSE -->
-      <button class="btn btn-secondary mx-auto">Connect With Buddy</button>
+      <!-- <button class="btn btn-primary mx-auto">Edit</button> -->
+      <!-- ELSE IF NOT CONNECTED -->
+      <!-- <button class="btn btn-primary mx-auto">Connect With Buddy</button> -->
+      <!-- ELSE IF CONNECTED -->
+       <div class="flex justify-end gap-3">
+         <button class="btn btn-primary">Remove Connection With Buddy</button>
+         <button class="btn btn-danger">Block Buddy</button>
+       </div>
     </div>
 
 

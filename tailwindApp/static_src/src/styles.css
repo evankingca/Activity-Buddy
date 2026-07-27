@@ -66,6 +66,7 @@
     "wght" 400,
     "GRAD" 0,
     "opsz" 24;
+    font-size: inherit;
 }
 
 /*---------------------------*/
@@ -153,7 +154,7 @@ A small Secondary button would be:
 
 @layer components {
   .btn {
-    @apply btn-md flex items-center justify-center gap-1.5 h-fit border rounded-xl cursor-pointer active:transform-[scale(0.97)];
+    @apply btn-md flex items-center justify-center gap-1.5 border rounded-xl cursor-pointer active:transform-[scale(0.97)];
     /* Transitions in tailwind are a pain, so I'm doing it manually */
     transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7) transform;
   }
@@ -169,6 +170,10 @@ A small Secondary button would be:
 
 @utility btn-tertiary {
   @apply text-text-light border-border-light bg-slate-100 hover:bg-slate-50 active:bg-slate-200;
+}
+
+@utility btn-danger {
+  @apply text-text-dark border-border bg-red-600 hover:bg-red-500 active:bg-red-700;
 }
 
 @utility btn-md {
