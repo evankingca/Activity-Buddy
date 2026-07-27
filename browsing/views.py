@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.response import Response
 from .permissions import IsSelf
 from django.contrib.auth import (
     login as django_login,
@@ -77,6 +76,7 @@ def user_profile(request):
     context = {}
     return render(request, "browsing/user_profile.html", context)
 
+@login_required(login_url="/login/")
 def user(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
