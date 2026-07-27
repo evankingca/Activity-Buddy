@@ -39,6 +39,11 @@ searchButton.addEventListener("click", async (event) => {
     // Create document fragment for adding all the checkboxes:
     const fragment = document.createDocumentFragment();
 
+    // Check to see if data.places contains data:
+    if (!Array.isArray(data.places)) {
+      throw new Error("No valid locations results returned from Google Places API.");
+    }
+
     // Get all results by looping over the "places" array in the response:
     data.places.forEach(place => {
       const displayText = place.displayName.text + " / " + place.formattedAddress;
@@ -52,7 +57,7 @@ searchButton.addEventListener("click", async (event) => {
       placeCheckbox.value = place.id;
 
       const placeLabel = document.createElement("label");
-      placeLabel.for = place.id;
+      placeLabel.htmlFor = place.id;
       placeLabel.textContent = displayText;
 
       placeDiv.append(placeCheckbox);
