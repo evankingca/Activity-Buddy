@@ -18,24 +18,28 @@
         <div class="flex flex-col md:basis-xl lg:basis-md">
           <!-- START: populate with messsages from database -->
           <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
-            <p class="text-left font-bold text-lg">Lauren</p>
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
             <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
           </div>
           <!-- example data -->
           <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
-            <p class="text-left font-bold text-lg">Lauren</p>
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- Example selected message -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center 
+          {% if messages.1.active %} bg-green-200 dark:bg-green-200 {% endif %}
+          ">
+            <p class="text-left font-bold text-lg">{{ messages.1.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- end example selected message -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
             <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
           </div>
           <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
-            <p class="text-left font-bold text-lg">Lauren</p>
-            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
-            <p class="text-left font-bold text-lg">Lauren</p>
-            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-          </div>
-          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
-            <p class="text-left font-bold text-lg">Lauren</p>
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
             <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
           </div>
           <!-- end example data -->

@@ -77,7 +77,18 @@ def user_profile(request):
     return render(request, "browsing/user_profile.html", context)
 
 def chat(request):
-    context = {}
+    context = {
+        "messages": [
+            {
+                "name": "Lauren",
+                "active": False
+            },
+                        {
+                "name": "John",
+                "active": True
+            }
+        ]
+    }
     return render(request, "browsing/chat.html", context)
 
 def user(request):
