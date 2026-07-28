@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import query
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -300,6 +301,13 @@ def text_search(request):
     payload = json.loads(request.body)
     query = payload.get("query")
 
+    # Check that query is not empty; WIP: to change into a proper error message to display on screen?
+    if (query == ""):
+        return JsonResponse({"error": "Please enter a search term."}, status=400)
+    else:
+        # Add the search term "gyms" to the user input; no effects if it is duplicated:
+        fullQuery = query + " gyms"
+
     # headers:
     headers = {
         "X-Goog-Api-Key": api_key,
@@ -307,7 +315,7 @@ def text_search(request):
     }
     # API request body:
     request_body = {
-        "textQuery": query,
+        "textQuery": fullQuery,
         "includedType": "gym",
         "pageSize": 10,
     }

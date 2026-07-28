@@ -13,24 +13,17 @@ searchButton.addEventListener("click", async (event) => {
   const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   const query = searchInput.value.trim();
 
-  // Check that query is not empty; WIP: to change into a proper error message
-  if (query === "") {
-    console.log("Please enter a search term.");
-  } else {
-    // Add the search term "gyms" to the user input; no effects if it is duplicated:
-    const fullQuery = query + " gyms"
-
-    // Then call the backend endpoint to handle the call to Google Places
-    // This ensures the Google API key is not exposed to client-side.
-    try {
-      const response = await fetch("/text-search/", {
+  // Call the backend endpoint to handle the call to Google Places
+  // This ensures the Google API key is not exposed to client-side.
+  try {
+    const response = await fetch("/text-search/", {
       method: "POST",
       credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": csrfToken,
       },
-      body: JSON.stringify({ query: fullQuery }),
+      body: JSON.stringify({ query: query }),
     });
 
     // This should return an array of Place objects from Google Places:
@@ -68,9 +61,8 @@ searchButton.addEventListener("click", async (event) => {
     searchResults.innerHTML = ""; // Clear previous results
     searchResults.append(fragment); // Add new results
 
-    } catch (error) {
-      showError(error.message);
-    }
+  } catch (error) {
+    showError(error.message);
   }
 });
 
