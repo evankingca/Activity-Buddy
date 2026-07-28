@@ -1,10 +1,16 @@
 from django.urls import path
 from . import views
+from .views import ConnectionCreateView, ConnectionUpdateView, ConnectionDeleteView
 
 urlpatterns = [
     path("", views.index, name="index"),
     path("register", views.register, name="register"),
     path("login", views.login, name="login"),
+
+    
+    path("profile",views.user_profile, name="user_profile"),
+
+    
     path("user", views.user, name="user"),
     # ------------------------------
     # Auth Endpoints
@@ -44,4 +50,12 @@ urlpatterns = [
     # Location Endpoints
     # ------------------------------
     path("text-search/", views.text_search, name="text_search"),
+
+    # ------------------------------
+    # Connections Endpoints
+    # ------------------------------
+    path("connections/", ConnectionCreateView.as_view()),
+    path("connections/<int:pk>/", ConnectionUpdateView.as_view()),
+    path("connections/<int:pk>/delete/", ConnectionDeleteView.as_view()),
+
 ]

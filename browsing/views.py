@@ -6,14 +6,14 @@ from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from rest_framework.response import Response
 from .permissions import IsSelf
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout,
 )
+from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
-from .models import User, UserActivity, Activity, Preference
+from .models import User, UserActivity, Activity, Preference, Connection
 from .serializers import (
     UserSerializer,
     UserActivitySerializer,
@@ -23,6 +23,8 @@ from .serializers import (
     LoginSerializer,
     PreferenceSerializer,
     PreferenceWriteSerializer,
+    ConnectionWriteSerializer,
+    ConnectionSerializer,
 )
 from django.contrib.auth import (
     login as django_login,
@@ -46,7 +48,8 @@ import requests
 import json
 
 def index(request):
-    context = {}
+    context = {"activities": [{"name": "Gym", "icon": "fitness_center"}]}
+
     return render(request, "browsing/index.html", context)
 
 
@@ -64,6 +67,17 @@ def login(request):
     return render(request, "browsing/login.html", context)
 
 
+def user_home(request):
+    context = {}
+    return render(request, "browsing/user_home.html", context)
+
+
+def user_profile(request):
+    context = {}
+    return render(request, "browsing/user_profile.html", context)
+
+
+@login_required(login_url="/login/")
 def user(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
@@ -288,7 +302,6 @@ class UserPreferenceListView(generics.ListAPIView):
 # -----------------------------------
 
 # Get the user's search input from front end
-# the if block in the register.js should prevent empty strings from being passed
 def text_search(request):
     url = "https://places.googleapis.com/v1/places:searchText"
     api_key = os.getenv("GOOGLE_PLACES_API_KEY")
@@ -322,3 +335,54 @@ def text_search(request):
     # Make the call to Google Places API:
     response = requests.post(url, headers=headers, json=request_body)
     return JsonResponse(response.json(), status=response.status_code)
+
+class ConnectionCreateView(generics.CreateAPIView):
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user_a = serializer.validated_data["user_a"]
+        user_b = serializer.validated_data["user_b"]
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [user_a, user_b]:
+            raise ValidationError("You can only create connections involving yourself.")
+
+        # Optional: prevent duplicate connections
+        if (
+            Connection.objects.filter(user_a=user_a, user_b=user_b).exists()
+            or Connection.objects.filter(user_a=user_b, user_b=user_a).exists()
+        ):
+            raise ValidationError("Connection already exists.")
+
+        serializer.save()
+
+
+class ConnectionUpdateView(generics.UpdateAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot modify a connection you are not part of.")
+
+        return connection
+
+
+class ConnectionDeleteView(generics.DestroyAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot delete a connection you are not part of.")
+
+        return connection
