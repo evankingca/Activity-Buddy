@@ -46,6 +46,10 @@ urlpatterns = [
     path("preferences/", views.PreferenceListCreateView.as_view()),
     path("preferences/<int:pk>/", views.PreferenceDetailView.as_view()),
     path("users/<int:pk>/preferences/", views.UserPreferenceListView.as_view()),
+    # ------------------------------
+    # Location Endpoints
+    # ------------------------------
+    path("text-search/", views.text_search, name="text_search"),
 
     # ------------------------------
     # Connections Endpoints

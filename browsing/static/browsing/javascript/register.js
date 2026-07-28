@@ -1,6 +1,72 @@
 const registerForm = document.getElementById("register-form");
 const errorElement = document.getElementById("register-error");
 
+// Setting up the search form and adding the search results to the Register form:
+const searchButton = document.getElementById("locationSearchButton");
+const searchInput = document.getElementById("locationSearch");
+const searchResults = document.getElementById("locationSearchResults");
+
+searchButton.addEventListener("click", async (event) => {
+  event.preventDefault();
+  clearError();
+
+  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+  const query = searchInput.value.trim();
+
+  // Call the backend endpoint to handle the call to Google Places
+  // This ensures the Google API key is not exposed to client-side.
+  try {
+    const response = await fetch("/text-search/", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+      },
+      body: JSON.stringify({ query: query }),
+    });
+
+    // This should return an array of Place objects from Google Places:
+    const data = await response.json();
+
+    // Create document fragment for adding all the checkboxes:
+    const fragment = document.createDocumentFragment();
+
+    // Check to see if data.places contains data:
+    if (!Array.isArray(data.places)) {
+      throw new Error("No valid locations results returned from Google Places API.");
+    }
+
+    // Get all results by looping over the "places" array in the response:
+    data.places.forEach(place => {
+      const displayText = place.displayName.text + " / " + place.formattedAddress;
+
+      const placeDiv = document.createElement("div");
+
+      const placeCheckbox = document.createElement("input");
+      placeCheckbox.type = "checkbox";
+      placeCheckbox.id = place.id;
+      placeCheckbox.name = "location";
+      placeCheckbox.value = place.id;
+
+      const placeLabel = document.createElement("label");
+      placeLabel.htmlFor = place.id;
+      placeLabel.textContent = displayText;
+
+      placeDiv.append(placeCheckbox);
+      placeDiv.append(placeLabel);
+
+      fragment.append(placeDiv);
+    })
+    searchResults.innerHTML = ""; // Clear previous results
+    searchResults.append(fragment); // Add new results
+
+  } catch (error) {
+    showError(error.message);
+  }
+});
+
+// Handling of the register form itself:
 registerForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   clearError();
