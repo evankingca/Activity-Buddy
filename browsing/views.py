@@ -144,9 +144,12 @@ class UserDetailView(generics.RetrieveAPIView):
 
 # /users/
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return User.objects.exclude(id=self.request.user.id)
+
 
 # /users/{id} PUT
 class UserUpdateView(generics.UpdateAPIView):

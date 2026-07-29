@@ -32,7 +32,6 @@ class UserActivity(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
-    #postal_codes = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         unique_together = ("user", "activity")

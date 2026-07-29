@@ -155,46 +155,13 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 class UserSerializer(serializers.ModelSerializer):
-    activities = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
-
     class Meta:
         model = User
         fields = [
             "id",
-            "username",        # now dynamic
+            "username",
             "display_name",
-            "bio_text",
-            "creation_date",
-            "activities",
         ]
-
-    def get_username(self, obj):
-        request = self.context.get("request")
-
-        # If no request context, default to hiding username
-        if not request:
-            return None
-
-        # Only show username if the logged-in user is the same user
-        if request.user == obj:
-            return obj.username
-
-        # Otherwise hide it
-        return None
-
-    def get_activities(self, obj):
-        # Only include ID + name
-        user_activities = UserActivity.objects.filter(user=obj, is_active=True)
-
-        return [
-            {
-                "id": ua.activity.id,
-                "name": ua.activity.name,
-            }
-            for ua in user_activities
-        ]
-
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
