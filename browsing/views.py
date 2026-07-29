@@ -82,6 +82,13 @@ def user(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
 
+def search(request):
+    context = {}
+    return render(request, "browsing/search.html", context)
+
+def about(request):
+    return render(request, "browsing/about.html")
+
 
 # -------------------------
 # Authentication Views
