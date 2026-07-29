@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import ConnectionCreateView, ConnectionUpdateView, ConnectionDeleteView
+from .views import ConnectionUpdateView, ConnectionDeleteView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -54,8 +54,14 @@ urlpatterns = [
     # ------------------------------
     # Connections Endpoints
     # ------------------------------
-    path("connections/", ConnectionCreateView.as_view()),
+    path("connections/", views.ConnectionListCreateView.as_view()),
     path("connections/<int:pk>/", ConnectionUpdateView.as_view()),
     path("connections/<int:pk>/delete/", ConnectionDeleteView.as_view()),
 
+    # Messaging
+    path("connections/<int:pk>/messages/", views.DirectMessageListView.as_view()),
+    path("connections/<int:pk>/messages/send/", views.DirectMessageSendView.as_view()),
+
+    # Chat Page
+    path("chat_page/", views.chat_page, name="chat"),
 ]

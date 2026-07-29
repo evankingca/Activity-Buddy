@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 # -------------------------
 # User Models
 # -------------------------
@@ -73,21 +72,10 @@ class Preference(models.Model):
         on_delete=models.CASCADE,
         related_name="preference",
     )
-
-    experience = models.CharField(
-        max_length=20,
-        choices=ExperienceLevel.choices,
-    )
-
+    experience = models.CharField( max_length=20, choices=ExperienceLevel.choices )
     goals = models.JSONField(default=list)
-
     training_styles = models.JSONField(default=list)
-
-    gym_frequency = models.CharField(
-        max_length=20,
-        choices=GymFrequency.choices,
-    )
-
+    gym_frequency = models.CharField( max_length=20, choices=GymFrequency.choices )
     preferred_workout_times = models.JSONField(default=list, blank=True)
     location_ids = models.JSONField(default=list, blank=True)
 
@@ -105,12 +93,8 @@ class Connection(models.Model):
         ACCEPTED = "ACCEPTED", "Accepted"
         BLOCKED = "BLOCKED", "Blocked"
 
-    user_a = models.ForeignKey(
-        User, related_name="connections_a", on_delete=models.CASCADE
-    )
-    user_b = models.ForeignKey(
-        User, related_name="connections_b", on_delete=models.CASCADE
-    )
+    user_a = models.ForeignKey( User, related_name="connections_a", on_delete=models.CASCADE )
+    user_b = models.ForeignKey( User, related_name="connections_b", on_delete=models.CASCADE )
     status = models.CharField( max_length=20, choices=Status.choices, default=Status.PENDING )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -121,12 +105,8 @@ class Connection(models.Model):
 
 
 class DirectMessage(models.Model):
-    sender = models.ForeignKey(
-        User, related_name="sent_messages", on_delete=models.CASCADE
-    )
-    receiver = models.ForeignKey(
-        User, related_name="received_messages", on_delete=models.CASCADE
-    )
+    sender = models.ForeignKey( User, related_name="sent_messages", on_delete=models.CASCADE )
+    receiver = models.ForeignKey( User, related_name="received_messages", on_delete=models.CASCADE )
     connection = models.ForeignKey(Connection, on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

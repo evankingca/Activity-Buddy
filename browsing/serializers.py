@@ -1,11 +1,9 @@
-from .models import User, Activity, UserActivity, Preference, Connection
-from rest_framework import serializers
+from .models import User, Activity, UserActivity, Preference, Connection, DirectMessage
 from django.contrib.auth import authenticate
 from django.db import transaction
 from rest_framework import serializers
 
 from .models import Activity, Preference, User, UserActivity
-
 
 class PreferenceWriteSerializer(serializers.ModelSerializer):
     valid_goals = {
@@ -78,8 +76,6 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
 
         return values
 
-
-
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         write_only=True,
@@ -136,7 +132,6 @@ class SignupSerializer(serializers.ModelSerializer):
 
         return user
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(
@@ -159,21 +154,45 @@ class LoginSerializer(serializers.Serializer):
         attrs["user"] = user
         return attrs
 
-
 class UserSerializer(serializers.ModelSerializer):
+    activities = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
             "id",
-            "username",
+            "username",        # now dynamic
             "display_name",
             "bio_text",
             "creation_date",
+            "activities",
         ]
-        read_only_fields = [
-            "id",
-            "username",
-            "creation_date",
+
+    def get_username(self, obj):
+        request = self.context.get("request")
+
+        # If no request context, default to hiding username
+        if not request:
+            return None
+
+        # Only show username if the logged-in user is the same user
+        if request.user == obj:
+            return obj.username
+
+        # Otherwise hide it
+        return None
+
+    def get_activities(self, obj):
+        # Only include ID + name
+        user_activities = UserActivity.objects.filter(user=obj, is_active=True)
+
+        return [
+            {
+                "id": ua.activity.id,
+                "name": ua.activity.name,
+            }
+            for ua in user_activities
         ]
 
 
@@ -188,7 +207,6 @@ class ActivitySerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
 
-
 class UserActivitySerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     activity = ActivitySerializer(read_only=True)
@@ -201,7 +219,6 @@ class UserActivitySerializer(serializers.ModelSerializer):
             "activity",
             "is_active",
         ]
-
 
 class UserActivityWriteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -216,7 +233,6 @@ class UserActivityWriteSerializer(serializers.ModelSerializer):
             "id",
             "user",
         ]
-
 
 class PreferenceSerializer(serializers.ModelSerializer):
     user_activity = UserActivitySerializer(read_only=True)
@@ -299,4 +315,15 @@ class ConnectionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Connection
         fields = ["user_a", "user_b", "status"]
+
+class DirectMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DirectMessage
+        fields = ["id", "sender", "receiver", "connection", "text", "timestamp"]
+        read_only_fields = ["id", "timestamp", "sender"]
+
+class DirectMessageWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DirectMessage
+        fields = ["receiver", "text"]
 

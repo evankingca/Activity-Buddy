@@ -1,57 +1,34 @@
+import os
+import requests
+import json
+
 from django.db import transaction
-from django.db.models import query
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from .permissions import IsSelf
-from django.contrib.auth import (
-    login as django_login,
-    logout as django_logout,
-)
+from . import models
+from .permissions import IsSelf, IsConnectionUser
 from django.contrib.auth.decorators import login_required
-from rest_framework.views import APIView
-from .models import User, UserActivity, Activity, Preference, Connection
-from .serializers import (
-    UserSerializer,
-    UserActivitySerializer,
-    ActivitySerializer,
-    UserActivityWriteSerializer,
-    SignupSerializer,
-    LoginSerializer,
-    PreferenceSerializer,
-    PreferenceWriteSerializer,
-    ConnectionWriteSerializer,
-    ConnectionSerializer,
-)
+from .models import User, UserActivity, Activity, Preference, Connection, DirectMessage
+from .serializers import (UserSerializer, UserActivitySerializer, ActivitySerializer, UserActivityWriteSerializer,
+                          SignupSerializer,
+                          LoginSerializer, PreferenceSerializer, PreferenceWriteSerializer, ConnectionWriteSerializer,
+                          ConnectionSerializer, DirectMessageSerializer, DirectMessageWriteSerializer,
+                          )
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout,
 )
 from rest_framework.views import APIView
-from .models import User, UserActivity, Activity, Preference
-from .serializers import (
-    UserSerializer,
-    UserActivitySerializer,
-    ActivitySerializer,
-    UserActivityWriteSerializer,
-    SignupSerializer,
-    LoginSerializer,
-    PreferenceSerializer,
-    PreferenceWriteSerializer,
-)
-
-import os
-import requests
-import json
+from django.db.models import Q
 
 def index(request):
     context = {"activities": [{"name": "Gym", "icon": "fitness_center"}]}
 
     return render(request, "browsing/index.html", context)
-
 
 def register(request):
     context = {}
@@ -67,20 +44,32 @@ def login(request):
     return render(request, "browsing/login.html", context)
 
 
+@login_required(login_url="/login/")
 def user_home(request):
-    context = {}
+    context = {
+        "user": request.user,
+        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
+        "preferences": Preference.objects.filter( user_activity__user=request.user ),
+    }
     return render(request, "browsing/user_home.html", context)
 
-
+@login_required(login_url="/login/")
 def user_profile(request):
-    context = {}
+    context = {
+        "user": request.user,
+        "activities": UserActivity.objects.filter(user=request.user),
+        "preferences": Preference.objects.filter( user_activity__user=request.user ),
+        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
+    }
     return render(request, "browsing/user_profile.html", context)
-
 
 @login_required(login_url="/login/")
 def user(request):
-    context = {}
+    context = {
+        "user": request.user,
+    }
     return render(request, "browsing/user_home.html", context)
+
 
 
 # -------------------------
@@ -151,13 +140,13 @@ class AuthMeView(generics.RetrieveUpdateAPIView):
 class UserDetailView(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
+    permission_classes = [IsAuthenticated]
 
 # /users/
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
+    permission_classes = [IsAuthenticated]
 
 # /users/{id} PUT
 class UserUpdateView(generics.UpdateAPIView):
@@ -302,6 +291,7 @@ class UserPreferenceListView(generics.ListAPIView):
 # -----------------------------------
 
 # Get the user's search input from front end
+@login_required(login_url="/login/")
 def text_search(request):
     url = "https://places.googleapis.com/v1/places:searchText"
     api_key = os.getenv("GOOGLE_PLACES_API_KEY")
@@ -336,23 +326,55 @@ def text_search(request):
     response = requests.post(url, headers=headers, json=request_body)
     return JsonResponse(response.json(), status=response.status_code)
 
-class ConnectionCreateView(generics.CreateAPIView):
-    serializer_class = ConnectionWriteSerializer
+class ConnectionListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return ConnectionWriteSerializer
+        return ConnectionSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Connection.objects.filter( Q(user_a=user) | Q(user_b=user) )
+
+    def list(self, request, *args, **kwargs):
+        connections = self.get_queryset()
+        data = []
+
+        for conn in connections:
+            other = conn.user_b if conn.user_a == request.user else conn.user_a
+
+            last_msg = (
+                DirectMessage.objects.filter(connection=conn)
+                .order_by("-timestamp")
+                .first()
+            )
+
+            data.append({
+                "id": conn.id,
+                "other_user": UserSerializer(other).data,
+                "status": conn.status,
+                "last_message": DirectMessageSerializer(last_msg).data if last_msg else None,
+            })
+
+        return Response(data)
 
     def perform_create(self, serializer):
         user_a = serializer.validated_data["user_a"]
         user_b = serializer.validated_data["user_b"]
 
-        # Ensure the authenticated user is part of the connection
+        if user_a == user_b:
+            raise ValidationError("You cannot create a connection with yourself.")
+
         if self.request.user not in [user_a, user_b]:
             raise ValidationError("You can only create connections involving yourself.")
 
-        # Optional: prevent duplicate connections
-        if (
-            Connection.objects.filter(user_a=user_a, user_b=user_b).exists()
-            or Connection.objects.filter(user_a=user_b, user_b=user_a).exists()
-        ):
+        if Connection.objects.filter(
+            user_a=user_a, user_b=user_b
+        ).exists() or Connection.objects.filter(
+            user_a=user_b, user_b=user_a
+        ).exists():
             raise ValidationError("Connection already exists.")
 
         serializer.save()
@@ -361,7 +383,7 @@ class ConnectionCreateView(generics.CreateAPIView):
 class ConnectionUpdateView(generics.UpdateAPIView):
     queryset = Connection.objects.all()
     serializer_class = ConnectionWriteSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsConnectionUser]
 
     def get_object(self):
         connection = super().get_object()
@@ -372,11 +394,10 @@ class ConnectionUpdateView(generics.UpdateAPIView):
 
         return connection
 
-
 class ConnectionDeleteView(generics.DestroyAPIView):
     queryset = Connection.objects.all()
     serializer_class = ConnectionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsConnectionUser]
 
     def get_object(self):
         connection = super().get_object()
@@ -386,3 +407,105 @@ class ConnectionDeleteView(generics.DestroyAPIView):
             raise ValidationError("You cannot delete a connection you are not part of.")
 
         return connection
+
+#
+#
+#
+# GET /connections/<pk>/messages/
+class DirectMessageListView(generics.ListAPIView):
+    serializer_class = DirectMessageSerializer
+    permission_classes = [IsAuthenticated, IsConnectionUser]
+
+    def get_queryset(self):
+        connection_id = self.kwargs["pk"]
+        connection = Connection.objects.get(pk=connection_id)
+
+        # Permission check
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot view messages for a connection you are not part of.")
+
+        return DirectMessage.objects.filter(connection=connection).order_by("timestamp")
+
+# POST /connections/<pk>/messages/send/
+class DirectMessageSendView(generics.CreateAPIView):
+    serializer_class = DirectMessageWriteSerializer
+    permission_classes = [IsAuthenticated, IsConnectionUser]
+
+    def perform_create(self, serializer):
+        connection = Connection.objects.get(pk=self.kwargs["pk"])
+
+        # Permission check
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot send messages for a connection you are not part of.")
+
+        # Blocked or pending connections cannot send messages
+        if connection.status != Connection.Status.ACCEPTED:
+            raise ValidationError("Messages can only be sent for accepted connections.")
+
+        # Determine receiver
+        receiver = (
+            connection.user_b
+            if connection.user_a == self.request.user
+            else connection.user_a
+        )
+        serializer.save( sender=self.request.user, receiver=receiver, connection=connection )
+
+#
+#
+#
+@login_required(login_url="/login/")
+def chat_page(request, connection_id=None):
+    user = request.user
+
+    # All connections for sidebar
+    connections = Connection.objects.filter( Q(user_a=user) | Q(user_b=user) )
+    connection_list = []
+
+    for conn in connections:
+        other = conn.user_b if conn.user_a == user else conn.user_a
+
+        last_msg = ( DirectMessage.objects.filter(connection=conn).order_by("-timestamp").first() )
+        connection_list.append({
+            "id": conn.id,
+            "other_user": {
+                "id": other.id,
+                "display_name": other.display_name,
+            },
+            "status": conn.status,
+            "last_message": DirectMessageSerializer(last_msg).data if last_msg else None,
+            "is_selected": (conn.id == connection_id),
+        })
+    # Active connection (if selected)
+    active_context = None
+
+    if connection_id:
+        conn = Connection.objects.get(pk=connection_id)
+
+        if user not in [conn.user_a, conn.user_b]:
+            raise ValidationError("You cannot view this connection.")
+
+        other = conn.user_b if conn.user_a == user else conn.user_a
+        messages = DirectMessage.objects.filter(connection=conn).order_by("timestamp")
+
+        active_context = {
+            "id": conn.id,
+            "other_user": {
+                "id": other.id,
+                "display_name": other.display_name,
+            },
+            "status": conn.status,
+            "messages": DirectMessageSerializer(messages, many=True).data,
+            "can_send_messages": conn.status == Connection.Status.ACCEPTED,
+        }
+
+    context = {
+        "user": {
+            "id": user.id,
+            "display_name": user.display_name,
+        },
+        "connections": connection_list,
+        "active_connection": active_context,
+    }
+
+    return JsonResponse(context)
+
