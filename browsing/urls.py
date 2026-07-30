@@ -9,6 +9,8 @@ urlpatterns = [
 
     
     path("profile",views.user_profile, name="user_profile"),
+    path("chat",views.chat, name="chat"),
+
 
     
     path("user", views.user, name="user"),

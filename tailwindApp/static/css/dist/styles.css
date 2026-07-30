@@ -29,6 +29,7 @@
     --color-zinc-900: oklch(21% 0.006 285.885);
     --spacing: 0.25rem;
     --container-md: 28rem;
+    --container-xl: 36rem;
     --container-3xl: 48rem;
     --container-4xl: 56rem;
     --container-5xl: 64rem;
@@ -584,6 +585,9 @@
   .bg-green-950 {
     background-color: var(--color-green-950);
   }
+  .bg-red-500 {
+    background-color: var(--color-red-500);
+  }
   .bg-slate-100 {
     background-color: var(--color-slate-100);
   }
@@ -825,6 +829,11 @@
     }
   }
   @media (width >= 48rem) {
+    .md\:basis-xl {
+      flex-basis: var(--container-xl);
+    }
+  }
+  @media (width >= 48rem) {
     .md\:grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -837,6 +846,11 @@
   @media (width >= 48rem) {
     .md\:flex-row {
       flex-direction: row;
+    }
+  }
+  @media (width >= 48rem) {
+    .md\:gap-1 {
+      gap: var(--spacing);
     }
   }
   @media (width >= 64rem) {
@@ -862,6 +876,11 @@
   @media (width >= 64rem) {
     .lg\:w-96 {
       width: calc(var(--spacing) * 96);
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:basis-md {
+      flex-basis: var(--container-md);
     }
   }
   @media (width >= 64rem) {
@@ -902,8 +921,16 @@
     background-color: var(--color-card-bg);
     color: var(--color-text);
   }
+  .dark\:card-secondary:where(.dark, .dark *) {
+    border-color: var(--color-border-alt);
+    background-color: var(--color-card-bg-alt);
+    color: var(--color-text-alt);
+  }
   .dark\:bg-green-100:where(.dark, .dark *) {
     background-color: var(--color-green-100);
+  }
+  .dark\:bg-green-200:where(.dark, .dark *) {
+    background-color: var(--color-green-200);
   }
   .dark\:bg-text-dark:where(.dark, .dark *) {
     background-color: var(--color-text-dark);
