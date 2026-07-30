@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import ConnectionCreateView, ConnectionUpdateView, ConnectionDeleteView
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -13,6 +14,10 @@ urlpatterns = [
 
     
     path("user", views.user, name="user"),
+
+    path("search", views.search, name="search"),
+
+    path("about", views.about, name="about"),
     # ------------------------------
     # Auth Endpoints
     # ------------------------------
@@ -47,4 +52,16 @@ urlpatterns = [
     path("preferences/", views.PreferenceListCreateView.as_view()),
     path("preferences/<int:pk>/", views.PreferenceDetailView.as_view()),
     path("users/<int:pk>/preferences/", views.UserPreferenceListView.as_view()),
+    # ------------------------------
+    # Location Endpoints
+    # ------------------------------
+    path("text-search/", views.text_search, name="text_search"),
+
+    # ------------------------------
+    # Connections Endpoints
+    # ------------------------------
+    path("connections/", ConnectionCreateView.as_view()),
+    path("connections/<int:pk>/", ConnectionUpdateView.as_view()),
+    path("connections/<int:pk>/delete/", ConnectionDeleteView.as_view()),
+
 ]

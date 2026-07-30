@@ -1,17 +1,19 @@
 from django.db import transaction
+from django.db.models import query
 from rest_framework.exceptions import ValidationError
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
 from rest_framework.response import Response
 from .permissions import IsSelf
 from django.contrib.auth import (
     login as django_login,
     logout as django_logout,
 )
+from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
-from .models import User, UserActivity, Activity, Preference
+from .models import User, UserActivity, Activity, Preference, Connection
 from .serializers import (
     UserSerializer,
     UserActivitySerializer,
@@ -21,6 +23,8 @@ from .serializers import (
     LoginSerializer,
     PreferenceSerializer,
     PreferenceWriteSerializer,
+    ConnectionWriteSerializer,
+    ConnectionSerializer,
 )
 from django.contrib.auth import (
     login as django_login,
@@ -39,18 +43,12 @@ from .serializers import (
     PreferenceWriteSerializer,
 )
 
+import os
+import requests
+import json
 
 def index(request):
-    context = {
-        'activities': [
-            {
-              'name': 'Gym',
-              'icon': 'fitness_center'
-            }
-          ]
-        }
-    
-        
+    context = {"activities": [{"name": "Gym", "icon": "fitness_center"}]}
 
     return render(request, "browsing/index.html", context)
 
@@ -68,9 +66,11 @@ def login(request):
         return redirect("/user")
     return render(request, "browsing/login.html", context)
 
+
 def user_home(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
+
 
 def user_profile(request):
     context = {}
@@ -91,9 +91,18 @@ def chat(request):
     }
     return render(request, "browsing/chat.html", context)
 
+
+@login_required(login_url="/login/")
 def user(request):
     context = {}
     return render(request, "browsing/user_home.html", context)
+
+def search(request):
+    context = {}
+    return render(request, "browsing/search.html", context)
+
+def about(request):
+    return render(request, "browsing/about.html")
 
 
 # -------------------------
@@ -309,3 +318,93 @@ class UserPreferenceListView(generics.ListAPIView):
         user_id = self.kwargs["pk"]
 
         return Preference.objects.filter(user_activity__user_id=user_id)
+
+# -----------------------------------
+# Location View for Google Places API
+# -----------------------------------
+
+# Get the user's search input from front end
+def text_search(request):
+    url = "https://places.googleapis.com/v1/places:searchText"
+    api_key = os.getenv("GOOGLE_PLACES_API_KEY")
+
+    # check to see if API key exists:
+    if not api_key:
+        return JsonResponse({"error": "API Key not set"}, status=500)
+
+    # Get the user input:
+    payload = json.loads(request.body)
+    query = payload.get("query")
+
+    # Check that query is not empty; WIP: to change into a proper error message to display on screen?
+    if (query == ""):
+        return JsonResponse({"error": "Please enter a search term."}, status=400)
+    else:
+        # Add the search term "gyms" to the user input; no effects if it is duplicated:
+        fullQuery = query + " gyms"
+
+    # headers:
+    headers = {
+        "X-Goog-Api-Key": api_key,
+        "X-Goog-FieldMask": "places.displayName,places.id,places.formattedAddress",
+    }
+    # API request body:
+    request_body = {
+        "textQuery": fullQuery,
+        "includedType": "gym",
+        "pageSize": 10,
+    }
+    # Make the call to Google Places API:
+    response = requests.post(url, headers=headers, json=request_body)
+    return JsonResponse(response.json(), status=response.status_code)
+
+class ConnectionCreateView(generics.CreateAPIView):
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user_a = serializer.validated_data["user_a"]
+        user_b = serializer.validated_data["user_b"]
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [user_a, user_b]:
+            raise ValidationError("You can only create connections involving yourself.")
+
+        # Optional: prevent duplicate connections
+        if (
+            Connection.objects.filter(user_a=user_a, user_b=user_b).exists()
+            or Connection.objects.filter(user_a=user_b, user_b=user_a).exists()
+        ):
+            raise ValidationError("Connection already exists.")
+
+        serializer.save()
+
+
+class ConnectionUpdateView(generics.UpdateAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionWriteSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot modify a connection you are not part of.")
+
+        return connection
+
+
+class ConnectionDeleteView(generics.DestroyAPIView):
+    queryset = Connection.objects.all()
+    serializer_class = ConnectionSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        connection = super().get_object()
+
+        # Ensure the authenticated user is part of the connection
+        if self.request.user not in [connection.user_a, connection.user_b]:
+            raise ValidationError("You cannot delete a connection you are not part of.")
+
+        return connection

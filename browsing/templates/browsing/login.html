@@ -1,8 +1,6 @@
 {% extends 'browsing/base.html' %}
 {% load static %}
 
-{% load static %}
-
 {% block title %}Login{% endblock %}
 
 {% block content %}
@@ -11,12 +9,6 @@
     <div class="md:max-w-100 max-w-60 w-full">
         {% include 'browsing/svgs/logo-text-adaptive.html' %}
     </div>
-
-    <form
-        id="login-form"
-        class="card card-tertiary dark:card-primary flex flex-col gap-4 max-w-100 w-full"
-    >
-        {% csrf_token %}
 
     <form
         id="login-form"
