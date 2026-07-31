@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
-from . import models
 from .permissions import IsSelf, IsConnectionUser
 from django.contrib.auth.decorators import login_required
 from .models import User, UserActivity, Activity, Preference, Connection, DirectMessage
@@ -44,14 +43,6 @@ def login(request):
     return render(request, "browsing/login.html", context)
 
 
-@login_required(login_url="/login/")
-def user_home(request):
-    context = {
-        "user": request.user,
-        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
-        "preferences": Preference.objects.filter( user_activity__user=request.user ),
-    }
-    return render(request, "browsing/user_home.html", context)
 
 @login_required(login_url="/login/")
 def user_profile(request):
@@ -67,10 +58,10 @@ def user_profile(request):
 def user(request):
     context = {
         "user": request.user,
+        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
+        "preferences": Preference.objects.filter( user_activity__user=request.user ),
     }
     return render(request, "browsing/user_home.html", context)
-
-
 
 # -------------------------
 # Authentication Views
@@ -461,13 +452,20 @@ def chat_page(request, connection_id=None):
     user = request.user
 
     # All connections for sidebar
-    connections = Connection.objects.filter( Q(user_a=user) | Q(user_b=user) )
-    connection_list = []
+    connections = Connection.objects.filter(
+        Q(user_a=user) | Q(user_b=user)
+    )
 
+    connection_list = []
     for conn in connections:
         other = conn.user_b if conn.user_a == user else conn.user_a
 
-        last_msg = ( DirectMessage.objects.filter(connection=conn).order_by("-timestamp").first() )
+        last_msg = (
+            DirectMessage.objects.filter(connection=conn)
+            .order_by("-timestamp")
+            .first()
+        )
+
         connection_list.append({
             "id": conn.id,
             "other_user": {
@@ -475,17 +473,25 @@ def chat_page(request, connection_id=None):
                 "display_name": other.display_name,
             },
             "status": conn.status,
-            "last_message": DirectMessageSerializer(last_msg).data if last_msg else None,
+            "last_message": (
+                DirectMessageSerializer(last_msg).data
+                if last_msg else None
+            ),
             "is_selected": (conn.id == connection_id),
         })
+
     # Active connection (if selected)
     active_context = None
 
     if connection_id:
-        conn = Connection.objects.get(pk=connection_id)
+        try:
+            conn = Connection.objects.get(pk=connection_id)
+        except Connection.DoesNotExist:
+            return JsonResponse({"error": "Connection not found"}, status=404)
 
+        # Permission check
         if user not in [conn.user_a, conn.user_b]:
-            raise ValidationError("You cannot view this connection.")
+            return JsonResponse({"error": "Unauthorized"}, status=403)
 
         other = conn.user_b if conn.user_a == user else conn.user_a
         messages = DirectMessage.objects.filter(connection=conn).order_by("timestamp")
@@ -510,5 +516,19 @@ def chat_page(request, connection_id=None):
         "active_connection": active_context,
     }
 
-    return JsonResponse(context)
+    return render(request, "browsing/chat.html", context)
 
+def chat(request):
+    context = {
+        "messages": [
+            {
+                "name": "Lauren",
+                "active": False
+            },
+                        {
+                "name": "John",
+                "active": True
+            }
+        ]
+    }
+    return render(request, "browsing/chat.html", context)
