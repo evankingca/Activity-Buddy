@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
@@ -15,184 +14,304 @@
 @theme {
   --color-bg: var(--bg);
   --color-card-bg: var(--card-bg);
+  --color-card-bg-alt: var(--card-bg-alt);
 
   --color-border: var(--border);
-  --color-border-light: var(--color-slate-800);
+  --color-border-alt: var(--border-alt);
+  --color-border-light: var(--color-zinc-800);
   --color-border-dark: var(--color-slate-100);
 
   --color-text: var(--text);
-  --color-text-light: var(--color-slate-800);
+  --color-text-alt: var(--text-alt);
+  --color-text-light: var(--color-zinc-800);
   --color-text-dark: var(--color-slate-100);
+
+  --color-text-alt: var(--text-alt);
+
+  --font-sans:
+    "Istok Web", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --default-border-width: 2px;
 }
 
 /* FOR LIGHT MODE */
 :root {
   --bg: var(--color-green-50);
   --card-bg: var(--color-slate-100);
+  --card-bg-alt: var(--color-zinc-800);
   --border: var(--color-border-light);
+  --border-alt: var(--color-border-dark);
   --text: var(--color-text-light);
+  --text-alt: var(--color-text-dark);
+  --bg-green: var(--color-green-900);
 }
 
 /* FOR DARK MODE */
 .dark {
   /* This is just Tailwind's green-950, but darker */
-  --bg: oklch(20.0% 0.065 152.934);
-  --card-bg: #20252A;
+  --bg: oklch(20% 0.065 152.934);
+  --card-bg: var(--color-zinc-800);
+  --card-bg-alt: var(--color-slate-100);
   --border: var(--color-border-dark);
+  --border-alt: var(--color-border-light);
   --text: var(--color-text-dark);
+  --text-alt: var(--color-text-light);
+  --bg-green: var(--color-green-50);
 }
 
 .material-symbols-outlined {
   font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+    font-size: inherit;
 }
 
-/* ELEMENT CLASSES */
+/*---------------------------*/
+/* GENERIC CUSTOM UTILITIES */
+/*-------------------------*/
 
-.link {
-  color: var(--color-cyan-800);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  transition: 0.03s ease-in-out;
+/* Tailwind doesn't expose text-decoration-thickness, so we
+make our own: */
+@utility underline-sm {
+  text-decoration-thickness: calc(var(--spacing) * 0.25);
 }
 
-.dark .link {
-  color: var(--color-cyan-200);
+@utility underline-md {
+  text-decoration-thickness: calc(var(--spacing) * 0.5);
 }
 
-.link:hover {
-  color: var(--color-cyan-600);
-  text-decoration-thickness: 2px;
+@utility underline-lg {
+  text-decoration-thickness: calc(var(--spacing) * 0.75);
 }
 
-.dark .link:hover {
-  color: var(--color-cyan-400);
-}
+/*---------------------------*/
+/* ELEMENT CUSTOM UTILITIES */
+/*-------------------------*/
 
-.link:active {
-  color: var(--color-cyan-500);
-  text-decoration-thickness: 3px;
-}
+/*
+Usually when possible, we try to use Tailwind's built-in
+functions for handling stuff. See here for some of the options
+available:
+https://tailwindcss.com/docs/adding-custom-styles#adding-component-classes
+---------------------------------------------------------------
+When writing classes for elements, you should write it such
+that you have a base class (e.g. btn) that is variant-agnostic,
+with child classes (e.g. btn-primary, btn-sm) that modify
+properties of that base class. The base class should be in the
+components layer (@layer components { .btn {...} }) to allow
+for easy overrides, while child classes should be utilities
+(@utility btn-primary {...}) so they can be used with variants:
+| class="card card-primary dark:card-secondary"
+---------------------------------------------------------------
+When writing dark and light variants of elements, separate each
+variant into their own utilities, and then apply the to main
+utility via:
+| @apply element-light dark:element-dark
+This allows you to force either the dark or light variant by
+simply overriding the element's default variant for that
+respective colour scheme. For example, to force an input to
+always be dark, you could do:
+| class="link link-dark"
+To force it to light mode, you would override the dark variant:
+| class="link dark:link-light"
+It's sometimes also a good idea to do this for padding.
+---------------------------------------------------------------
+Since elements are written as base and child classes, they
+should be applied like bootstrap classes. e.g. If you want
+your button to be a primary one, you would apply:
+| class="btn btn-primary"
+A small Secondary button would be:
+| class="btn btn-sm btn-secondary"
+*/
 
-.dark .link:active {
-  color: var(--color-cyan-600);
-}
+/*****************/
+/***** LINKS *****/
+/*****************/
 
-.btn {
-  align-items: center;
-  border-radius: 12px;
-  border-style: solid;
-  border-width: 2px;
-  cursor: pointer;
-  display: flex;
-  font-size: var(--text-md);
-  gap: 6px;
-  height: fit-content;
-  justify-content: center;
-  padding: 12px 24px;
-  transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7);
-}
+@layer components {
+  .link {
+    @apply link-light dark:link-dark underline underline-sm hover:underline-md active:underline-lg;
 
-.btn:active {
-  transform: scale(0.97);
-}
-
-.btn-sm {
-  gap: 4px;
-  padding: 6px 12px;
-}
-
-.btn-primary {
-  color: var(--color-text-dark);
-  background-color: var(--color-green-950);
-  border-color: var(--color-text-light);
-}
-
-.dark .btn-primary {
-  background-color: var(--color-green-950);
-  border-color: var(--color-text-dark);
-}
-
-
-.btn-primary:hover {
-  background-color: var(--color-green-900);
-}
-
-.btn-primary:active {
-  background-color: var(--color-green-800);
-}
-
-.btn-secondary {
-  color: var(--color-text-light);
-  background-color: var(--color-green-200);
-  border-color: var(--color-border-light);
-}
-
-.btn-secondary:hover {
-  background-color: var(--color-green-100);
-}
-
-.btn-secondary:active {
-  background-color: var(--color-green-50);
-}
-
-.btn-tertiary {
-  color: var(--color-text-light);
-  background-color: var(--color-slate-100);
-  border-color: var(--color-border-light);
-}
-
-.btn-tertiary:hover {
-  background-color: var(--color-slate-50);
-}
-
-.btn-tertiary:active {
-  background-color: var(--color-slate-200);
-}
-
-.card {
-  background-color: var(--color-card-bg);
-  border-style: solid;
-  border-width: 2px;
-  border-color: var(--color-border);
-  border-radius: var(--radius-3xl);
-  padding: calc(var(--spacing) * 10);
-}
-
-@media (width <=40rem) {
-  .card {
-    padding: calc(var(--spacing) * 6);
+    /* Transitions in tailwind are a pain, so I'm doing it manually */
+    transition: 0.03s ease-in-out;
   }
 }
 
-.transition-bounce {
-  transition-property: padding margin top bottom left right grid-template-rows;
-  transition-duration: .12s;
-  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
+@utility link-light {
+  @apply text-cyan-800 hover:text-cyan-600 active:text-cyan-500;
 }
+
+@utility link-dark {
+  @apply text-cyan-200 hover:text-cyan-400 active:text-cyan-600;
+}
+
+/*****************/
+/**** BUTTONS ****/
+/*****************/
+
+@layer components {
+  .btn {
+    @apply btn-md flex items-center justify-center gap-1.5 border rounded-xl cursor-pointer active:transform-[scale(0.97)];
+    /* Transitions in tailwind are a pain, so I'm doing it manually */
+    transition: 0.07s cubic-bezier(0.2, 1.7, 0.4, 1.7) transform;
+  }
+}
+
+@utility btn-primary {
+  @apply text-text-dark border-border bg-green-950 hover:bg-green-900 active:bg-green-800;
+}
+
+@utility btn-secondary {
+  @apply text-text-light border-border-light bg-green-200 hover:bg-green-100 active:bg-green-50;
+}
+
+@utility btn-tertiary {
+  @apply text-text-light border-border-light bg-slate-100 hover:bg-slate-50 active:bg-slate-200;
+}
+
+@utility btn-danger {
+  @apply text-text-dark border-border bg-red-600 hover:bg-red-500 active:bg-red-700;
+}
+
+@utility btn-md {
+  @apply px-6 py-3;
+}
+
+@utility btn-sm {
+  @apply gap-1 px-3 py-1.5;
+}
+
+/***************/
+/*** INPUTS ****/
+/***************/
+
+@layer components {
+  .input {
+    @apply input-light dark:input-dark border border-border rounded-lg px-3 py-1 text-text;
+  }
+}
+
+@utility input-light {
+  @apply bg-slate-50 text-text;
+}
+
+@utility input-dark {
+  @apply bg-zinc-900 text-text-dark;
+}
+
+@utility input-select {
+  @apply cursor-pointer;
+}
+
+/***************/
+/**** CARDS ****/
+/***************/
+
+@layer components {
+  .card {
+    @apply border rounded-3xl card-md;
+  }
+}
+
+@utility card-primary {
+  @apply bg-card-bg border-border text-text;
+}
+
+@utility card-secondary {
+  @apply bg-card-bg-alt text-text-alt border-border-alt;
+}
+
+@utility card-tertiary-light {
+  @apply bg-green-100;
+}
+
+@utility card-tertiary-dark {
+  @apply bg-green-200;
+}
+
+@utility card-tertiary {
+  @apply card-tertiary-light dark:card-tertiary-dark border-border-light text-text-light;
+}
+
+@utility card-even-spacing {
+  @apply sm:p-10 p-6;
+}
+
+@utility card-md {
+  @apply sm:px-10 px-6 py-6;
+}
+
+@utility card-sm {
+  @apply p-6;
+}
+
+@utility card-xs {
+  @apply py-4 px-2;
+}
+
+/****************/
+/**** NAVBAR ****/
+/****************/
+
+/* These styles are here to allow the mobile navbar to be enabled */
+/* via a single .collapsed class. */
 
 #navbar {
-  grid-template-columns: 1fr;
-  grid-template-rows: min-content min-content 1fr;
-  gap: 16px;
-}
-
-#navbar #navbarLinks {
-  visibility: visible;
+  @apply grid-cols-1 grid-rows-[min-content_min-content_1fr] gap-4;
 }
 
 #navbar.collapsed {
-  grid-template-rows: min-content 0fr 0fr;
-  gap: 0px;
+  @apply grid-rows-[min-content_0_0] gap-0;
 }
 
 #navbar.collapsed hr {
-  visibility: hidden;
+  @apply hidden;
+}
+
+#navbar:not(.collapsed) hr {
+  @apply sm:hidden flex;
 }
 
 #navbar.collapsed #navbarLinks {
-  visibility: invisible;
+  @apply hidden sm:flex;
+}
+
+@layer base {
+  /******************/
+  /**** HEADINGS ****/
+  /******************/
+  h1 {
+    @apply text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl font-bold;
+  }
+
+  h3 {
+    @apply text-xl font-bold;
+  }
+  h4 {
+    @apply text-lg font-bold;
+  }
+
+  /******************/
+  /*** SEPARATORS ***/
+  /******************/
+  hr {
+    @apply border-1 border-border rounded-full;
+  }
+}
+
+/******************/
+/*** TRANSITIONS **/
+/******************/
+
+@utility transition-bounce {
+  transition-property: padding margin top bottom left right grid-template-rows;
+  transition-duration: 0.12s;
+  transition-timing-function: cubic-bezier(0.2, 1.15, 0.4, 1.15);
 }

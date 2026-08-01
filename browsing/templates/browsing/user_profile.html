@@ -1,0 +1,47 @@
+{% extends 'browsing/base.html' %}
+{% block title %}It's the Home Page{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load browsing_extras %}
+
+<div class="container mx-auto">
+  <section class="flex flex-col gap-8 items-center justify-center">
+
+    <!-- User Profile -->
+    <div class="flex flex-col gap-6 lg:px-[100px] card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
+
+      <h2>{{ user.display_name }}</h2>
+      <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+        <h3>Summary</h3>
+        <p>{{ user.bio_text }}</p>
+      </div>
+
+      <div class="flex flex-col justify-center items-stretch gap-6 card card-primary dark:card-tertiary">
+        <h3>Activity: Gym</h3>
+            <ul class="text-left">
+              {% for pref in preferences %}
+
+              <li><span class="font-bold text-lg">Experience: </span>{{ pref.experience|title }}</li>
+              <li><span class="font-bold text-lg">Goals: </span>{{ pref.goals|prettify_list }}</li>
+              <li><span class="font-bold text-lg">Training Style: </span>{{ pref.training_styles|prettify_list }}</li>
+              <li><span class="font-bold text-lg">Gym Frequency: </span>{{ pref.gym_frequency|hours_label }}</li>
+              <li><span class="font-bold text-lg">Preferred Workout Time: </span>{{ pref.preferred_workout_times|prettify_list }}</li>
+              {% endfor %}
+
+           </ul>
+      </div>
+
+      <!-- IF NOT CONNECTED -->
+      <!-- <button class="btn btn-primary mx-auto">Connect With Buddy</button> -->
+      <!-- ELSE IF CONNECTED -->
+       <!-- <div class="flex justify-end gap-3">
+         <button class="btn btn-primary">Remove Connection With Buddy</button>
+         <button class="btn btn-danger">Block Buddy</button>
+       </div> -->
+    </div>
+
+
+  </section>
+</div>
+{% endblock %}
