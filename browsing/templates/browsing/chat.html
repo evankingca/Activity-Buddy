@@ -52,7 +52,7 @@
            <!-- END DEFAULT -->
           {% else %}
 
-
+          {% if active_connection.messages %}
           <!-- Start loop: Selected message - for each line in message -->
             {% for msg in active_connection.messages %}
             <div class="flex justify-between items-center">
@@ -68,15 +68,26 @@
                 <p class="text-left">{{ msg.text }}</p>
        
             {% endfor %}
+             {% else %}
+                <p class="text-zinc-600 text-left italic text-sm">No messages yet.</p>
+
+          {% endif %}
+        </div>
           
-          
-          </div>
-          <form method="" class="flex items-center">
-            <textarea class="w-full card card-primary dark:card-secondary" name="message-text" rows="1" placeholder="Message..."></textarea>
+          <!-- Send Message -->
+          {% if active_connection.can_send_messages %}
+          <form method="POST" action="/connections/{{ active_connection.id }}/messages/send/" class="flex items-center">
+            {% csrf_token %}
+            <input type="hidden" name="connection" value="{{ active_connection.id }}">
+            <input type="hidden" name="sender" value="{{ user.id }}">
+            <input type="hidden" name="receiver" value="{{active_connection.other_user.id}}">
+            <textarea class="w-full card card-primary dark:card-secondary" name="text" rows="1" placeholder="Message..."></textarea>
             <button class="btn btn-secondary" type="submit">Send</button>
           </form>
+          {% endif %}
         </div>
       </div>
+      {% if active_connection.status == 'PENDING' %}
       <!-- IF CONNECTION STATUS IS PENDING ON ACTIVE CHAT -->
       <div class="flex flex-col gap-3 card card-primary lg:mx-60">
         <h3>Connection Pending</h3>
@@ -85,6 +96,8 @@
           <button class="btn btn-primary">Accept</button>
           <button class="btn btn-danger">Decline</button>
         </div>
+        {% endif %}
+
         <!-- END IF -->
         {% endif %}
 
