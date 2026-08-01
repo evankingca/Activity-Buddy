@@ -93,8 +93,18 @@
         <h3>Connection Pending</h3>
         <p>Accept to chat or Decline to remove.</p>
         <div class="flex justify-center gap-3">
-          <button class="btn btn-primary">Accept</button>
-          <button class="btn btn-danger">Decline</button>
+          <form method="POST" action="/connections/{{ active_connection.id }}/" class="mt-2">
+             {% csrf_token %}
+             <input type="hidden" name="status" value="ACCEPTED">
+             <button class="btn btn-primary">Accept</button>
+           </form>
+           <form method="POST"
+                action="/connections/{{ active_connection.id }}/delete/"
+                class="mt-2"
+                onsubmit="return confirm('Are you sure you want to decline the connection?');">
+            {% csrf_token %}
+            <button class="btn btn-danger">Decline</button>
+          </form>
         </div>
         {% endif %}
 
