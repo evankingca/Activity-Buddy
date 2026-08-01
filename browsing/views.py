@@ -456,7 +456,7 @@ class DirectMessageSendView(generics.CreateAPIView):
 #
 #
 @login_required(login_url="/login/")
-def chat_page(request, connection_id=None):
+def chat(request, connection_id=None):
     user = request.user
 
     # All connections for sidebar
@@ -526,17 +526,3 @@ def chat_page(request, connection_id=None):
 
     return render(request, "browsing/chat.html", context)
 
-def chat(request):
-    context = {
-        "messages": [
-            {
-                "name": "Lauren",
-                "active": False
-            },
-                        {
-                "name": "John",
-                "active": True
-            }
-        ]
-    }
-    return render(request, "browsing/chat.html", context)

@@ -20,7 +20,7 @@
         <div class="flex flex-col md:basis-xl lg:basis-md">
 
           {% for conn in connections %}
-          <a href="/chat_page/{{ conn.id }}/">
+          <a href="/chat/{{ conn.id }}/">
           <div class="card card-primary card-sm dark:card-secondary flex flex-col
           {% if conn.is_selected %} bg-green-200 dark:bg-green-200 {% endif %}
           ">
