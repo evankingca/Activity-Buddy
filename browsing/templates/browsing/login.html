@@ -1,33 +1,4 @@
 {% extends 'browsing/base.html' %}
-<<<<<<< HEAD
-{% block title %}Login{% endblock %}
-
-{% block content %}
-<div class="container mx-auto">
-    <section class="my-15 flex flex-col md:flex-row gap-10 justify-around w-screen">
-        <div class="grow-1">
-            <form class="mt-3 p-7 card">
-                <h1 class="text-4xl text-center">Login</h1>
-                <div class="flex flex-col items-center">
-                    <div class="w-full flex flex-row justify-around">
-                        <label class="my-6" for="username">Username</label>
-                        <input class="bg-white border border-solid border-black rounded-md px-3 my-6 placeholder:text-gray-400" id="username" type="text" name="username" placeholder="Username" />
-                    </div>
-                    <div class="w-full flex flex-row justify-around">
-                        <label class="my-6" for="password">Password</label>
-                        <input class="bg-white border border-solid border-black rounded-md px-3 my-6 placeholder:text-gray-400" id="password" type="password" name="password" placeholder="Password" />
-                    </div>
-                    <button class="btn btn-secondary my-6">Login</button>
-                </div>
-            </form>
-        </div>
-        <div class="grow-1 w-content">
-            {% load static %}
-            <img class="block max-h-[300px]" src="{% static 'browsing/svg/logo-text-light.svg' %}"class="object-contain" alt="">
-        </div>
-    </section>
-</div>
-=======
 {% load static %}
 
 {% block title %}Login{% endblock %}
@@ -83,5 +54,4 @@
 
 <script src="{% static 'browsing/javascript/login.js' %}"></script>
 
->>>>>>> updated-test
 {% endblock %}
