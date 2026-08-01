@@ -1,4 +1,6 @@
 from django import template
+from django.utils.dateparse import parse_datetime
+from django.utils import timezone
 
 register = template.Library()
 
@@ -15,3 +17,10 @@ HOURS_LABELS = {
 @register.filter
 def hours_label(value):
     return HOURS_LABELS.get(value, value)
+
+@register.filter
+def to_datetime(value):
+    dt = parse_datetime(value)
+    if dt and timezone.is_naive(dt):
+        dt = timezone.make_aware(dt)
+    return dt
