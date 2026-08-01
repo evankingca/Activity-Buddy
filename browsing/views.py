@@ -293,7 +293,6 @@ class UserPreferenceListView(generics.ListAPIView):
 # -----------------------------------
 
 # Get the user's search input from front end
-@login_required(login_url="/login/")
 def text_search(request):
     url = "https://places.googleapis.com/v1/places:searchText"
     api_key = os.getenv("GOOGLE_PLACES_API_KEY")
