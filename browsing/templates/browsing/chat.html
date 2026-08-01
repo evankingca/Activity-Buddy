@@ -47,9 +47,12 @@
 
           {% if active_connection == None %}
 
-          <!-- DEFAULT - Nothing selected -->
+          <!-- No messages selected, or no messages -->
+          {% if connections %}
            <p class="text-left">Select conversation to view messages.</p>
-           <!-- END DEFAULT -->
+           {% else %}
+           <p class="text-left">No messages. Search for a buddy and reach out to start a conversation.</p>
+           {% endif %}           
           {% else %}
 
           {% if active_connection.messages %}
