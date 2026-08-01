@@ -1,5 +1,5 @@
 {% extends 'browsing/base.html' %}
-{% block title %}It's the Home Page{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
 {% load static %}
@@ -9,38 +9,32 @@
   <section class="flex flex-col gap-8 items-center justify-center">
 
     <!-- ADD username of logged in user -->
-    <h1>Welcome, {USERNAME}!</h1>
+    <h1>Welcome, {{ user.display_name }}!</h1>
 
     <!-- Most Recent Messages -->
     <div class="flex flex-col gap-6 card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>Most Recent Messages</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- START: populate with messsages from database -->
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <p class="text-left font-bold text-lg">Lauren</p>
-          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
-          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-        </div>
-        <!-- END -->
-        <!-- SAMPLE DATA START - to be deleted once populated -->
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <p class="text-left font-bold text-lg">Lauren</p>
-          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
-          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-        </div>
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <p class="text-left font-bold text-lg">Lauren</p>
-          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
-          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-        </div>
-        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-          <p class="text-left font-bold text-lg">Lauren</p>
-          <p class="text-left"><span class="font-semibold">You: </span>This is the message preview.</p>
-          <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-        </div>
-        <!-- SAMPLE DATA END -->
+
+        {% for conn in connections %}
+        {% if conn.user_a == user %}
+            <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+              <p class="text-left font-bold text-lg">{{conn.user_b.display_name}}</p>
+              <p class="text-left"><span class="font-semibold">Name: </span>Need most recent message</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+          {% else %}
+            <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+              <p class="text-left font-bold text-lg">{{conn.user_a.display_name}}</p>
+              <p class="text-left"><span class="font-semibold">Name: </span>Need most recent message</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+          {% endif %}
+        {% endfor %} 
+        
+        
       </div>
-      <button class="btn btn-secondary mx-auto">View All</button>
+      <a class="btn btn-secondary mx-auto" href="chat">View All</a>
     </div>
 
 
@@ -49,17 +43,14 @@
       <h2>Start an Activity Search</h2>
       <div class="flex flex-col md:flex-row items-center justify-center">
 
-        <!-- START: populate with activities from database -->
         <div class="card card-primary card-sm">
           <h3>Gym</h3>
-          <!-- Link to activity search page (should redirect to login if not logged in) -->
           <div class="flex items-center justify-center rounded-2xl bg-green-950 dark:bg-text-dark">
             <a href="#" class="m-3 flex items-center justify-center">
               <span class="material-symbols-outlined text-text-alt" style="font-size:48px;">fitness_center</span>
             </a>
           </div>
         </div>
-        <!-- END: populate -->
       </div>
     </div>
 
@@ -69,15 +60,16 @@
       <h2>Buddies</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         <!-- START: populate with messsages from database -->
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_1" activities="Classical philosophy" goals="Australia, Australia" workoutTime="1:00pm - 1:01pm" %}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_2" activities="Gym" goals="Build Muscle, Weight Loss" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_3" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_4" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_6" activities="Gym" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_7" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_8" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_9" activities="Gym" workoutTime="Early Morning, Morning" %}
-        <!-- SAMPLE DATA END -->
+
+        {% for conn in connections %}
+            {% if conn.user_a == user %}
+              {% include 'browsing/components/user_card.html' with name=conn.user_b.username username=conn.user_b.display_name activities="Gym" goals="Need connection to preferences" workoutTime="Need connection to preferences" %}
+            {% else %}
+              {% include 'browsing/components/user_card.html' with name=conn.user_a.username username=conn.user_a.display_name activities="Gym" goals="Need connection to preferences" workoutTime="Need connection to preferences" %}
+            {% endif %}
+        {% endfor %}        
+        
+    
       </div>
     </div>
 
