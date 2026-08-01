@@ -1,11 +1,9 @@
-from .models import User, Activity, UserActivity, Preference, Connection
-from rest_framework import serializers
+from .models import User, Activity, UserActivity, Preference, Connection, DirectMessage
 from django.contrib.auth import authenticate
 from django.db import transaction
 from rest_framework import serializers
 
 from .models import Activity, Preference, User, UserActivity
-
 
 class PreferenceWriteSerializer(serializers.ModelSerializer):
     valid_goals = {
@@ -78,8 +76,6 @@ class PreferenceWriteSerializer(serializers.ModelSerializer):
 
         return values
 
-
-
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         write_only=True,
@@ -136,7 +132,6 @@ class SignupSerializer(serializers.ModelSerializer):
 
         return user
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(
@@ -159,7 +154,6 @@ class LoginSerializer(serializers.Serializer):
         attrs["user"] = user
         return attrs
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -167,15 +161,7 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "display_name",
-            "bio_text",
-            "creation_date",
         ]
-        read_only_fields = [
-            "id",
-            "username",
-            "creation_date",
-        ]
-
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -187,7 +173,6 @@ class ActivitySerializer(serializers.ModelSerializer):
             "is_active",
         ]
         read_only_fields = ["id"]
-
 
 class UserActivitySerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -202,7 +187,6 @@ class UserActivitySerializer(serializers.ModelSerializer):
             "is_active",
         ]
 
-
 class UserActivityWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserActivity
@@ -216,7 +200,6 @@ class UserActivityWriteSerializer(serializers.ModelSerializer):
             "id",
             "user",
         ]
-
 
 class PreferenceSerializer(serializers.ModelSerializer):
     user_activity = UserActivitySerializer(read_only=True)
@@ -299,4 +282,15 @@ class ConnectionWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Connection
         fields = ["user_a", "user_b", "status"]
+
+class DirectMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DirectMessage
+        fields = ["id", "sender", "receiver", "connection", "text", "timestamp"]
+        read_only_fields = ["id", "timestamp", "sender"]
+
+class DirectMessageWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DirectMessage
+        fields = ["receiver", "text"]
 

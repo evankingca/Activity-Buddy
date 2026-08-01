@@ -1,0 +1,122 @@
+{% extends 'browsing/base.html' %}
+{% block title %}Chat{% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div class="container mx-auto">
+  <section class="flex flex-col gap-8 items-center justify-center">
+
+    <!-- Logged-in user -->
+    <h1>Welcome, {{ user.display_name }}!</h1>
+
+    <div class="flex flex-col gap-6 card card-tertiary dark:card-primary text-center w-full max-w-6xl">
+      <h2>Messages</h2>
+
+      <div class="flex flex-col gap-4 md:flex-row md:gap-1">
+
+        <!-- LEFT SIDEBAR: Connections -->
+        <div class="flex flex-col md:basis-xl lg:basis-md">
+
+          {% for conn in connections %}
+          <a href="/chat_page/{{ conn.id }}/">
+            <div class="card card-primary card-sm dark:card-secondary flex flex-col items-center p-4
+                  {% if conn.is_selected %} bg-green-200 dark:bg-green-200 {% endif %}">
+
+                  <!-- Display name at top, centered -->
+                  <p class="font-bold text-lg text-center">
+                    {{ conn.other_user.display_name }}
+                  </p>
+
+                  <!-- Message text in the middle -->
+                  <p class="text-sm text-center mt-2">
+                    {% if conn.last_message %}
+                      {{ conn.last_message.text }}
+                    {% else %}
+                      No messages yet
+                    {% endif %}
+                  </p>
+
+                  <!-- Timestamp at the bottom -->
+                  <p class="italic text-xs text-center mt-2">
+                    {% if conn.last_message %}
+                      {{ conn.last_message.timestamp }}
+                    {% endif %}
+                  </p>
+
+                </div>
+
+          </a>
+          {% endfor %}
+
+        </div>
+
+        <!-- RIGHT SIDE: Active Chat Window -->
+        <div class="flex flex-col w-full justify-between">
+
+            <div class="flex flex-col w-full justify-between">
+
+                {% if active_connection %}
+                    <nav class="grid sm:flex bg-slate-100 justify-between sm:items-center opacity-50 text-text-light sm:p-5 p-4 rounded-3xl border-2 border-slate-800 transition-bounce collapsed sm:h-24">
+                        <div class="flex justify-between items-center sm:w-fit w-full">
+                            <div><p class="font-bold text-xl">Messaging : {{ active_connection.other_user.display_name }}</p>
+                                <p class="italic text-sm font-light">Connection Status : {{ active_connection.status }}</p></div>
+                        </div>
+                        <div class="flex sm:flex-row flex-col gap-2 h-full overflow-hidden" id="actionNavs">
+                            <div class="flex flex-col items-end">
+                              <!-- Accept button for pending -->
+                                {% if active_connection.status == "PENDING" %}
+                                    <form method="POST" action="/connections/{{ active_connection.id }}/" class="mt-2">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="status" value="ACCEPTED">
+                                      <button class="btn btn-primary w-full">Accept Connection</button>
+                                    </form>
+                                {%  else %}
+                                  <form method="POST"
+                                        action="/connections/{{ active_connection.id }}/delete/"
+                                        class="mt-2"
+                                        onsubmit="return confirm('Are you sure you want to block this user and delete the connection?');">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger">Deny / Block</button>
+                                  </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-- MESSAGE BODY -->
+                    <div id="message-body" class="card card-body flex flex-col card-sm dark:card-tertiary p-4">
+                        {% for msg in active_connection.messages %}
+                            {% if msg.sender.id == user.id %}
+                                <div class="flex items-end mb-4">
+                                    {{ active_connection.other_user.display_name }} ( {{ msg.timestamp }} ) <br/>{{ msg.text }}
+                                </div>
+                            {% else %}
+                            <!-- OTHER USER'S MESSAGE (LEFT SIDE) -->
+                                <div class="flex flex-col items-start mb-4">
+                                    {{ user.display_name }} ( {{ msg.timestamp }} )<br/>{{ msg.text }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Send Message -->
+                    {% if active_connection.can_send_messages %}
+                        <form method="POST" action="/connections/{{ active_connection.id }}/messages/send/" class="flex items-center mt-4">
+                            {% csrf_token %}
+                            <input type="hidden" name="connection" value="{{ active_connection.id }}">
+                            <input type="hidden" name="sender" value="{{ user.id }}">
+                            <input type="hidden" name="receiver" value="{% if active_connection.user_a.id == user.id %}{{ active_connection.user_b.id }}{% else %}{{ active_connection.user_a.id }}{% endif %}">
+                            <textarea class="w-full card card-primary dark:card-secondary"name="text" rows="1" placeholder="Message..."></textarea>
+                            <button class="btn btn-secondary ml-2" type="submit">Send</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

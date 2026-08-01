@@ -1,13 +1,12 @@
 from django.urls import path
 from . import views
-from .views import ConnectionCreateView, ConnectionUpdateView, ConnectionDeleteView
+from .views import ConnectionUpdateView, ConnectionDeleteView
 
 urlpatterns = [
     path("", views.index, name="index"),
     path("register", views.register, name="register"),
     path("login", views.login, name="login"),
 
-    
     path("profile",views.user_profile, name="user_profile"),
     path("chat",views.chat, name="chat"),
 
@@ -60,8 +59,16 @@ urlpatterns = [
     # ------------------------------
     # Connections Endpoints
     # ------------------------------
-    path("connections/", ConnectionCreateView.as_view()),
+    path("connections/", views.ConnectionListCreateView.as_view()),
     path("connections/<int:pk>/", ConnectionUpdateView.as_view()),
     path("connections/<int:pk>/delete/", ConnectionDeleteView.as_view()),
+
+    # Messaging
+    path("connections/<int:pk>/messages/", views.DirectMessageListView.as_view()),
+    path("connections/<int:pk>/messages/send/", views.DirectMessageSendView.as_view()),
+
+    # Chat Page
+    path("chat_page/", views.chat_page, name="chat"),
+    path("chat_page/<int:connection_id>/", views.chat_page, name="chat_with_connection"),
 
 ]
