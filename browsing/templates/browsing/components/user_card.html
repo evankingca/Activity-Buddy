@@ -1,0 +1,15 @@
+<div class="card card-primary card-sm flex flex-col gap-3 userCard">
+    <div class="text-center">
+        <h3 class="userCardName">{{ name|default:"Empty" }}</h3>
+        <p class="text-sm text-text/50 userCardUsername">{{ username|default:"empty" }}</p>
+    </div>
+    <div class="flex flex-col gap-1">
+        <p class="has-[.contentSpan:empty]:hidden"><span class="font-semibold">Activities: </span><span
+                class="contentSpan">{{ activities }}</span></p>
+        <p class="has-[.contentSpan:empty]:hidden"><span class="font-semibold">Goals: </span><span
+                class="contentSpan">{{ goals }}</span></p>
+        <p class="has-[.contentSpan:empty]:hidden"><span class="font-semibold">Preferred Workout Time: </span><span
+                class="contentSpan">{{ workoutTime }}</span></p>
+    </div>
+    <a href="profile/{{ id|default:'noIDSet' }}" class="btn btn-secondary mt-auto">View Profile</a>
+</div>

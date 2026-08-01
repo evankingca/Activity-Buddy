@@ -1,0 +1,87 @@
+{% extends 'browsing/base.html' %}
+{% block title %}It's the Home Page{% endblock %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="container mx-auto">
+  <section class="flex flex-col gap-8 items-center justify-center">
+
+    <!-- ADD username of logged in user -->
+    <h1>Welcome, {USERNAME}!</h1>
+
+    <!-- Most Recent Messages -->
+    <div class="flex flex-col gap-6 card card-tertiary dark:card-primary text-center w-full max-w-6xl">
+      <h2>Messages</h2>
+      <div class="flex flex-col gap-4 md:flex-row md:gap-1">
+        <div class="flex flex-col md:basis-xl lg:basis-md">
+          <!-- START: populate with messsages from database -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- example data -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- Example selected message -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center 
+          {% if messages.1.active %} bg-green-200 dark:bg-green-200 {% endif %}
+          ">
+            <p class="text-left font-bold text-lg">{{ messages.1.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- end example selected message -->
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <div class="card card-primary card-sm dark:card-secondary flex justify-between items-center">
+            <p class="text-left font-bold text-lg">{{ messages.0.name }}</p>
+            <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+          </div>
+          <!-- end example data -->
+          <!-- END -->
+        </div>
+        <div class="flex flex-col w-full justify-between">
+        <div id="message-body" class="flex flex-col card card-primary card-sm dark:card-tertiary">
+          <!-- DEFAULT - Nothing selected -->
+           <!-- <p class="text-left">Select conversation to view messages.</p> -->
+           <!-- END DEFAULT -->
+          <!-- Start loop: Selected message - for each line in message -->
+            <div class="flex justify-between items-center">
+              <p class="text-left font-bold text-lg">Lauren</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+            <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperd quis  nunc.</p>
+          <!-- End loop -->
+          <!-- placeolder messages -->
+            <div class="flex justify-between items-center">
+              <p class="text-left font-bold text-lg">Lauren</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+            <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperd quis  nunc.</p>
+            <div class="flex justify-between items-center">
+              <p class="text-left font-bold text-lg">Lauren</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+            <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperd quis  nunc.</p>
+            <div class="flex justify-between items-center">
+              <p class="text-left font-bold text-lg">Lauren</p>
+              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+            </div>
+            <p class="text-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed varius et  mauris id auctor. Nam sed eros egestas velit pretium imperd quis  nunc.</p>
+            <!-- end placeholder messages -->
+          </div>
+          <form method="" class="flex items-center">
+            <textarea class="w-full card card-primary dark:card-secondary" name="message-text" rows="1" placeholder="Message..."></textarea>
+            <button class="btn btn-secondary" type="submit">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

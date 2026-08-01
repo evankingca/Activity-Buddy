@@ -69,66 +69,14 @@
       <h2>Buddies</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         <!-- START: populate with messsages from database -->
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <!--  -->
-          <h3 class="text-center">Gavin</h3>
-          <p class="text-center italic text-sm">Username</p>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <!-- <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p> -->
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <!-- END -->
-        <!-- SAMPLE DATA START - to be deleted once populated -->
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <!-- <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p> -->
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <!-- <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p> -->
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
-        <div class="card card-tertiary card-sm flex flex-col text-left gap-1">
-          <h3 class="text-center">Gavin</h3>
-          <p><span class="font-semibold">Activities: </span>Gym</p>
-          <p><span class="font-semibold">Goals: </span>Build Muscle, Weight Loss</p>
-          <p><span class="font-semibold">Preferred Workout Time: </span>Early Morning, Morning</p>
-          <a href="#" class="btn btn-tertiary mx-auto mt-auto">View Profile</a>
-        </div>
+        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_1" activities="Classical philosophy" goals="Australia, Australia" workoutTime="1:00pm - 1:01pm" %}
+        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_2" activities="Gym" goals="Build Muscle, Weight Loss" %}
+        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_3" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
+        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_4" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
+        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_6" activities="Gym" workoutTime="Early Morning, Morning" %}
+        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_7" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
+        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_8" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
+        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_9" activities="Gym" workoutTime="Early Morning, Morning" %}
         <!-- SAMPLE DATA END -->
       </div>
     </div>

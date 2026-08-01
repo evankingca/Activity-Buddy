@@ -8,8 +8,15 @@ urlpatterns = [
     path("login", views.login, name="login"),
 
     path("profile",views.user_profile, name="user_profile"),
+    path("chat",views.chat, name="chat"),
+
+
     
     path("user", views.user, name="user"),
+
+    path("search", views.search, name="search"),
+
+    path("about", views.about, name="about"),
     # ------------------------------
     # Auth Endpoints
     # ------------------------------
