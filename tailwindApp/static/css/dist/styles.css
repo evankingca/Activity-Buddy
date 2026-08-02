@@ -260,6 +260,9 @@
   .col-span-2 {
     grid-column: span 2 / span 2;
   }
+  .col-start-2 {
+    grid-column-start: 2;
+  }
   .container {
     width: 100%;
   }
@@ -488,8 +491,17 @@
   .gap-y-8 {
     row-gap: calc(var(--spacing) * 8);
   }
+  .place-self-center {
+    place-self: center;
+  }
   .self-stretch {
     align-self: stretch;
+  }
+  .justify-self-center {
+    justify-self: center;
+  }
+  .justify-self-stretch {
+    justify-self: stretch;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -829,6 +841,11 @@
     }
   }
   @media (width >= 48rem) {
+    .md\:col-span-3 {
+      grid-column: span 3 / span 3;
+    }
+  }
+  @media (width >= 48rem) {
     .md\:mt-0 {
       margin-top: 0;
     }
@@ -899,6 +916,16 @@
     }
   }
   @media (width >= 64rem) {
+    .lg\:col-span-2 {
+      grid-column: span 2 / span 2;
+    }
+  }
+  @media (width >= 64rem) {
+    .lg\:col-start-2 {
+      grid-column-start: 2;
+    }
+  }
+  @media (width >= 64rem) {
     .lg\:mx-0 {
       margin-inline: 0;
     }
@@ -946,6 +973,16 @@
   @media (width >= 64rem) {
     .lg\:px-\[100px\] {
       padding-inline: 100px;
+    }
+  }
+  @media (width >= 80rem) {
+    .xl\:col-span-3 {
+      grid-column: span 3 / span 3;
+    }
+  }
+  @media (width >= 80rem) {
+    .xl\:col-start-2 {
+      grid-column-start: 2;
     }
   }
   @media (width >= 80rem) {
