@@ -15,18 +15,26 @@
     <div class="flex flex-col gap-6 card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>Most Recent Messages</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {% if connections %}
+            
             {% for conn in connections %}
-            <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-              <p class="text-left font-bold text-lg">{{ conn.other_user.display_name }}</p>
-              <p class="text-left">
-                {{ conn.last_message.text }}
-                {% if conn.last_message.sender == user %}
-                  <span class="italic text-sm">(you)</span>
+              <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+                <p class="text-left font-bold text-xl">{{ conn.other_user.display_name }}</p>
+                {% if conn.last_message %} 
+                <p class="text-left text-zinc-500">{{ conn.last_message.sender }}: {{ conn.last_message.text }}</p>
+                {% else %}
+                <p class="text-left text-zinc-500">No messages yet.</p>
                 {% endif %}
-              </p>
-              <p class="text-right italic text-sm">{{ conn.last_message.timestamp|date:"F j, Y | g:i A" }}</p>
-            </div>
+                <p class="text-right text-zinc-500 italic text-sm">{{ conn.last_message.timestamp|date:"F j, Y | g:i A" }}</p>
+              </div>
             {% endfor %}
+
+          {% else %}
+            <div class="card card-primary card-sm dark:card-tertiary md:col-span-2">
+              <p>No messages. Search for a buddy and reach out to start a conversation.</p>
+            </div>
+          {% endif %}
+
         </div>
       <a class="btn btn-secondary mx-auto" href="chat">View All</a>
     </div>
@@ -54,7 +62,7 @@
       <h2>Buddies</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {% for conn in connections %}
-          {% include 'browsing/components/user_card.html' with id=conn.other_user.id name=conn.other_user.username username=conn.other_user.display_name activities=conn.other_activities|join:", " goals=conn.other_preferences.goals|join:", " workoutTime=conn.other_preferences.preferred_workout_time|join:", " %}
+          {% include 'browsing/components/user_card.html' with id=conn.other_user.id name=conn.other_user.display_name username=conn.other_user.username activities=conn.other_activities|join:", " goals=conn.other_preferences.goals|join:", " workoutTime=conn.other_preferences.preferred_workout_time|join:", " %}
         {% endfor %}
       </div>
     </div>
