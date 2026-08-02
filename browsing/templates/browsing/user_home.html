@@ -14,26 +14,20 @@
     <!-- Most Recent Messages -->
     <div class="flex flex-col gap-6 card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>Most Recent Messages</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-        {% for conn in connections %}
-        {% if conn.user_a == user %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {% for conn in connections %}
             <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-              <p class="text-left font-bold text-lg">{{conn.user_b.display_name}}</p>
-              <p class="text-left"><span class="font-semibold">Name: </span>Need most recent message</p>
-              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
+              <p class="text-left font-bold text-lg">{{ conn.other_user.display_name }}</p>
+              <p class="text-left">
+                {{ conn.last_message.text }}
+                {% if conn.last_message.sender == user %}
+                  <span class="italic text-sm">(you)</span>
+                {% endif %}
+              </p>
+              <p class="text-right italic text-sm">{{ conn.last_message.timestamp|date:"F j, Y | g:i A" }}</p>
             </div>
-          {% else %}
-            <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-              <p class="text-left font-bold text-lg">{{conn.user_a.display_name}}</p>
-              <p class="text-left"><span class="font-semibold">Name: </span>Need most recent message</p>
-              <p class="text-right italic text-sm">June 14, 2026 | 7:14 AM</p>
-            </div>
-          {% endif %}
-        {% endfor %} 
-        
-        
-      </div>
+            {% endfor %}
+        </div>
       <a class="btn btn-secondary mx-auto" href="chat">View All</a>
     </div>
 
@@ -59,19 +53,12 @@
     <div class="text-center flex flex-col gap-6 w-full max-w-7xl">
       <h2>Buddies</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        <!-- START: populate with messsages from database -->
-
         {% for conn in connections %}
-            {% if conn.user_a == user %}
-              {% include 'browsing/components/user_card.html' with name=conn.user_b.username username=conn.user_b.display_name activities="Gym" goals="Need connection to preferences" workoutTime="Need connection to preferences" %}
-            {% else %}
-              {% include 'browsing/components/user_card.html' with name=conn.user_a.username username=conn.user_a.display_name activities="Gym" goals="Need connection to preferences" workoutTime="Need connection to preferences" %}
-            {% endif %}
-        {% endfor %}        
-        
-    
+          {% include 'browsing/components/user_card.html' with id=conn.other_user.id name=conn.other_user.username username=conn.other_user.display_name activities=conn.other_activities|join:", " goals=conn.other_preferences.goals|join:", " workoutTime=conn.other_preferences.preferred_workout_time|join:", " %}
+        {% endfor %}
       </div>
     </div>
+
 
     <div class="card card-primary w-fit flex flex-col gap-6 items-center justify-center">
       <h2>Manage Your Account</h2>

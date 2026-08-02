@@ -42,31 +42,68 @@ def login(request):
         return redirect("/user")
     return render(request, "browsing/login.html", context)
 
-
-
 @login_required(login_url="/login/")
-def user_profile(request):
-    context = {
-        "user": request.user,
-        "activities": UserActivity.objects.filter(user=request.user),
-        "preferences": Preference.objects.filter( user_activity__user=request.user ),
-        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
-        }
-    return render(request, "browsing/user_profile.html", context)
+def user_profile(request, pk=None):
+    profile_user = request.user if pk is None else User.objects.get(pk=pk)
 
+    context = {
+        "user": profile_user,
+        "activities": UserActivity.objects.filter(user=profile_user),
+        "preferences": Preference.objects.filter(user_activity__user=profile_user),
+        "connections": Connection.objects.filter(user_a=profile_user) | Connection.objects.filter(user_b=profile_user),
+    }
+
+    return render(request, "browsing/user_profile.html", context)
 
 @login_required(login_url="/login/")
 def user(request):
+    user = request.user
+    connections = Connection.objects.filter( Q(user_a=user) | Q(user_b=user) )
+    enriched_connections = []
+
+    for conn in connections:
+        other = conn.user_b if conn.user_a == user else conn.user_a
+        last_msg = ( DirectMessage.objects.filter(connection=conn).order_by("-timestamp").first() )
+
+        other_activities_qs = UserActivity.objects.filter(user=other)
+        other_activities = [ua.activity.name for ua in other_activities_qs]
+        other_preferences = Preference.objects.filter( user_activity__user=other ).first()
+        enriched_connections.append({
+            "connection": conn,
+            "other_user": other,
+            "other_activities": other_activities,
+            "other_preferences": other_preferences,
+            "last_message": last_msg,
+        })
     context = {
-        "user": request.user,
-        "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
-        "preferences": Preference.objects.filter( user_activity__user=request.user ),
+        "user": user,
+        "connections": enriched_connections,
     }
     return render(request, "browsing/user_home.html", context)
 
+@login_required(login_url="/login/")
 def search(request):
-    context = {}
+    query = request.GET.get("q", "").strip()
+    users = User.objects.exclude(id=request.user.id)
+    if query:
+        users = users.filter( Q(display_name__icontains=query) | Q(username__icontains=query) | Q(useractivity__activity__name__icontains=query) | Q(useractivity__preference__goals__icontains=query) ).distinct()
+    results = []
+
+    for u in users:
+        activities_qs = UserActivity.objects.filter(user=u)
+        activities = [ua.activity.name for ua in activities_qs]
+        prefs = Preference.objects.filter(user_activity__user=u).first()
+        results.append({
+            "user": u,
+            "activities": activities,
+            "preferences": prefs,
+        })
+    context = {
+        "results": results,
+        "query": query,
+    }
     return render(request, "browsing/search.html", context)
+
 
 def about(request):
     return render(request, "browsing/about.html")
@@ -472,7 +509,6 @@ def chat(request, connection_id=None):
             .order_by("-timestamp")
             .first()
         )
-
         connection_list.append({
             "id": conn.id,
             "other_user": {
@@ -515,10 +551,7 @@ def chat(request, connection_id=None):
         }
 
     context = {
-        "user": {
-            "id": user.id,
-            "display_name": user.display_name,
-        },
+        "user": user,
         "connections": connection_list,
         "active_connection": active_context,
     }
