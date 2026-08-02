@@ -346,13 +346,7 @@ class ConnectionListCreateView(generics.ListCreateAPIView):
 
         for conn in connections:
             other = conn.user_b if conn.user_a == request.user else conn.user_a
-
-            last_msg = (
-                DirectMessage.objects.filter(connection=conn)
-                .order_by("-timestamp")
-                .first()
-            )
-
+            last_msg = ( DirectMessage.objects.filter(connection=conn).order_by("-timestamp").first() )
             data.append({
                 "id": conn.id,
                 "other_user": UserSerializer(other).data,
@@ -431,7 +425,13 @@ class DirectMessageListView(generics.ListAPIView):
 # POST /connections/<pk>/messages/send/
 class DirectMessageSendView(generics.CreateAPIView):
     serializer_class = DirectMessageWriteSerializer
-    permission_classes = [IsAuthenticated, IsConnectionUser]
+    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated, IsDirectMessageUser]
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        return_to = request.data.get("return_to")
+        return redirect(return_to) if return_to else response
 
     def perform_create(self, serializer):
         connection = Connection.objects.get(pk=self.kwargs["pk"])
@@ -451,7 +451,6 @@ class DirectMessageSendView(generics.CreateAPIView):
             else connection.user_a
         )
         serializer.save( sender=self.request.user, receiver=receiver, connection=connection )
-
 #
 #
 #

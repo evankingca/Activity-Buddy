@@ -80,6 +80,7 @@
           <!-- Send Message -->
           {% if active_connection.can_send_messages %}
           <form method="POST" action="/connections/{{ active_connection.id }}/messages/send/" class="flex items-center">
+            <input type="hidden" name="return_to" value="/chat/{{ active_connection.id }}/">
             {% csrf_token %}
             <input type="hidden" name="connection" value="{{ active_connection.id }}">
             <input type="hidden" name="sender" value="{{ user.id }}">
