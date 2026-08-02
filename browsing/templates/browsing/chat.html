@@ -7,8 +7,6 @@
 
 <div class="container mx-auto">
   <section class="flex flex-col gap-8 items-center justify-center">
-
-    <!-- ADD username of logged in user -->
     <h1>Welcome, {{ user.display_name }}!</h1>
 
     <!-- Most Recent Messages -->
@@ -54,7 +52,6 @@
           {% else %}
 
           {% if active_connection.messages %}
-          <!-- Start loop: Selected message - for each line in message -->
             {% for msg in active_connection.messages %}
             <div class="flex justify-between items-center">
               <p class="text-left font-bold text-lg">
@@ -90,7 +87,6 @@
         </div>
       </div>
       {% if active_connection.status == 'PENDING' %}
-      <!-- IF CONNECTION STATUS IS PENDING ON ACTIVE CHAT -->
       <div class="flex flex-col gap-3 card card-primary lg:mx-60">
         <h3>Connection Pending</h3>
         <p>Accept to chat or Decline to remove.</p>
@@ -109,8 +105,6 @@
           </form>
         </div>
         {% endif %}
-
-        <!-- END IF -->
         {% endif %}
 
       </div>

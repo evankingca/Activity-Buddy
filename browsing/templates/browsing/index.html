@@ -49,11 +49,9 @@
       <h2 class="mb-4">Choose Your Activities</h2>
       <div class="flex flex-col md:flex-row items-center justify-center gap-4">
 
-        <!-- START: populate with activities from database -->
          {% for activity in activities %}
         <div class="card card-primary card-sm">
           <h3 class="mb-4">{{ activity.name }}</h3>
-          <!-- Link to activity search page (should redirect to login if not logged in) -->
           <div class="flex items-center justify-center rounded-2xl bg-green-950 dark:bg-text-dark">
             <a href="/search" class="m-3 flex items-center justify-center">
               <span class="material-symbols-outlined text-text-alt" style="font-size:48px;">{{ activity.icon }}</span>
@@ -61,7 +59,6 @@
           </div>
         </div>
         {% endfor %}
-        <!-- END: populate -->
 
       </div>
     </div>
