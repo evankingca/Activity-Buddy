@@ -68,7 +68,7 @@ urlpatterns = [
     path("connections/<int:pk>/messages/send/", views.DirectMessageSendView.as_view()),
 
     # Chat Page
-    path("chat_page/", views.chat_page, name="chat"),
-    path("chat_page/<int:connection_id>/", views.chat_page, name="chat_with_connection"),
+    path("chat/", views.chat, name="chat"),
+    path("chat/<int:connection_id>/", views.chat, name="chat_with_connection"),
 
 ]

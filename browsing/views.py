@@ -51,8 +51,9 @@ def user_profile(request):
         "activities": UserActivity.objects.filter(user=request.user),
         "preferences": Preference.objects.filter( user_activity__user=request.user ),
         "connections": Connection.objects.filter( user_a=request.user ) | Connection.objects.filter( user_b=request.user ),
-    }
+        }
     return render(request, "browsing/user_profile.html", context)
+
 
 @login_required(login_url="/login/")
 def user(request):
@@ -69,7 +70,6 @@ def search(request):
 
 def about(request):
     return render(request, "browsing/about.html")
-
 
 # -------------------------
 # Authentication Views
@@ -456,7 +456,7 @@ class DirectMessageSendView(generics.CreateAPIView):
 #
 #
 @login_required(login_url="/login/")
-def chat_page(request, connection_id=None):
+def chat(request, connection_id=None):
     user = request.user
 
     # All connections for sidebar
@@ -526,17 +526,3 @@ def chat_page(request, connection_id=None):
 
     return render(request, "browsing/chat.html", context)
 
-def chat(request):
-    context = {
-        "messages": [
-            {
-                "name": "Lauren",
-                "active": False
-            },
-                        {
-                "name": "John",
-                "active": True
-            }
-        ]
-    }
-    return render(request, "browsing/chat.html", context)
