@@ -1,18 +1,15 @@
-{% extends 'browsing/base.html' %} {% block title %}Login{% endblock %} {% load
-static %} {% block content %}
+{% extends 'browsing/base.html' %} {% block title %}Login{% endblock %} {% load static %} {% block content %}{% load browsing_extras %}
+
 <div class="mx-auto max-w-7xl flex flex-col gap-10 justify-between items-center w-full">
     <h1>Buddy Search</h1>
-    <input class="input sm:max-w-md w-full" type="text" placeholder="Search for a buddy" />
+    <form method="GET" class="w-full flex flex-col gap-4 items-center">
+        <input class="input sm:max-w-md w-full" type="text" name="q" placeholder="Search for a buddy" value="{{ query }}" />
+    </form>
     <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(230px,1fr))] w-full">
-        <!-- prettier-ignore -->
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_1" activities="Classical philosophy" goals="Australia, Australia" workoutTime="1:00pm - 1:01pm" %}
-        {% include 'browsing/components/user_card.html' with name="Spruce" username="australia_2" activities="Gym" goals="Build Muscle, Weight Loss" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_3" activities="Gym" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_4" workoutTime="1:00pm - 1:01pm" %}
-        {% include 'browsing/components/user_card.html' with name="Spruce" username="australia_5" activities="Gym" goals="Build Muscle, Weight Loss"%}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_6" activities="Gym" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Gavin" username="australia_7" activities="Gym" workoutTime="Early Morning, Morning" %}
-        {% include 'browsing/components/user_card.html' with name="Bruce" username="australia_8" workoutTime="1:00pm - 1:01pm" %}
+        {% for r in results %}
+            {% include 'browsing/components/user_card.html' with id=r.user.id name=r.user.display_name username=r.user.username activities=r.activities|prettify_list goals=r.preferences.goals|prettify_list workoutTime=r.preferences.preferred_workout_times|prettify_list %}
+        {% endfor %}
     </div>
+
 </div>
 {% endblock %}
