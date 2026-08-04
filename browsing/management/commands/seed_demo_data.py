@@ -1,11 +1,18 @@
 from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand
 
-from browsing.models import Activity, Preference, User, UserActivity
+from browsing.models import (
+    Activity,
+    Connection,
+    DirectMessage,
+    Preference,
+    User,
+    UserActivity,
+)
 
 
 class Command(BaseCommand):
-    help = "Create demo users and preference data"
+    help = "Create demo users, preferences, connections, and messages"
 
     def handle(self, *args, **options):
         gym, _ = Activity.objects.get_or_create(
@@ -59,7 +66,37 @@ class Command(BaseCommand):
                     "location_ids": [],
                 },
             },
+            {
+                "username": "user4",
+                "email": "user4@example.com",
+                "display_name": "User 4",
+                "bio_text": "Enjoys functional training and evening workouts.",
+                "preferences": {
+                    "experience": "intermediate",
+                    "goals": ["general_fitness", "endurance"],
+                    "training_styles": ["functional_fitness", "cardio"],
+                    "gym_frequency": "3_4",
+                    "preferred_workout_times": ["evening", "late_night"],
+                    "location_ids": [],
+                },
+            },
+            {
+                "username": "user5",
+                "email": "user5@example.com",
+                "display_name": "User 5",
+                "bio_text": "Looking for beginner-friendly workout partners.",
+                "preferences": {
+                    "experience": "beginner",
+                    "goals": ["general_fitness", "build_muscle"],
+                    "training_styles": ["weightlifting", "cardio"],
+                    "gym_frequency": "1_2",
+                    "preferred_workout_times": ["afternoon"],
+                    "location_ids": [],
+                },
+            },
         ]
+
+        users = {}
 
         for demo_user in demo_users:
             preference_data = demo_user["preferences"]
@@ -75,13 +112,17 @@ class Command(BaseCommand):
                 },
             )
 
+            users[user.username] = user
+
             user_activity, _ = UserActivity.objects.get_or_create(
                 user=user,
                 activity=gym,
-                defaults={"is_active": True},
+                defaults={
+                    "is_active": True,
+                },
             )
 
-            Preference.objects.get_or_create(
+            Preference.objects.update_or_create(
                 user_activity=user_activity,
                 defaults=preference_data,
             )
@@ -91,4 +132,46 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.WARNING(f"{user.username} already exists"))
 
-        self.stdout.write(self.style.SUCCESS("Demo data seeded successfully."))
+        accepted_connection, _ = Connection.objects.update_or_create(
+            user_a=users["user1"],
+            user_b=users["user2"],
+            defaults={
+                "status": Connection.Status.ACCEPTED,
+            },
+        )
+
+        Connection.objects.update_or_create(
+            user_a=users["user1"],
+            user_b=users["user3"],
+            defaults={
+                "status": Connection.Status.PENDING,
+            },
+        )
+
+        DirectMessage.objects.get_or_create(
+            sender=users["user1"],
+            receiver=users["user2"],
+            connection=accepted_connection,
+            text="Hey, are you available to work out this week?",
+        )
+
+        DirectMessage.objects.get_or_create(
+            sender=users["user2"],
+            receiver=users["user1"],
+            connection=accepted_connection,
+            text="Yes, I am available Thursday evening.",
+        )
+
+        DirectMessage.objects.get_or_create(
+            sender=users["user1"],
+            receiver=users["user2"],
+            connection=accepted_connection,
+            text="Thursday evening works for me.",
+        )
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                "Demo users, preferences, connections, and messages "
+                "seeded successfully."
+            )
+        )
