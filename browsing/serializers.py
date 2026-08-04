@@ -161,6 +161,8 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "display_name",
+            "bio_text",
+            "is_authenticated"
         ]
 
 class ActivitySerializer(serializers.ModelSerializer):
