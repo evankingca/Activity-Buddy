@@ -87,12 +87,16 @@ registerForm.addEventListener("submit", async (event) => {
   const times = document.querySelectorAll('input[name="time"]:checked');
   const checkedTimes = Array.from(times).map((ct) => ct.value);
 
+  const location_ids = document.querySelectorAll('input[name="location"]:checked');
+  const checkedLocations = Array.from(location_ids).map((cl) => cl.value);
+
   const preferences = {
     experience: document.getElementById("experience").value,
     goals: checkedGoals,
     training_styles: checkedTraining,
     gym_frequency: document.getElementById("frequency").value,
     preferred_workout_times: checkedTimes,
+    location_ids: checkedLocations,
   };
 
   const registrationData = {
@@ -110,6 +114,8 @@ registerForm.addEventListener("submit", async (event) => {
     requireAtLeastOne("training", "Select at least one training style.");
 
     requireAtLeastOne("time", "Select at least one preferred workout time.");
+
+    requireAtLeastOne("location", "Select at least one preferred location.");
 
     const response = await fetch("/auth/signup/", {
       method: "POST",
