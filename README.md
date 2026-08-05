@@ -74,6 +74,14 @@ Once that's set up, you should `exit` out of the postgres prompt and run this to
 python manage.py migrate
 ```
 
+If you also want some demo data in the database to start testing things, run this command:
+
+```
+python manage.py seed_demo_data
+```
+
+Don't run that in production, though!
+
 ### Run
 
 Then finally, to start the dev server with the Tailwind watcher on Windows, you'll need two terminals open. In one terminal, run:
