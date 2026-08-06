@@ -42,13 +42,13 @@ Install all the pip dependencies, including Django:
 python -m pip install -r requirements.txt
 ```
 
-And then install tailwind and it's deps:
+And then install tailwind and its deps:
 
 ```
 python manage.py tailwind install
 ```
 
-Once you've done that you'll need to create a `.env` file, which is where we'll store all the credentials for connecting to the database. I've create a file called `.env.template` which you can copy and then rename to `.env`. If you've on Windows and set up Postgres using all the defaults, you shouldn't have to edit anything in here. If you're on Mac though and installed through brew, your default postgres username will be to set to your Mac's user account name, so you'll need to update the file with that.
+Once you've done that you'll need to create a `.env` file, which is where we'll store all the credentials for connecting to the database. I've create a file called `.env.template` which you can copy and then rename to `.env`. If you're on Windows and set up Postgres using all the defaults, you shouldn't have to edit anything in here. If you're on Mac and installed through brew, your default postgres username will be to set to your Mac's user account name, so you'll need to update the file with that.
 
 To run the migration, you'll first need to create a table called `gymgolf`. To do that, you'll need to log into Postgres via the command line using `psql`. If you're on Windows, it should be something like:
 
@@ -104,7 +104,7 @@ On Mac/Linux, it's just one command:
 python manage.py tailwind dev
 ```
 
-Which essentially just runs `python manage.py runserver` along with starting the tailwind watcher. You can read more about how that works [here](https://django-tailwind.readthedocs.io/en/latest/)
+Which essentially just runs `python manage.py runserver` along with starting the tailwind watcher. You can read more about how that works [here](https://django-tailwind.readthedocs.io/en/latest/).
 
 Then just go to [http://127.0.0.1:8000](http://127.0.0.1:8000) to see the site.
 
@@ -112,7 +112,7 @@ Then just go to [http://127.0.0.1:8000](http://127.0.0.1:8000) to see the site.
 
 ### NPM Not Installed Error
 
-If your on Windows and you run into an issue where Tailwind tells you:
+If you're on Windows and you run into an issue where Tailwind tells you:
 
 ```
 CommandError:
