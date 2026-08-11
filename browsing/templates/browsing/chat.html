@@ -12,99 +12,106 @@
     <!-- Most Recent Messages -->
     <div class="flex flex-col gap-6 card card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>Messages</h2>
-      <div class="flex flex-col gap-4 md:flex-row md:gap-1">
-        <div class="flex flex-col md:basis-xl lg:basis-md">
+      <div class="flex flex-col gap-4 md:flex-row md:gap-2">
+        <div class="flex flex-col md:basis-xl lg:basis-md gap-2">
 
           {% for conn in connections %}
           <a href="/chat/{{ conn.id }}/">
-          <div class="card card-primary card-sm dark:card-secondary flex flex-col
-          {% if conn.is_selected %} bg-green-200 dark:bg-green-200 {% endif %}
+            <div class="btn flex flex-col
+          {% if conn.is_selected %} btn-secondary {% else %} btn-tertiary {% endif %}
           ">
-            <div class="flex justify-between items-center">
-              <p class="text-left font-bold text-lg">{{ conn.other_user.display_name }}</p>
-          {% if conn.last_message %}
-              <p class="text-right italic text-sm">
-                {{ conn.last_message.timestamp|to_datetime|date:"F j, Y | g:i A" }}</p>
-          {% endif %}
-            </div>
+              <div class="flex justify-between items-center">
+                <p class="text-left font-bold text-lg">{{ conn.other_user.display_name }}</p>
+                {% if conn.last_message %}
+                <p class="text-right italic text-sm">
+                  {{ conn.last_message.timestamp|to_datetime|date:"F j, Y | g:i A" }}</p>
+                {% endif %}
+              </div>
               {% if conn.last_message %}
-                <p class="text-left text-sm">{{ conn.last_message.text }}</p>
+              <p class="text-left text-sm">{{ conn.last_message.text }}</p>
               {% else %}
-                <p class="text-zinc-600 text-left italic text-sm">No messages yet.</p>
+              <p class="text-zinc-600 text-left italic text-sm">No messages yet.</p>
               {% endif %}
-          </div>
+            </div>
           </a>
           {% endfor %}
 
         </div>
-        <div class="flex flex-col w-full justify-between">
-        <div id="message-body" class="flex flex-col card card-primary card-sm dark:card-tertiary">
+        <div class="flex flex-col w-full justify-between gap-2">
+          <div id="message-body" class="flex flex-col gap-2 card card-primary card-sm dark:card-tertiary rounded-xl">
 
 
-          {% if active_connection == None %}
+            {% if active_connection == None %}
 
-          <!-- No messages selected, or no messages -->
-          {% if connections %}
-           <p class="text-left">Select conversation to view messages.</p>
-           {% else %}
-           <p class="text-left">No messages. Search for a buddy and reach out to start a conversation.</p>
-           {% endif %}           
-          {% else %}
+            <!-- No messages selected, or no messages -->
+            {% if connections %}
+            <p class="text-left">Select conversation to view messages.</p>
+            {% else %}
+            <p class="text-left">No messages. Search for a buddy and reach out to start a conversation.</p>
+            {% endif %}
+            {% else %}
 
-          {% if active_connection.messages %}
+            {% if active_connection.messages %}
             {% for msg in active_connection.messages %}
-            <div class="flex justify-between items-center">
-              <p class="text-left font-bold text-lg">
-                {% if msg.sender == user.id %}
-                    {{ user.display_name }}  
-                {% else %}
-                    {{ active_connection.other_user.display_name }}
-                {% endif %}
-                  </p>
-                  <p class="text-right italic text-sm"> {{ msg.timestamp|to_datetime|date:"F j, Y | g:i A" }}</p>
-                </div>
-                <p class="text-left">{{ msg.text }}</p>
-       
-            {% endfor %}
-             {% else %}
-                <p class="text-zinc-600 text-left italic text-sm">No messages yet.</p>
+            <div>
+              <div class="flex justify-between items-center">
+                <p class="text-left font-bold text-lg">
+                  {% if msg.sender == user.id %}
+                  {{ user.display_name }}
+                  {% else %}
+                  {{ active_connection.other_user.display_name }}
+                  {% endif %}
+                </p>
+                <p class="text-right italic text-sm"> {{ msg.timestamp|to_datetime|date:"F j, Y | g:i A" }}</p>
+              </div>
+              <p class="text-left">{{ msg.text }}</p>
+            </div>
 
-          {% endif %}
-        </div>
-          
+            {% endfor %}
+            {% else %}
+            <p class="text-zinc-600 text-left italic text-sm">No messages yet.</p>
+
+            {% endif %}
+          </div>
+
           <!-- Send Message -->
           {% if active_connection.can_send_messages %}
-          <form method="POST" action="/connections/{{ active_connection.id }}/messages/send/" class="flex items-center">
+          <form method="POST" action="/connections/{{ active_connection.id }}/messages/send/"
+            class="flex items-start gap-2">
             <input type="hidden" name="return_to" value="/chat/{{ active_connection.id }}/">
             {% csrf_token %}
             <input type="hidden" name="connection" value="{{ active_connection.id }}">
             <input type="hidden" name="sender" value="{{ user.id }}">
             <input type="hidden" name="receiver" value="{{active_connection.other_user.id}}">
-            <textarea class="w-full card card-primary dark:card-secondary" name="text" rows="1" placeholder="Message..."></textarea>
-            <button class="btn btn-secondary" type="submit">Send</button>
+            <textarea class="w-full input input-lg min-h-20 card-primary dark:card-secondary" name="text" rows="1"
+              placeholder="Message..."></textarea>
+            <button class="btn btn-primary" type="submit">
+              <span class="material-symbols-outlined text-xl!">
+                send
+              </span>
+              Send
+            </button>
           </form>
           {% endif %}
-        </div>
-      </div>
-      {% if active_connection.status == 'PENDING' %}
-      <div class="flex flex-col gap-3 card card-primary lg:mx-60">
-        <h3>Connection Pending</h3>
-        <p>Accept to chat or Decline to remove.</p>
-        <div class="flex justify-center gap-3">
-          <form method="POST" action="/connections/{{ active_connection.id }}/" class="mt-2">
-             {% csrf_token %}
-             <input type="hidden" name="status" value="ACCEPTED">
-             <button class="btn btn-primary">Accept</button>
-           </form>
-           <form method="POST"
-                action="/connections/{{ active_connection.id }}/delete/"
-                class="mt-2"
+          {% if active_connection.status == 'PENDING' %}
+          <div class="flex flex-col gap-3 card card-primary w-fit mx-auto rounded-xl">
+            <h3>Connection Pending</h3>
+            <p>Accept to chat or Decline to remove.</p>
+            <div class="flex justify-center gap-3">
+              <form method="POST" action="/connections/{{ active_connection.id }}/" class="mt-2">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="ACCEPTED">
+                <button class="btn btn-primary">Accept</button>
+              </form>
+              <form method="POST" action="/connections/{{ active_connection.id }}/delete/" class="mt-2"
                 onsubmit="return confirm('Are you sure you want to decline the connection?');">
-            {% csrf_token %}
-            <button class="btn btn-danger">Decline</button>
-          </form>
+                {% csrf_token %}
+                <button class="btn btn-danger">Decline</button>
+              </form>
+            </div>
+            {% endif %}
+          </div>
         </div>
-        {% endif %}
         {% endif %}
 
       </div>

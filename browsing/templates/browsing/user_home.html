@@ -13,28 +13,28 @@
     <!-- Most Recent Messages -->
     <div class="flex flex-col gap-6 card card-sm card-tertiary dark:card-primary text-center w-full max-w-6xl">
       <h2>Most Recent Messages</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {% if connections %}
-            
-            {% for conn in connections %}
-              <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
-                <p class="text-left font-bold text-xl">{{ conn.other_user.display_name }}</p>
-                {% if conn.last_message %} 
-                <p class="text-left text-zinc-500">{{ conn.last_message.sender }}: {{ conn.last_message.text }}</p>
-                {% else %}
-                <p class="text-left text-zinc-500">No messages yet.</p>
-                {% endif %}
-                <p class="text-right text-zinc-500 italic text-sm">{{ conn.last_message.timestamp|date:"F j, Y | g:i A" }}</p>
-              </div>
-            {% endfor %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {% if connections %}
 
+        {% for conn in connections %}
+        <div class="card card-primary card-sm dark:card-tertiary flex flex-col">
+          <p class="text-left font-bold text-xl">{{ conn.other_user.display_name }}</p>
+          {% if conn.last_message %}
+          <p class="text-left text-zinc-500">{{ conn.last_message.sender }}: {{ conn.last_message.text }}</p>
           {% else %}
-            <div class="card card-primary card-sm dark:card-tertiary md:col-span-2">
-              <p>No messages. Search for a buddy and reach out to start a conversation.</p>
-            </div>
+          <p class="text-left text-zinc-500">No messages yet.</p>
           {% endif %}
-
+          <p class="text-right text-zinc-500 italic text-sm">{{ conn.last_message.timestamp|date:"F j, Y | g:i A" }}</p>
         </div>
+        {% endfor %}
+
+        {% else %}
+        <div class="text-center col-span-full italic text-text/70 my-4">
+          <p>No messages. <a class="link" href="/search">Search for a buddy</a> and reach out to start a conversation.</p>
+        </div>
+        {% endif %}
+
+      </div>
       <a class="btn btn-secondary mx-auto" href="chat">View All</a>
     </div>
 
@@ -60,15 +60,15 @@
     <div class="text-center flex flex-col gap-6 w-full max-w-7xl">
       <h2>Buddies</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-      {% if connections %}
+        {% if connections %}
         {% for conn in connections %}
-          {% include 'browsing/components/user_card.html' with id=conn.other_user.id name=conn.other_user.display_name username=conn.other_user.username activities=conn.other_activities|prettify_list goals=conn.other_preferences.goals|prettify_list workoutTime=conn.other_preferences.preferred_workout_times|prettify_list %}
+        {% include 'browsing/components/user_card.html' with id=conn.other_user.id name=conn.other_user.display_name username=conn.other_user.username activities=conn.other_activities|prettify_list goals=conn.other_preferences.goals|prettify_list workoutTime=conn.other_preferences.preferred_workout_times|prettify_list %}
         {% endfor %}
-      {% else %}
-        <div class="card card-primary card-sm flex flex-col gap-3 userCard md:col-span-3 lg:col-start-2 xl:col-start-2 lg:col-span-2 xl:col-span-3">
-          <p>No buddies yet. Search for a buddy and reach out to start a conversation.</p>
-        </div>  
-      {% endif %}
+        {% else %}
+        <div class="card card-primary w-fit mx-auto text-center col-span-full mb-4">
+          <p>No buddies yet. <a class="link" href="/search">Search for a buddy</a> and reach out to start a conversation.</p>
+        </div>
+        {% endif %}
 
       </div>
     </div>

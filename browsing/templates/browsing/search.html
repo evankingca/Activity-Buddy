@@ -5,7 +5,7 @@
     <form method="GET" class="w-full flex flex-col gap-4 items-center">
         <input class="input sm:max-w-md w-full" type="text" name="q" placeholder="Search for a buddy" value="{{ query }}" />
     </form>
-    <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(230px,1fr))] w-full">
+    <div class="grid gap-4 sm:grid-cols-[repeat(auto-fit,300px)] grid-cols-1 justify-center w-full">
         {% for r in results %}
             {% include 'browsing/components/user_card.html' with id=r.user.id name=r.user.display_name username=r.user.username activities=r.activities|prettify_list goals=r.preferences.goals|prettify_list workoutTime=r.preferences.preferred_workout_times|prettify_list %}
         {% endfor %}

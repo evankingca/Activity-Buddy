@@ -39,7 +39,16 @@ searchButton.addEventListener("click", async (event) => {
 
     // Get all results by looping over the "places" array in the response:
     data.places.forEach(place => {
-      const displayText = place.displayName.text + " / " + place.formattedAddress;
+      const hr = document.createElement("hr");
+      hr.classList.add("mb-1")
+
+      const displayNameSpan = document.createElement("span");
+      const separatorSpan = document.createElement("span");
+      const addressSpan = document.createElement("span");
+      displayNameSpan.classList.add("font-bold")
+      displayNameSpan.textContent = place.displayName.text
+      separatorSpan.textContent = " | "
+      addressSpan.textContent = place.formattedAddress
 
       const placeDiv = document.createElement("div");
 
@@ -48,11 +57,13 @@ searchButton.addEventListener("click", async (event) => {
       placeCheckbox.id = place.id;
       placeCheckbox.name = "location";
       placeCheckbox.value = place.id;
+      placeCheckbox.classList.add("mr-2")
 
       const placeLabel = document.createElement("label");
       placeLabel.htmlFor = place.id;
-      placeLabel.textContent = displayText;
+      placeLabel.append(displayNameSpan, separatorSpan, addressSpan)
 
+      placeDiv.append(hr)
       placeDiv.append(placeCheckbox);
       placeDiv.append(placeLabel);
 

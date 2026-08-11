@@ -8,27 +8,23 @@
     <div class="lg:fixed lg:w-96 flex flex-col gap-4 -z-10">
         <h2>Welcome to Activity Buddy!</h2>
         <p>
-          Get started by adding some detail to the Profile Summary that will help prospective buddies understand who you are and what you're looking for in an activity buddy. 
+            Get started by adding some detail to the Profile Summary that will help prospective buddies understand who you are and what you're looking for in an activity buddy.
         </p>
         <p>
-          Add some details about your preferences and workout style so that prospective buddies with similar styles can find you. All details can be changed in your profile at any time. 
+            Add some details about your preferences and workout style so that prospective buddies with similar styles can find you. All details can be changed in your profile at any time.
         </p>
         <p>
-          Reminder: Preference details will be visible to all buddies.
+            Reminder: Preference details will be visible to all buddies.
         </p>
         <p>
-          Once you're signed up, you can search for an activity buddy right away!
+            Once you're signed up, you can search for an activity buddy right away!
         </p>
     </div>
     <div class="hidden lg:block w-160"></div>
     <form id="register-form" action="" class="card card-tertiary card-xs sm:card-sm w-full flex flex-col sm:gap-8 gap-6 lg:mx-0 mx-auto">
         {% csrf_token %}
         <h1 class="text-center">Register</h1>
-        <div
-            id="register-error"
-            class="hidden text-red"
-            role="alert"
-        ></div>
+        <div id="register-error" class="hidden text-red" role="alert"></div>
         <hr class="border-text-light!">
         <div class="flex flex-col gap-2">
             <div class="card card-primary border-border-light flex flex-col gap-4">
@@ -36,21 +32,21 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex flex-col">
                         <label for="username">Username</label>
-                        <input class="input" id="username" type="text" name="username" placeholder="Username" required/>
+                        <input class="input" id="username" type="text" name="username" placeholder="Username" required autofocus />
                     </div>
-                        <div class="flex flex-col">
+                    <div class="flex flex-col">
                         <label for="display_name">Display Name</label>
-                        <input class="input" id="display_name" type="text" name="display_name" placeholder="Display Name" required/>
+                        <input class="input" id="display_name" type="text" name="display_name" placeholder="Display Name" required />
                     </div>
 
                     <div class="flex flex-col">
                         <label for="password">Password</label>
-                        <input class="input" id="password" type="password" name="password" placeholder="Password" required/>
+                        <input class="input" id="password" type="password" name="password" placeholder="Password" required />
                     </div>
 
                     <div class="flex flex-col">
                         <label for="email">Email</label>
-                        <input class="input" id="email" type="email" name="email" placeholder="Email" required/>
+                        <input class="input" id="email" type="email" name="email" placeholder="Email" required />
                     </div>
 
                     <div class="flex flex-col">
@@ -170,20 +166,22 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="card card-primary border-border-light flex flex-col gap-4">
+                <label for="locationSearch">
+                    <h2>Gym Locations</h2>
+                </label>
                 <!-- The search field is a "form" within the Register form; using <section> as you cannot nest forms within a form -->
-                <section id="locationSearchForm" action="">
-                    <input id="locationSearch" class="input" type="search" name="locationSearch" placeholder="Search for gyms..."/>
-                    <p>For best results, include your location, e.g., "Gyms in Ottawa".</p>
-                    <button id="locationSearchButton" class="btn btn-secondary" type="button">Search</button>
-                </section>
+                <div class="flex flex-col gap-2">
+                    <section id="locationSearchForm" class="flex gap-2">
+                        <input id="locationSearch" class="input" type="search" name="locationSearch"
+                            placeholder="Search for gyms..." />
+                        <button id="locationSearchButton" class="btn btn-secondary btn-sm" type="button">Search</button>
+                    </section>
+                    <p class="text-sm text-text/50">For best results, include your location, e.g., "Gyms in Ottawa".</p>
+                </div>
 
-                <!-- This is where the results will go; this is part of the Register form-->
-                 <p>Output results here:</p>
-                 <div id="locationSearchResults">
-
-                 </div>
+                <div id="locationSearchResults" class="empty:hidden flex flex-col gap-2"></div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary border-border-light">Register</button>

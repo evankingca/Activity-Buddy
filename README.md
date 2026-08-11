@@ -16,7 +16,7 @@ Since we're using Django 6, you'll need at least Python 3.12. Check with `python
 
 Once you have Python installed, it's probably best to create a virtual environment. In the project's root folder, run:
 
-```
+```bash
 python -m venv .venv
 ```
 
@@ -24,13 +24,13 @@ python -m venv .venv
 
 Then, if you're on Windows:
 
-```
+```bash
 .\.venv\Scripts\activate
 ```
 
 Or if you're on Mac/Linux:
 
-```
+```bash
 source ./.venv/bin/activate
 ```
 
@@ -38,13 +38,13 @@ source ./.venv/bin/activate
 
 Install all the pip dependencies, including Django:
 
-```
+```bash
 python -m pip install -r requirements.txt
 ```
 
 And then install tailwind and its deps:
 
-```
+```bash
 python manage.py tailwind install
 ```
 
@@ -52,25 +52,25 @@ Once you've done that you'll need to create a `.env` file, which is where we'll 
 
 To run the migration, you'll first need to create a table called `gymgolf`. To do that, you'll need to log into Postgres via the command line using `psql`. If you're on Windows, it should be something like:
 
-```
+```bash
 psql -U postgres -d postgres
 ```
 
 On Mac, it'll be:
 
-```
+```bash
 psql -U yourMacUsername -d postgres
 ```
 
 Once you have a postgres prompt, you can run:
 
-```
+```bash
 create database gymgolf;
 ```
 
 Once that's set up, you should `exit` out of the postgres prompt and run this to test the connection and set up the required tables:
 
-```
+```bash
 python manage.py migrate
 ```
 
@@ -86,13 +86,13 @@ Don't run that in production, though!
 
 Then finally, to start the dev server with the Tailwind watcher on Windows, you'll need two terminals open. In one terminal, run:
 
-```
+```bash
 python manage.py tailwind start
 ```
 
 ...and in the other, run:
 
-```
+```bash
 python manage.py runserver
 ```
 
@@ -100,7 +100,7 @@ If you're not doing any front-end stuff, you can use just the `runserver` one.
 
 On Mac/Linux, it's just one command:
 
-```
+```bash
 python manage.py tailwind dev
 ```
 
@@ -166,8 +166,8 @@ When writing dark and light variants of elements, separate each
 variant into their own utilities, and then apply the to main
 utility via:
 
-```
-@apply element-light dark:element-dark
+```css
+@apply element-light dark:element-dark;
 ```
 
 This allows you to force either the dark or light variant by
@@ -175,13 +175,13 @@ simply overriding the element's default variant for that
 respective colour scheme. For example, to force an input to
 always be dark, you could do:
 
-```
+```html
 class="link link-dark"
 ```
 
 To force it to light mode, you would override the dark variant:
 
-```
+```html
 class="link dark:link-light"
 ```
 
@@ -191,13 +191,13 @@ Since elements are written as base and child classes, they
 should be applied like bootstrap classes. e.g. If you want
 your button to be a primary one, you would apply:
 
-```
+```html
 class="btn btn-primary"
 ```
 
 A small Secondary button would be:
 
-```
+```html
 class="btn btn-sm btn-secondary"
 ```
 
